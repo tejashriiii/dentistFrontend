@@ -112,4 +112,4 @@ function PaymentPage() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(<PaymentPage />);
 
-export default Payment;
+export default PaymentPage;
