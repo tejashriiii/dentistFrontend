@@ -257,35 +257,44 @@ const Prescriptions = () => {
                 <label className="block text-lg font-medium">Dosage</label>
                 <div>
                   <input
-                    type="radio"
+                    type="checkbox"
                     name="dosage"
                     value="M"
                     id="M"
                     required
                   />
-                  <label htmlFor="M">M</label>
+                  <label htmlFor="M">Morning</label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
+                   <input
+                    type="checkbox"
                     name="dosage"
                     value="A"
                     id="A"
                   />
-                  <label htmlFor="A">A</label>
+                  <label htmlFor="A">After-noon</label>
                 </div>
                 <div>
                   <input
-                    type="radio"
+                    type="checkbox"
                     name="dosage"
                     value="E"
                     id="E"
                   />
-                  <label htmlFor="E">E</label>
+                  <label htmlFor="E">Evening</label>
                 </div>
                 <div>
                   <input
-                    type="radio"
+                    type="checkbox"
+                    name="dosage"
+                    value="N"
+                    id="N"
+                  />
+                  <label htmlFor="N">NIght</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
                     name="dosage"
                     value="SOS"
                     id="SOS"
@@ -294,7 +303,7 @@ const Prescriptions = () => {
                 </div>
                 <div>
                   <input
-                    type="radio"
+                    type="checkbox"
                     name="dosage"
                     value="Immediate"
                     id="Immediate"
