@@ -7,6 +7,8 @@ import PatientLoginForm from './components/PatientLoginForm';
 import Payment from "./components/Payment";
 import TreatmentDashboard from "./components/TreatmentDashboard";
 import PatientAppointmentForm from "./components/PatientAppointmentForm";
+import Prescriptions from './components/Prescriptions';
+
 
 const App = () => {
   const [patients, setPatients] = React.useState([]);
@@ -28,6 +30,8 @@ const App = () => {
           <Link to="/payment" className="text-white p-2">Payment</Link>
           <Link to="/treatmentdashboard" className="text-white p-2">Treatment Dashboard</Link>
           <Link to="/appointment" className="text-white p-2">Appointment</Link>
+          <Link to="/prescriptions" className="text-white p-2">Prescrip</Link>
+          
           </div>
         </nav>
 
@@ -38,7 +42,8 @@ const App = () => {
           <Route path="/payment" element={<Payment />} />
           <Route path="/treatmentdashboard" element={<TreatmentDashboard />} />
           <Route path="/appointment" element={<PatientAppointmentForm />} />
-
+          <Route path="/prescriptions" element={< Prescriptions/>} />
+          
         </Routes>
         
       </div>
