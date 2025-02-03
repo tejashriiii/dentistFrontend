@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 
 export default function TreatmentDashboard() {
-  const [complaints, setComplaints] = useState(["Gum Disease", "Tooth Sensitivity"]);
+  const [complaints, setComplaints] = useState([
+    "Gum Disease",
+    "Tooth Sensitivity",
+  ]);
   const [observations, setObservations] = useState(["Tooth Decay"]);
   const [treatments, setTreatments] = useState([
     { name: "RCT", cost: 5000 },
@@ -20,7 +23,10 @@ export default function TreatmentDashboard() {
     setList(list.filter((_, i) => i !== index));
   };
 
-  const totalFees = treatments.reduce((sum, treatment) => sum + treatment.cost, 0);
+  const totalFees = treatments.reduce(
+    (sum, treatment) => sum + treatment.cost,
+    0,
+  );
   const netFees = totalFees - discount;
 
   return (
@@ -29,14 +35,18 @@ export default function TreatmentDashboard() {
         <div className="mb-4">
           <div className="flex justify-between">
             <div>
-              <label className="block text-sm font-semibold text-purple-700 mb-1">Date*</label>
+              <label className="block text-sm font-semibold text-purple-700 mb-1">
+                Date*
+              </label>
               <input
                 type="datetime-local"
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-purple-300"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-purple-700 mb-1">Clinic*</label>
+              <label className="block text-sm font-semibold text-purple-700 mb-1">
+                Clinic*
+              </label>
               <select className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-purple-300">
                 <option>Quest Care Medical Clinic, Ghatkopar</option>
               </select>
@@ -44,7 +54,9 @@ export default function TreatmentDashboard() {
           </div>
           <div className="flex justify-between mt-4">
             <div>
-              <label className="block text-sm font-semibold text-purple-700 mb-1">Patient*</label>
+              <label className="block text-sm font-semibold text-purple-700 mb-1">
+                Patient*
+              </label>
               <input
                 type="text"
                 value="Aakruti Kapoor"
@@ -53,7 +65,9 @@ export default function TreatmentDashboard() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-purple-700 mb-1">Doctor</label>
+              <label className="block text-sm font-semibold text-purple-700 mb-1">
+                Doctor
+              </label>
               <input
                 type="text"
                 value="Anil Kumar Sharma"
@@ -68,15 +82,25 @@ export default function TreatmentDashboard() {
             <button className="py-2 px-4 text-sm font-semibold text-purple-700 border-b-2 border-purple-700">
               TREATMENT
             </button>
-            <button className="py-2 px-4 text-sm font-semibold text-gray-500">PRESCRIPTION</button>
-            <button className="py-2 px-4 text-sm font-semibold text-gray-500">VITAL SIGNS</button>
-            <button className="py-2 px-4 text-sm font-semibold text-gray-500">ATTACHMENTS</button>
-            <button className="py-2 px-4 text-sm font-semibold text-gray-500">FOLLOW UP</button>
+            <button className="py-2 px-4 text-sm font-semibold text-gray-500">
+              PRESCRIPTION
+            </button>
+            <button className="py-2 px-4 text-sm font-semibold text-gray-500">
+              VITAL SIGNS
+            </button>
+            <button className="py-2 px-4 text-sm font-semibold text-gray-500">
+              ATTACHMENTS
+            </button>
+            <button className="py-2 px-4 text-sm font-semibold text-gray-500">
+              FOLLOW UP
+            </button>
           </nav>
         </div>
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-semibold text-purple-700 mb-2">Complaints</label>
+            <label className="block text-sm font-semibold text-purple-700 mb-2">
+              Complaints
+            </label>
             <div>
               {complaints.map((complaint, index) => (
                 <div
@@ -85,7 +109,9 @@ export default function TreatmentDashboard() {
                 >
                   <span>{complaint}</span>
                   <button
-                    onClick={() => handleRemove(complaints, setComplaints, index)}
+                    onClick={() =>
+                      handleRemove(complaints, setComplaints, index)
+                    }
                     className="text-purple-700 font-bold"
                   >
                     ×
@@ -104,7 +130,7 @@ export default function TreatmentDashboard() {
                     handleAdd(
                       complaints,
                       setComplaints,
-                      document.getElementById("complaintInput").value
+                      document.getElementById("complaintInput").value,
                     )
                   }
                   className="ml-2 bg-purple-700 text-white px-3 py-2 rounded-lg"
@@ -115,7 +141,9 @@ export default function TreatmentDashboard() {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-purple-700 mb-2">Treatment</label>
+            <label className="block text-sm font-semibold text-purple-700 mb-2">
+              Treatment
+            </label>
             <div>
               {treatments.map((treatment, index) => (
                 <div
@@ -126,7 +154,9 @@ export default function TreatmentDashboard() {
                     {treatment.name} - Rs. {treatment.cost}
                   </span>
                   <button
-                    onClick={() => handleRemove(treatments, setTreatments, index)}
+                    onClick={() =>
+                      handleRemove(treatments, setTreatments, index)
+                    }
                     className="text-purple-700 font-bold"
                   >
                     ×
@@ -142,11 +172,10 @@ export default function TreatmentDashboard() {
                 />
                 <button
                   onClick={() =>
-                    handleAdd(
-                      treatments,
-                      setTreatments,
-                      { name: document.getElementById("treatmentInput").value, cost: 0 }
-                    )
+                    handleAdd(treatments, setTreatments, {
+                      name: document.getElementById("treatmentInput").value,
+                      cost: 0,
+                    })
                   }
                   className="ml-2 bg-purple-700 text-white px-3 py-2 rounded-lg"
                 >
@@ -157,7 +186,9 @@ export default function TreatmentDashboard() {
           </div>
         </div>
         <div className="mt-4">
-          <label className="block text-sm font-semibold text-purple-700 mb-2">Discount</label>
+          <label className="block text-sm font-semibold text-purple-700 mb-2">
+            Discount
+          </label>
           <input
             type="number"
             value={discount}
@@ -176,8 +207,12 @@ export default function TreatmentDashboard() {
           </div>
         </div>
         <div className="flex justify-end mt-6 space-x-4">
-          <button className="bg-red-500 text-white px-6 py-2 rounded-lg">Delete</button>
-          <button className="bg-purple-700 text-white px-6 py-2 rounded-lg">Save</button>
+          <button className="bg-red-500 text-white px-6 py-2 rounded-lg">
+            Delete
+          </button>
+          <button className="bg-purple-700 text-white px-6 py-2 rounded-lg">
+            Save
+          </button>
         </div>
       </div>
     </div>
