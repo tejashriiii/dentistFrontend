@@ -54,7 +54,7 @@ const CredentialsForm = ({ formAction }) => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-purple-50 rounded-lg shadow-lg mt-10">
-      <h2 className="text-2xl font-bold text-purple-700 mb-6">
+      <h2 className="text-2xl font-bold text-[#87ab87] mb-6">
         Patient {capitalizeFirstLetter(formAction)}
       </h2>
       <form onSubmit={handleSubmit}>

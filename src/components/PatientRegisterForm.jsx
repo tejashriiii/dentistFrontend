@@ -96,13 +96,13 @@ const PatientRegisterForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-purple-50 rounded-lg shadow-lg mt-2">
-      <h2 className="text-2xl font-bold text-purple-700 mb-6">
+    <div className="max-w-md mx-auto p-6 bg-[#fbfffb] rounded-lg shadow-lg mt-2">
+      <h2 className="text-2xl font-bold text-[#3d4243] mb-6">
         Patient Registration Form
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             First Name
           </label>
           <input
@@ -111,11 +111,11 @@ const PatientRegisterForm = () => {
             value={formData.firstName}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             Last Name
           </label>
           <input
@@ -124,11 +124,11 @@ const PatientRegisterForm = () => {
             value={formData.lastName}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             Mobile Number
           </label>
           <input
@@ -137,11 +137,11 @@ const PatientRegisterForm = () => {
             value={formData.mobileNumber}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             Address
           </label>
           <textarea
@@ -149,12 +149,12 @@ const PatientRegisterForm = () => {
             value={formData.address}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             History of Past Illness
           </label>
           {formData.pastIllnesses.map((illness, index) => (
@@ -166,7 +166,7 @@ const PatientRegisterForm = () => {
               <button
                 type="button"
                 onClick={() => handleRemoveIllness(index)}
-                className="text-purple-700 font-bold"
+                className="text-[#3d4243] font-bold"
               >
                 &times;
               </button>
@@ -177,12 +177,12 @@ const PatientRegisterForm = () => {
               type="text"
               value={illnessInput}
               onChange={(e) => setIllnessInput(e.target.value)}
-              className="flex-1 p-2 border border-purple-300 rounded-md focus:outline-none"
+              className="flex-1 p-2 border border-[#a9f0a9] rounded-md focus:outline-none"
             />
             <button
               type="button"
               onClick={handleAddIllness}
-              className="bg-purple-600 text-white p-2 rounded-md"
+              className="bg-[#87ab87] text-white p-2 rounded-md"
             >
               Add
             </button>
@@ -190,7 +190,7 @@ const PatientRegisterForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             Any Allergic History
           </label>
           {formData.allergicHistories.map((allergy, index) => (
@@ -202,7 +202,7 @@ const PatientRegisterForm = () => {
               <button
                 type="button"
                 onClick={() => handleRemoveAllergy(index)}
-                className="text-purple-700 font-bold"
+                className="text-[#3d4243] font-bold"
               >
                 &times;
               </button>
@@ -213,19 +213,19 @@ const PatientRegisterForm = () => {
               type="text"
               value={allergyInput}
               onChange={(e) => setAllergyInput(e.target.value)}
-              className="flex-1 p-2 border border-purple-300 rounded-md focus:outline-none"
+              className="flex-1 p-2 border border-[#a9f0a9] rounded-md focus:outline-none"
             />
             <button
               type="button"
               onClick={handleAddAllergy}
-              className="bg-purple-600 text-white p-2 rounded-md"
+              className="bg-[#87ab87] text-white p-2 rounded-md"
             >
               Add
             </button>
           </div>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             Date of Birth
           </label>
           <input
@@ -234,11 +234,11 @@ const PatientRegisterForm = () => {
             value={formData.dob}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="mt-1 block w-full p-2 border border-[#a9f0a9]  rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87] "
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-purple-600">
+          <label className="block text-sm font-medium text-[#3d4243]">
             Gender
           </label>
           <select
@@ -246,7 +246,7 @@ const PatientRegisterForm = () => {
             value={formData.gender}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
           >
             <option value="M">Male</option>
             <option value="F">Female</option>
@@ -256,7 +256,7 @@ const PatientRegisterForm = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-purple-600 text-white p-2 rounded-md hover:bg-purple-700 transition duration-200"
+          className="w-full bg-[#87ab87] text-white p-2 rounded-md hover:bg-[#87ab87] transition duration-200"
         >
           Submit
         </button>
