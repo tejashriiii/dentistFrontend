@@ -6,8 +6,6 @@ const PatientRegisterForm = () => {
     lastName: "",
     mobileNumber: "",
     address: "",
-    pastIllnesses: [],
-    allergicHistories: [],
     dob: "",
     gender: "",
   });
@@ -62,8 +60,6 @@ const PatientRegisterForm = () => {
         first_name: formData.firstName,
         last_name: formData.lastName,
         address: formData.address,
-        illnesses: String(formData.pastIllnesses),
-        allergies: String(formData.allergicHistories),
         gender: formData.gender,
         date_of_birth: formData.dob,
       },
@@ -98,7 +94,7 @@ const PatientRegisterForm = () => {
   return (
     <div className="max-w-md mx-auto p-6 bg-[#fbfffb] rounded-lg shadow-lg mt-2">
       <h2 className="text-2xl font-bold text-[#3d4243] mb-6">
-        Patient Registration Form
+        New Patient Registration Form
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -151,78 +147,6 @@ const PatientRegisterForm = () => {
             required
             className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
           />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#3d4243]">
-            History of Past Illness
-          </label>
-          {formData.pastIllnesses.map((illness, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center bg-purple-100 p-2 rounded-md mb-2"
-            >
-              <span>{illness}</span>
-              <button
-                type="button"
-                onClick={() => handleRemoveIllness(index)}
-                className="text-[#3d4243] font-bold"
-              >
-                &times;
-              </button>
-            </div>
-          ))}
-          <div className="flex gap-2 mt-2">
-            <input
-              type="text"
-              value={illnessInput}
-              onChange={(e) => setIllnessInput(e.target.value)}
-              className="flex-1 p-2 border border-[#a9f0a9] rounded-md focus:outline-none"
-            />
-            <button
-              type="button"
-              onClick={handleAddIllness}
-              className="bg-[#87ab87] text-white p-2 rounded-md"
-            >
-              Add
-            </button>
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#3d4243]">
-            Any Allergic History
-          </label>
-          {formData.allergicHistories.map((allergy, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center bg-purple-100 p-2 rounded-md mb-2"
-            >
-              <span>{allergy}</span>
-              <button
-                type="button"
-                onClick={() => handleRemoveAllergy(index)}
-                className="text-[#3d4243] font-bold"
-              >
-                &times;
-              </button>
-            </div>
-          ))}
-          <div className="flex gap-2 mt-2">
-            <input
-              type="text"
-              value={allergyInput}
-              onChange={(e) => setAllergyInput(e.target.value)}
-              className="flex-1 p-2 border border-[#a9f0a9] rounded-md focus:outline-none"
-            />
-            <button
-              type="button"
-              onClick={handleAddAllergy}
-              className="bg-[#87ab87] text-white p-2 rounded-md"
-            >
-              Add
-            </button>
-          </div>
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-[#3d4243]">
