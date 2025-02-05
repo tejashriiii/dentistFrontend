@@ -1,55 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const PatientRegisterForm = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     mobileNumber: "",
     address: "",
     dob: "",
-    gender: "",
+    gender: "M",
   });
-
-  const [illnessInput, setIllnessInput] = useState("");
-  const [allergyInput, setAllergyInput] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
-
-  const handleAddIllness = () => {
-    if (illnessInput.trim()) {
-      setFormData({
-        ...formData,
-        pastIllnesses: [...formData.pastIllnesses, illnessInput.trim()],
-      });
-      setIllnessInput("");
-    }
-  };
-
-  const handleRemoveIllness = (index) => {
-    const updatedIllnesses = formData.pastIllnesses.filter(
-      (_, i) => i !== index,
-    );
-    setFormData({ ...formData, pastIllnesses: updatedIllnesses });
-  };
-
-  const handleAddAllergy = () => {
-    if (allergyInput.trim()) {
-      setFormData({
-        ...formData,
-        allergicHistories: [...formData.allergicHistories, allergyInput.trim()],
-      });
-      setAllergyInput("");
-    }
-  };
-
-  const handleRemoveAllergy = (index) => {
-    const updatedAllergies = formData.allergicHistories.filter(
-      (_, i) => i !== index,
-    );
-    setFormData({ ...formData, allergicHistories: updatedAllergies });
   };
 
   const handleSubmit = async (e) => {
@@ -57,8 +19,7 @@ const PatientRegisterForm = () => {
     const dataToSend = {
       phonenumber: formData.mobileNumber,
       details: {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+        name: formData.name,
         address: formData.address,
         gender: formData.gender,
         date_of_birth: formData.dob,
@@ -72,6 +33,7 @@ const PatientRegisterForm = () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
         body: JSON.stringify(dataToSend),
       });
@@ -92,35 +54,22 @@ const PatientRegisterForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-[#fbfffb] rounded-lg shadow-lg mt-2">
-      <h2 className="text-2xl font-bold text-[#3d4243] mb-6">
-        New Patient Registration Form
+    <div className="max-w-md my-auto mx-auto p-6 bg-[var(--bg)] rounded-lg shadow-lg mt-2">
+      <h2 className="text-2xl font-bold text-[var(--txt)] mb-6">
+        Patient Registration
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-[#3d4243]">
-            First Name
+          <label className="block text-sm font-medium text-[var(--txt)]">
+            Name
           </label>
           <input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-[#3d4243]">
-            Last Name
-          </label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
+            className="mt-1 block w-full p-2 border border-[var(--darkgreen)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
           />
         </div>
         <div className="mb-4">
@@ -133,11 +82,11 @@ const PatientRegisterForm = () => {
             value={formData.mobileNumber}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
+            className="mt-1 block w-full p-2 border border-[var(--darkgreen)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-[#3d4243]">
+          <label className="block text-sm font-medium text-[var(--txt)]">
             Address
           </label>
           <textarea
@@ -145,11 +94,11 @@ const PatientRegisterForm = () => {
             value={formData.address}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
+            className="mt-1 block w-full p-2 border border-[var(--darkgreen)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-[#3d4243]">
+          <label className="block text-sm font-medium text-[var(--txt)]">
             Date of Birth
           </label>
           <input
@@ -158,11 +107,11 @@ const PatientRegisterForm = () => {
             value={formData.dob}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-[#a9f0a9]  rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87] "
+            className="mt-1 block w-full p-2 border border-[var(--darkgreen)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-[#3d4243]">
+          <label className="block text-sm font-medium text-[var(--txt)]">
             Gender
           </label>
           <select
@@ -170,7 +119,7 @@ const PatientRegisterForm = () => {
             value={formData.gender}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border border-[#a9f0a9] rounded-md focus:outline-none focus:ring-2 focus:ring-[#87ab87]"
+            className="mt-1 block w-full p-2 border border-[var(--darkgreen)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
           >
             <option value="M">Male</option>
             <option value="F">Female</option>
@@ -180,7 +129,7 @@ const PatientRegisterForm = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-[#87ab87] text-white p-2 rounded-md hover:bg-[#87ab87] transition duration-200"
+          className="w-full bg-[var(--darkgreen)] text-white p-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer duration-200"
         >
           Submit
         </button>
