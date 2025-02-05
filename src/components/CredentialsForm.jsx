@@ -54,7 +54,7 @@ const CredentialsForm = ({ formAction }) => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-purple-50 rounded-lg shadow-lg mt-10">
-      <h2 className="text-2xl font-bold text-[#87ab87] mb-6">
+      <h2 className="text-2xl font-bold text-[var(--text)] mb-6">
         Patient {capitalizeFirstLetter(formAction)}
       </h2>
       <form onSubmit={handleSubmit}>
@@ -87,7 +87,7 @@ const CredentialsForm = ({ formAction }) => {
         </div>
         <button
           type="submit"
-          className="w-full bg-purple-600 text-white p-2 rounded-md hover:bg-purple-700 transition duration-200"
+          className="w-full bg-[var(--background)] text-white p-2 rounded-md hover:bg-purple-700 transition duration-200"
         >
           {capitalizeFirstLetter(formAction)}
         </button>

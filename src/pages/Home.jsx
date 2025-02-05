@@ -46,6 +46,9 @@ const Home = () => {
         <div className="flex flex-col items-center justify-center bg-[#87ab87] h-36 w-36 rounded-full text-white">
           <h3 className="text-xl">Cavity Filling</h3>
         </div>
+        <div className="flex flex-col items-center justify-center bg-[#87ab87] h-36 w-36 rounded-full text-white">
+          <h3 className="text-xl">Cavity Filling</h3>
+        </div>
       </div>
 
       {/* Location Section */}
