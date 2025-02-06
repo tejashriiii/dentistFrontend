@@ -24,17 +24,50 @@ const PatientAppointmentForm = () => {
     setFormData({ ...formData, phone: phoneValue });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (phoneError) return;
+    const dataToSend = {
+      phonenumber: formData.phone,
+      complaint: {
+        name: formData.name,
+        chief_complaint: formData.chiefComplaint,
+      },
+    };
+    console.log(JSON.stringify(dataToSend));
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/ad/complaints/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error:", errorData);
+        // Handle error responses here (e.g., show a message to the user)
+      } else {
+        const responseData = await response.json();
+        console.log("Complaint registered:", responseData);
+        // Handle successful login (e.g., store token, redirect user)
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      // Handle network errors here
+    }
   };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-[var(--bg)] rounded-lg shadow-lg mt-2">
       <h2 className="text-2xl font-bold text-[var(--txt)] mb-6">
-        Patient Appointment Form
+        Appointment Form
       </h2>
       <form onSubmit={handleSubmit}>
-        {/* Name Fields */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-[var(--txt)]">
             Name
@@ -49,7 +82,6 @@ const PatientAppointmentForm = () => {
           />
         </div>
 
-        {/* Phone Number */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-[var(--txt)]">
             Phone Number
