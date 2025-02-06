@@ -103,7 +103,7 @@ const Home = () => {
       </nav> */}
       {/* Header */}
       <header className="flex justify-between p-5 bg-[#87ab87]">
-        <img src="./src/assets/clinicLogo.png" alt="Logo" className="w-16 h-14" />
+        <img src="./src/assets/logo.svg" alt="Logo" className="w-18 h-16" />
         <div className="flex items-center space-x-4">
           <Link to="/register" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Register</Link>
           <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Login</Link>
