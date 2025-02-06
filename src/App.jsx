@@ -7,7 +7,6 @@ import CredentialsForm from "./components/CredentialsForm";
 import PatientAppointmentForm from "./components/PatientAppointmentForm";
 import FollowUp from "./components/FollowUp";
 import Home from "./pages/Home";
-import DentalChart from "./components/DentalChart";
 import DailyTreatment from "./pages/DailyTreatment";
 
 const App = () => {
@@ -37,6 +36,12 @@ const App = () => {
             <Link to="/" className="mr-4 ">
               Dashboard
             </Link>
+            <Link to="/Home" className="p-2">
+              HomePage
+            </Link>
+            <Link to="/dailytreat" className="p-2">
+              docDailyTreatment
+            </Link>
           </div>
           <div>
             <Link to="/register" className="p-2">
@@ -54,15 +59,7 @@ const App = () => {
             <Link to="/followup" className="p-2">
               followup
             </Link>
-            <Link to="/Home" className="p-2">
-              Home page
-            </Link>
-            <Link to="/dailytreat" className="p-2">
-              docDailyTreatment
-            </Link>
-            <Link to="/dental-chart" className="p-2">
-              Dental Chart
-            </Link>{" "}
+            
           </div>
         </nav>
 
@@ -84,16 +81,7 @@ const App = () => {
           <Route path="/followUp" element={<FollowUp userType="doctor" />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/dailytreat" element={<DailyTreatment />} />
-          <Route
-            path="/dental-chart"
-            element={
-              <DentalChart
-                xrayPrices={xrayPrices}
-                updatePrice={updatePrice}
-                isAdmin={isAdmin}
-              />
-            }
-          />
+          
         </Routes>
       </div>
     </Router>
