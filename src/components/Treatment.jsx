@@ -57,26 +57,30 @@ export default function Treatment() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="mt-4 space-y-4">
+      <div className="mt-4 grid grid-cols-2 gap-4">
         {[{ label: 'Past Illnesses', state: pastIllnesses, setter: setPastIllnesses, id: 'illnessInput' },
           { label: 'Allergies', state: allergies, setter: setAllergies, id: 'allergyInput' }].map(({ label, state, setter, id }) => (
           <div key={id}>
             <label className="block font-semibold text-gray-700">{label}</label>
-            {state.map((item, index) => (
-              <div key={index} className="flex justify-between bg-gray-100 px-3 py-2 rounded-lg">
-                <span>{item}</span>
-                <button onClick={() => handleRemoveItem(setter, index)}>×</button>
-              </div>
-            ))}
-            <div className="flex">
-              <input id={id} type="text" className="border px-3 py-2 rounded-lg" placeholder={`Add ${label.toLowerCase()}`} />
+            <div className="flex flex-wrap space-x-2">
+              {state.map((item, index) => (
+                <div key={index} className="flex justify-between bg-gray-100 px-3 py-1 rounded-lg">
+                  <span>{item}</span>
+                  <button onClick={() => handleRemoveItem(setter, index)}>×</button>
+                </div>
+              ))}
+            </div>
+            <div className="flex mt-2">
+              <input id={id} type="text" className="border px-3 py-2 rounded-lg flex-grow" placeholder={`Add ${label.toLowerCase()}`} />
               <button onClick={() => handleAddItem(setter, document.getElementById(id).value, id)} className="ml-2 bg-[#87AB87] text-white px-3 py-2 rounded-lg">Add</button>
             </div>
           </div>
         ))}
+      </div>
 
+      <div className="mt-4 grid grid-cols-2 gap-4">
         {[{ label: 'Smokes?', state: smokes, setter: setSmokes }, { label: 'Consumes Alcohol?', state: alcohol, setter: setAlcohol }].map(({ label, state, setter }) => (
-          <div key={label}>
+          <div key={label} className="flex flex-col">
             <label className="block font-semibold text-gray-700">{label}</label>
             <div className="flex space-x-2">
               {['Yes', 'No'].map((option) => (
@@ -129,3 +133,4 @@ export default function Treatment() {
     </div>
   );
 }
+
