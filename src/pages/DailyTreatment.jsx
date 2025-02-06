@@ -60,7 +60,7 @@ export default function TreatmentDashboard() {
                 Clinic*
               </label>
               <select className="w-full px-3 py-2 border  border-[var(--lightgreen)] rounded-lg focus:outline-none focus:ring focus:ring-[var(--lightgreen)] hover:border-[var(--darkgreen)]">
-                <option>OJAS dental Clinic</option>
+                <option>Ojas Dental Clinic</option>
               </select>
             </div>
           </div>
