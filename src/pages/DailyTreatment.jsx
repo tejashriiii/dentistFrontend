@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import Prescriptions from "../components/Prescriptions";
+import Treatment from "../components/Treatment";
 
 export default function TreatmentDashboard() {
   const [treatments, setTreatments] = useState([
@@ -7,6 +8,21 @@ export default function TreatmentDashboard() {
     { name: "Consultation", cost: 250 },
     { name: "X-Ray", cost: 400 },
   ]);
+
+  const [dateTime, setDateTime] = useState("");
+
+  useEffect(() => {
+    const now = new Date();
+    
+    // Convert to IST (UTC +5:30)
+    const offsetIST = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in milliseconds
+    const istTime = new Date(now.getTime() + offsetIST);
+  
+    // Format as YYYY-MM-DDTHH:MM (required for datetime-local input)
+    const formattedDateTime = istTime.toISOString().slice(0, 16);
+  
+    setDateTime(formattedDateTime);
+  }, []);
 
   const handleAdd = (list, setList, value) => {
     if (value) {
@@ -35,6 +51,7 @@ export default function TreatmentDashboard() {
               </label>
               <input
                 type="datetime-local"
+                defaultValue={dateTime}
                 className="w-full px-3 py-2 border border-[var(--lightgreen)] rounded-lg focus:outline-none focus:ring focus:ring-[var(--darkgreen)] hover:border-[var(--darkgreen)]"
               />
             </div>
@@ -43,7 +60,7 @@ export default function TreatmentDashboard() {
                 Clinic*
               </label>
               <select className="w-full px-3 py-2 border  border-[var(--lightgreen)] rounded-lg focus:outline-none focus:ring focus:ring-[var(--lightgreen)] hover:border-[var(--darkgreen)]">
-                <option>OJAS dental Clinic</option>
+                <option>Ojas Dental Clinic</option>
               </select>
             </div>
           </div>
@@ -75,13 +92,13 @@ export default function TreatmentDashboard() {
 
         {/* Diagnosis Section - Placeholder for Diagnosis Component */}
         <div className="mt-6">
-          <div className="h-64 bg-gray-200 mb-6">
-            {/* Placeholder for Diagnosis Component */}
+          <div className="min-h-64 mb-6">
+            <Treatment />
           </div>
         </div>
 
         <div className="mt-6">
-          <div className="h-64 bg-gray-200 mb-6">
+          <div className="h-64 mb-6">
             {/* Placeholder for Diagnosis Component */}
           </div>
         </div>
