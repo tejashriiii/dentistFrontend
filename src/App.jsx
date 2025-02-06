@@ -36,6 +36,12 @@ const App = () => {
             <Link to="/" className="mr-4 ">
               Admin Dashboard
             </Link>
+            <Link to="/Home" className="p-2">
+              HomePage
+            </Link>
+            <Link to="/dailytreat" className="p-2">
+              docDailyTreatment
+            </Link>
           </div>
           <div>
             <Link to="/register" className="p-2">
@@ -53,12 +59,7 @@ const App = () => {
             <Link to="/followup" className="p-2">
               followup
             </Link>
-            <Link to="/Home" className="p-2">
-              Home page
-            </Link>
-            <Link to="/dailytreat" className="p-2">
-              docDailyTreatment
-            </Link>
+
           </div>
         </nav>
 
@@ -80,6 +81,7 @@ const App = () => {
           <Route path="/followUp" element={<FollowUp userType="doctor" />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/dailytreat" element={<DailyTreatment />} />
+
         </Routes>
       </div>
     </Router>
