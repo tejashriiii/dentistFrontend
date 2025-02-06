@@ -1,13 +1,12 @@
 // App.jsx
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
+import ReceptionDashboard from "./components/ReceptionDashboard";
 import PatientRegisterForm from "./components/PatientRegisterForm";
 import CredentialsForm from "./components/CredentialsForm";
 import PatientAppointmentForm from "./components/PatientAppointmentForm";
 import FollowUp from "./components/FollowUp";
 import Home from "./pages/Home";
-import DentalChart from "./components/DentalChart";
 import DailyTreatment from "./pages/DailyTreatment";
 
 const App = () => {
@@ -35,7 +34,7 @@ const App = () => {
         <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
           <div>
             <Link to="/" className="mr-4 ">
-              Dashboard
+              Admin Dashboard
             </Link>
           </div>
           <div>
@@ -60,14 +59,11 @@ const App = () => {
             <Link to="/dailytreat" className="p-2">
               docDailyTreatment
             </Link>
-            <Link to="/dental-chart" className="p-2">
-              Dental Chart
-            </Link>{" "}
           </div>
         </nav>
 
         <Routes>
-          <Route path="/" element={<Dashboard patients={patients} />} />
+          <Route path="/" element={<ReceptionDashboard patients={patients} />} />
           <Route
             path="/register"
             element={<PatientRegisterForm addPatient={addPatient} />}
@@ -84,16 +80,6 @@ const App = () => {
           <Route path="/followUp" element={<FollowUp userType="doctor" />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/dailytreat" element={<DailyTreatment />} />
-          <Route
-            path="/dental-chart"
-            element={
-              <DentalChart
-                xrayPrices={xrayPrices}
-                updatePrice={updatePrice}
-                isAdmin={isAdmin}
-              />
-            }
-          />
         </Routes>
       </div>
     </Router>
