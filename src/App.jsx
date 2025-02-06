@@ -1,7 +1,7 @@
 // App.jsx
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
+import ReceptionDashboard from "./components/ReceptionDashboard";
 import PatientRegisterForm from "./components/PatientRegisterForm";
 import CredentialsForm from "./components/CredentialsForm";
 import PatientAppointmentForm from "./components/PatientAppointmentForm";
@@ -34,7 +34,7 @@ const App = () => {
         <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
           <div>
             <Link to="/" className="mr-4 ">
-              Dashboard
+              Admin Dashboard
             </Link>
             <Link to="/Home" className="p-2">
               HomePage
@@ -59,12 +59,12 @@ const App = () => {
             <Link to="/followup" className="p-2">
               followup
             </Link>
-            
+
           </div>
         </nav>
 
         <Routes>
-          <Route path="/" element={<Dashboard patients={patients} />} />
+          <Route path="/" element={<ReceptionDashboard patients={patients} />} />
           <Route
             path="/register"
             element={<PatientRegisterForm addPatient={addPatient} />}
@@ -81,7 +81,7 @@ const App = () => {
           <Route path="/followUp" element={<FollowUp userType="doctor" />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/dailytreat" element={<DailyTreatment />} />
-          
+
         </Routes>
       </div>
     </Router>

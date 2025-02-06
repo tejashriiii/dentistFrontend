@@ -1,4 +1,6 @@
-import React, { useState , useEffect } from "react";
+// DailyTreatment.jsx
+
+import React, { useState, useEffect } from "react";
 import Prescriptions from "../components/Prescriptions";
 import Treatment from "../components/Treatment";
 
@@ -8,8 +10,9 @@ export default function TreatmentDashboard() {
     { name: "Consultation", cost: 250 },
     { name: "X-Ray", cost: 400 },
   ]);
-
+  
   const [dateTime, setDateTime] = useState("");
+  const [selectedTab, setSelectedTab] = useState("treatment"); // State to track selected tab
 
   useEffect(() => {
     const now = new Date();
@@ -23,6 +26,10 @@ export default function TreatmentDashboard() {
   
     setDateTime(formattedDateTime);
   }, []);
+
+  const handleTabChange = (tab) => {
+    setSelectedTab(tab);
+  };
 
   const handleAdd = (list, setList, value) => {
     if (value) {
@@ -90,26 +97,36 @@ export default function TreatmentDashboard() {
           </div>
         </div>
 
-        {/* Diagnosis Section - Placeholder for Diagnosis Component */}
-        <div className="mt-6">
-          <div className="min-h-64 mb-6">
-            <Treatment />
+        {/* Navbar-like Tabs Section */}
+        <div className="mb-4">
+          <div className="flex space-x-4 border-b-2 border-[var(--lightgreen)]">
+            <button
+              className={`px-6 py-2 ${selectedTab === "treatment" ? "bg-[var(--darkgreen)] text-white" : "bg-transparent text-[var(--darkgreen)]"}`}
+              onClick={() => handleTabChange("treatment")}
+            >
+              Treatment
+            </button>
+            <button
+              className={`px-6 py-2 ${selectedTab === "prescription" ? "bg-[var(--darkgreen)] text-white" : "bg-transparent text-[var(--darkgreen)]"}`}
+              onClick={() => handleTabChange("prescription")}
+            >
+              Prescription
+            </button>
           </div>
         </div>
 
+        {/* Conditionally Render Treatment or Prescription */}
         <div className="mt-6">
-          <div className="h-64 mb-6">
-            {/* Placeholder for Diagnosis Component */}
-          </div>
+          {selectedTab === "treatment" ? (
+            <div className="min-h-64 mb-6">
+              <Treatment />
+            </div>
+          ) : selectedTab === "prescription" ? (
+            <div className="min-h-64 mb-6">
+              <Prescriptions />
+            </div>
+          ) : null}
         </div>
-
-        <div className="mt-6">
-          <div className="">
-            {<Prescriptions/>}
-          </div>
-        </div>
-        
-       
       </div>
     </div>
   );
