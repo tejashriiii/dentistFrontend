@@ -10,20 +10,48 @@ export default function TreatmentDashboard() {
     { name: "Consultation", cost: 250 },
     { name: "X-Ray", cost: 400 },
   ]);
-  
+
   const [dateTime, setDateTime] = useState("");
+  const [complaints, setComplaints] = useState(["No patients left"]);
   const [selectedTab, setSelectedTab] = useState("treatment"); // State to track selected tab
 
   useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/ad/complaints/", {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch patients");
+        }
+        const data = await response.json();
+        console.log(data.complaints);
+        let names = data.complaints.map((complaint) => complaint.name);
+
+        // Ensure we extract only the patient array
+        setComplaints(names);
+      } catch (err) {
+        console.error("Error:", err.message);
+      }
+    };
+    fetchPatients();
+  }, []);
+  useEffect(() => {
+    console.log("patients changed: ", complaints);
+  }, [complaints]);
+  useEffect(() => {
     const now = new Date();
-    
+
     // Convert to IST (UTC +5:30)
     const offsetIST = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in milliseconds
     const istTime = new Date(now.getTime() + offsetIST);
-  
+
     // Format as YYYY-MM-DDTHH:MM (required for datetime-local input)
     const formattedDateTime = istTime.toISOString().slice(0, 16);
-  
+
     setDateTime(formattedDateTime);
   }, []);
 
@@ -43,7 +71,7 @@ export default function TreatmentDashboard() {
 
   const totalFees = treatments.reduce(
     (sum, treatment) => sum + treatment.cost,
-    0
+    0,
   );
 
   return (
@@ -80,8 +108,9 @@ export default function TreatmentDashboard() {
               </label>
               {/* Patient Dropdown - to be fetched from server DB */}
               <select className="w-full px-3 py-2 border  border-[var(--lightgreen)] rounded-lg focus:outline-none focus:ring focus:ring-[var(--lightgreen)] hover:border-[var(--darkgreen)]">
-                <option>Patient 1</option>
-                <option>Patient 2</option>
+                {complaints.map((name) => (
+                  <option>{name}</option>
+                ))}
               </select>
             </div>
             <div className="w-1/2 pl-4">

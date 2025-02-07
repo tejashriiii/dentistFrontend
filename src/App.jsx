@@ -18,7 +18,7 @@
 //   const addPatient = (newPatient) => {
 //     setPatients([...patients, newPatient]);
 //   };
-  
+
 //   return (
 //     <Router>
 //       <div>
@@ -54,7 +54,6 @@
 //               SendMessage
 //             </Link>
 
-
 //           </div>
 //         </nav>
 
@@ -86,7 +85,6 @@
 // };
 
 // export default App;
-
 
 // Old - DONT DELETE THIS CODE App.jsx
 import React from "react";
@@ -150,15 +148,17 @@ const App = () => {
             <Link to="/followup" className="p-2">
               followup
             </Link>
-           <Link to="/sendmessage" className="p-2">
-             SendMessage
-           </Link>
-
+            <Link to="/sendmessage" className="p-2">
+              SendMessage
+            </Link>
           </div>
         </nav>
 
         <Routes>
-          <Route path="/" element={<ReceptionDashboard patients={patients} />} />
+          <Route
+            path="/"
+            element={<ReceptionDashboard patients={patients} />}
+          />
           <Route
             path="/register"
             element={<PatientRegisterForm addPatient={addPatient} />}
@@ -175,7 +175,7 @@ const App = () => {
           <Route path="/followUp" element={<FollowUp userType="doctor" />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/dailytreat" element={<DailyTreatment />} />
-         <Route path="/sendmessage" element={<SendMessage />} />
+          <Route path="/sendmessage" element={<SendMessage />} />
         </Routes>
       </div>
     </Router>
@@ -183,4 +183,4 @@ const App = () => {
 };
 
 export default App;
-// DONT DELETE THIS CODE 
+// DONT DELETE THIS CODE
