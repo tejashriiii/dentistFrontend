@@ -12,9 +12,10 @@ const Dashboard = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/u/patients/", {
+      const response = await fetch("http://127.0.0.1:8000/ad/complaints/", {
         headers: {
           Accept: "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
       });
       if (!response.ok) {
@@ -23,7 +24,7 @@ const Dashboard = () => {
       const data = await response.json();
 
       // Ensure we extract only the patient array
-      setPatients(data.patients || []);
+      setPatients(data.complaints || []);
     } catch (err) {
       console.error("Error:", err.message);
       setError(err.message);
@@ -65,11 +66,21 @@ const Dashboard = () => {
                 <tbody>
                   {patients.map((patient, index) => (
                     <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                      <td className="border border-gray-300 p-2">{patient[2]}</td>
-                      <td className="border border-gray-300 p-2">{patient[3]}</td>
-                      <td className="border border-gray-300 p-2">{patient[1]}</td>
-                      <td className="border border-gray-300 p-2">{patient[4]}</td>
-                      <td className="border border-gray-300 p-2">{patient[5]}</td>
+                      <td className="border border-gray-300 p-2">
+                        {patient[2]}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient[3]}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient[1]}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient[4]}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient[5]}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -83,4 +94,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
