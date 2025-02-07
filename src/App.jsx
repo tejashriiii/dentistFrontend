@@ -1,109 +1,24 @@
-// // App.jsx
-// import React from "react";
-// import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-// import ReceptionDashboard from "./components/ReceptionDashboard";
-// import PatientRegisterForm from "./components/PatientRegisterForm";
-// import CredentialsForm from "./components/CredentialsForm";
-// import PatientAppointmentForm from "./components/PatientAppointmentForm";
-// import FollowUp from "./components/FollowUp";
-// import Home from "./pages/Home";
-// import DailyTreatment from "./pages/DailyTreatment";
-// import ProtectedRoute from './components/ProtectedRoute';
-// import Unauthorized from "./pages/Unauthorized";
-// import SendMessage from "./components/SendMessage";
-
-// const App = () => {
-//   const [patients, setPatients] = React.useState([]);
-
-//   const addPatient = (newPatient) => {
-//     setPatients([...patients, newPatient]);
-//   };
-
-//   return (
-//     <Router>
-//       <div>
-//         <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
-//           <div>
-//             <Link to="/" className="mr-4 ">
-//               Admin Dashboard
-//             </Link>
-//              <Link to="/Home" className="p-2">
-//               HomePage
-//             </Link>
-//               <Link to="/dailytreat" className="p-2">
-//                 docDailyTreatment
-//               </Link>
-//           </div>
-//           <div>
-//             <Link to="/register" className="p-2">
-//               Register Patient
-//             </Link>
-//             <Link to="/login" className="p-2">
-//               Login
-//             </Link>
-//             <Link to="/signup" className="p-2">
-//               Signup
-//             </Link>
-//             <Link to="/appointment" className="p-2">
-//               Appointment
-//             </Link>
-//             <Link to="/followup" className="p-2">
-//               followup
-//             </Link>
-//             <Link to="/sendmessage" className="p-2">
-//               SendMessage
-//             </Link>
-
-//           </div>
-//         </nav>
-
-//         <Routes>
-//           <Route path="/" element={<ReceptionDashboard patients={patients} />} />
-//           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-//             <Route path="/register" element={<PatientRegisterForm addPatient={addPatient} />} />
-//           </Route>
-//           <Route
-//             path="/login"
-//             element={<CredentialsForm formAction="login" />}
-//           />
-//           <Route
-//             path="/signup"
-//             element={<CredentialsForm formAction="signup" />}
-//           />
-//           <Route path="/appointment" element={<PatientAppointmentForm />} />
-//           <Route path="/followUp" element={<FollowUp userType="doctor" />} />
-//           <Route path="/Home" element={<Home />} />
-//           <Route element={<ProtectedRoute allowedRoles={["Doctor"]} />}>
-//             <Route path="/dailytreat" element={<DailyTreatment />} />
-//           </Route>
-//           <Route path="/unauthorized" element={<Unauthorized />} />
-//           <Route path="/sendmessage" element={<SendMessage />} />
-//         </Routes>
-//       </div>
-//     </Router>
-//   );
-// };
-
-// export default App;
-
-// Old - DONT DELETE THIS CODE App.jsx
+// App.jsx
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import ReceptionDashboard from "./components/ReceptionDashboard";
+import Dashboard from "./components/Dashboard";
 import PatientRegisterForm from "./components/PatientRegisterForm";
 import CredentialsForm from "./components/CredentialsForm";
+import Payment from "./components/Payment";
+import TreatmentDashboard from "./components/TreatmentDashboard";
 import PatientAppointmentForm from "./components/PatientAppointmentForm";
+import Prescriptions from "./components/Prescriptions";
 import FollowUp from "./components/FollowUp";
 import Home from "./pages/Home";
-import DailyTreatment from "./pages/DailyTreatment";
-import SendMessage from "./components/SendMessage";
+import DentalChart from "./components/ButtonSelection";
+// import TeethDiagram from "./components/TeethDiagram";
+
+
 
 const App = () => {
   const [patients, setPatients] = React.useState([]);
   const [xrayPrices, setXrayPrices] = React.useState({
-    1: 50,
-    2: 60,
-    3: 70, // Default X-ray prices
+    1: 50, 2: 60, 3: 70, // Default X-ray prices
   });
 
   const isAdmin = true; // Change this based on user role (main admin/staff)
@@ -120,45 +35,47 @@ const App = () => {
   return (
     <Router>
       <div>
-        <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
+        <nav className="bg-[#87ab87] p-4 flex justify-between ">
           <div>
-            <Link to="/" className="mr-4 ">
-              Admin Dashboard
-            </Link>
-            <Link to="/Home" className="p-2">
-              HomePage
-            </Link>
-            <Link to="/dailytreat" className="p-2">
-              docDailyTreatment
+            <Link to="/" className="text-[#3d4243] mr-4 ">
+              Dashboard
             </Link>
           </div>
           <div>
-            <Link to="/register" className="p-2">
+            <Link to="/register" className="text-[#3d4243] p-2">
               Register Patient
             </Link>
-            <Link to="/login" className="p-2">
+            <Link to="/login" className="text-[#3d4243] p-2">
               Login
             </Link>
-            <Link to="/signup" className="p-2">
+            <Link to="/signup" className="text-[#3d4243] p-2">
               Signup
             </Link>
-            <Link to="/appointment" className="p-2">
+            <Link to="/payment" className="text-[#3d4243] p-2">
+              Payment
+            </Link>
+            <Link to="/treatmentdashboard" className="text-[#3d4243] p-2">
+              Treatment Dashboard
+            </Link>
+            <Link to="/appointment" className="text-[#3d4243] p-2">
               Appointment
             </Link>
-            <Link to="/followup" className="p-2">
+            <Link to="/prescriptions" className="text-[#3d4243] p-2">
+              Prescrip
+            </Link>
+            <Link to="/followup" className=" p-2">
               followup
             </Link>
-            <Link to="/sendmessage" className="p-2">
-              SendMessage
+            <Link to="/Home" className=" p-2">
+              Home page
             </Link>
+            <Link to="/dental-chart" className="text-[#3d4243] p-2">Dental Chart</Link> {/* Added Link */}
+            {/* <Link to="/teeth-diagram" className="text-[#3d4243] p-2">Teeth Diagram</Link> Added Link */}
           </div>
         </nav>
 
         <Routes>
-          <Route
-            path="/"
-            element={<ReceptionDashboard patients={patients} />}
-          />
+          <Route path="/" element={<Dashboard patients={patients} />} />
           <Route
             path="/register"
             element={<PatientRegisterForm addPatient={addPatient} />}
@@ -171,11 +88,17 @@ const App = () => {
             path="/signup"
             element={<CredentialsForm formAction="signup" />}
           />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/treatmentdashboard" element={<TreatmentDashboard />} />
           <Route path="/appointment" element={<PatientAppointmentForm />} />
+          <Route path="/prescriptions" element={<Prescriptions />} />
           <Route path="/followUp" element={<FollowUp userType="doctor" />} />
           <Route path="/Home" element={<Home />} />
-          <Route path="/dailytreat" element={<DailyTreatment />} />
-          <Route path="/sendmessage" element={<SendMessage />} />
+          <Route 
+            path="/dental-chart" 
+            element={<DentalChart xrayPrices={xrayPrices} updatePrice={updatePrice} isAdmin={isAdmin} />} 
+          />
+          {/* <Route path="/teeth-diagram" element={<TeethDiagram />} /> */}
         </Routes>
       </div>
     </Router>
@@ -183,4 +106,3 @@ const App = () => {
 };
 
 export default App;
-// DONT DELETE THIS CODE
