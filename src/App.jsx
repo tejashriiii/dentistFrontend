@@ -8,7 +8,7 @@ import PatientAppointmentForm from "./components/PatientAppointmentForm";
 import FollowUp from "./components/FollowUp";
 import Home from "./pages/Home";
 import DailyTreatment from "./pages/DailyTreatment";
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from "./components/ProtectedRoute";
 import Unauthorized from "./pages/Unauthorized";
 import SendMessage from "./components/SendMessage";
 
@@ -27,12 +27,12 @@ const App = () => {
             <Link to="/" className="mr-4 ">
               Admin Dashboard
             </Link>
-             <Link to="/Home" className="p-2">
+            <Link to="/Home" className="p-2">
               HomePage
             </Link>
-              <Link to="/dailytreat" className="p-2">
-                docDailyTreatment
-              </Link>
+            <Link to="/dailytreat" className="p-2">
+              docDailyTreatment
+            </Link>
           </div>
           <div>
             <Link to="/register" className="p-2">
@@ -53,14 +53,19 @@ const App = () => {
             <Link to="/sendmessage" className="p-2">
               SendMessage
             </Link>
-
           </div>
         </nav>
 
         <Routes>
-          <Route path="/" element={<ReceptionDashboard patients={patients} />} />
+          <Route
+            path="/"
+            element={<ReceptionDashboard patients={patients} />}
+          />
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-            <Route path="/register" element={<PatientRegisterForm addPatient={addPatient} />} />
+            <Route
+              path="/register"
+              element={<PatientRegisterForm addPatient={addPatient} />}
+            />
           </Route>
           <Route
             path="/login"
@@ -71,9 +76,12 @@ const App = () => {
             element={<CredentialsForm formAction="signup" />}
           />
           <Route path="/appointment" element={<PatientAppointmentForm />} />
-          <Route path="/followUp" element={<FollowUp userType="doctor" />} />
+          <Route
+            path="/followUp"
+            element={<FollowUp allowedRoles={["dentist"]} />}
+          />
           <Route path="/Home" element={<Home />} />
-          <Route element={<ProtectedRoute allowedRoles={["Doctor"]} />}>
+          <Route element={<ProtectedRoute allowedRoles={["dentist"]} />}>
             <Route path="/dailytreat" element={<DailyTreatment />} />
           </Route>
           <Route path="/unauthorized" element={<Unauthorized />} />
