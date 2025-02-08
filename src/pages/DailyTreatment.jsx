@@ -5,14 +5,8 @@ import Prescriptions from "../components/Prescriptions";
 import Treatment from "../components/Treatment";
 
 export default function TreatmentDashboard() {
-  const [treatments, setTreatments] = useState([
-    { name: "RCT", cost: 5000 },
-    { name: "Consultation", cost: 250 },
-    { name: "X-Ray", cost: 400 },
-  ]);
-
   const [dateTime, setDateTime] = useState("");
-  const [complaints, setComplaints] = useState(["No patients left"]);
+  const [complaints, setComplaints] = useState([]);
   const [selectedTab, setSelectedTab] = useState("treatment"); // State to track selected tab
 
   useEffect(() => {
@@ -28,10 +22,12 @@ export default function TreatmentDashboard() {
           throw new Error("Failed to fetch patients");
         }
         const data = await response.json();
-        console.log(data.complaints);
         let names = data.complaints.map((complaint) => complaint.name);
 
         // Ensure we extract only the patient array
+        if (!names.length) {
+          names = ["No patients left"];
+        }
         setComplaints(names);
       } catch (err) {
         console.error("Error:", err.message);
@@ -39,9 +35,6 @@ export default function TreatmentDashboard() {
     };
     fetchPatients();
   }, []);
-  useEffect(() => {
-    console.log("patients changed: ", complaints);
-  }, [complaints]);
   useEffect(() => {
     const now = new Date();
 
@@ -58,21 +51,6 @@ export default function TreatmentDashboard() {
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
   };
-
-  const handleAdd = (list, setList, value) => {
-    if (value) {
-      setList([...list, value]);
-    }
-  };
-
-  const handleRemove = (list, setList, index) => {
-    setList(list.filter((_, i) => i !== index));
-  };
-
-  const totalFees = treatments.reduce(
-    (sum, treatment) => sum + treatment.cost,
-    0,
-  );
 
   return (
     <div className="p-6 bg-[var(--bg)] min-h-screen">
