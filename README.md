@@ -1,6 +1,6 @@
-Step 1:
-```npm i```
-Step 2:
-```npm install tailwindcss @tailwindcss/vite```
-Step 3:
-```npm install react-router-dom```
+# Dentist Frontend
+
+step 1: ``` npm i ```   //install all dependencies
+
+
+step 2: ```npm run dev ```
