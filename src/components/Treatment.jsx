@@ -12,10 +12,11 @@ export default function Treatment() {
   const [allergies, setAllergies] = useState([]);
   const [smokes, setSmokes] = useState(null);
   const [alcohol, setAlcohol] = useState(null);
+  const [tobacco, setTobacco] = useState(null);
   const [newTreatment, setNewTreatment] = useState('');
   const [newTreatmentCost, setNewTreatmentCost] = useState('');
-  const [selectedTreatment, setSelectedTreatment] = useState(null);
-  const [selectedTreatmentCost, setSelectedTreatmentCost] = useState('');
+  const [selectedTreatments, setSelectedTreatments] = useState({});
+
 
   const fetchTreatments = async () => {
     try {
@@ -77,20 +78,35 @@ export default function Treatment() {
     setConfirmed(true);
   };
 
+  // const handleAddTreatment = (toothId) => {
+  //   if (newTreatment && newTreatmentCost) {
+  //     setComplaints((prev) => ({
+  //       ...prev,
+  //       [toothId]: [
+  //         ...(prev[toothId] || []),
+  //         { treatment: newTreatment, cost: newTreatmentCost },
+  //       ],
+  //     }));
+  //     setNewTreatment('');
+  //     setNewTreatmentCost('');
+  //   }
+  // };
   const handleAddTreatment = (toothId) => {
-    if (newTreatment && newTreatmentCost) {
+    if (selectedTreatments[toothId]?.newTreatment && selectedTreatments[toothId]?.newTreatmentCost) {
       setComplaints((prev) => ({
         ...prev,
         [toothId]: [
           ...(prev[toothId] || []),
-          { treatment: newTreatment, cost: newTreatmentCost },
+          { treatment: selectedTreatments[toothId].newTreatment, cost: selectedTreatments[toothId].newTreatmentCost },
         ],
       }));
-      setNewTreatment('');
-      setNewTreatmentCost('');
+      setSelectedTreatments(prev => ({
+        ...prev,
+        [toothId]: { ...prev[toothId], newTreatment: '', newTreatmentCost: '' }
+      }));
     }
   };
-
+  
   const buttonIds = [
     [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28],
     [48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38],
@@ -119,8 +135,8 @@ export default function Treatment() {
         ))}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-4">
-        {[{ label: 'Smokes?', state: smokes, setter: setSmokes }, { label: 'Consumes Alcohol?', state: alcohol, setter: setAlcohol }].map(({ label, state, setter }) => (
+      <div className="mt-4 grid grid-cols-3 gap-4">
+        {[{ label: 'Smokes?', state: smokes, setter: setSmokes }, { label: 'Consumes Alcohol?', state: alcohol, setter: setAlcohol },{ label: 'Eats Tobacco?', state: tobacco, setter: setTobacco }].map(({ label, state, setter }) => (
           <div key={label} className="flex flex-col">
             <label className="block font-semibold text-gray-700">{label}</label>
             <div className="flex space-x-2">
@@ -151,6 +167,7 @@ export default function Treatment() {
         <button onClick={handleConfirmSelection} className="mt-4 bg-[#4a6d4a] text-white px-4 py-2 rounded-lg">Confirm Selection</button>
       </div>
 
+
       {confirmed && selectedButtons.map((toothId) => (
         <div key={toothId} className="mt-4">
           <h3 className="font-semibold text-lg text-[#4a6d4a]">Tooth {toothId}</h3>
@@ -167,35 +184,50 @@ export default function Treatment() {
 
             <div className="mt-4">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Add New Treatment</label>
-              <select
+              
+                <select
                 className="border px-3 py-2 rounded-lg w-full mb-4"
-                value={selectedTreatment || ''}
+                value={selectedTreatments[toothId]?.name || ''}
                 onChange={(e) => {
                   const treatment = treatments.find(t => t.name === e.target.value);
-                  setSelectedTreatment(treatment?.name || '');
-                  setSelectedTreatmentCost(treatment?.cost || '');
+                  setSelectedTreatments(prev => ({
+                    ...prev,
+                    [toothId]: { name: treatment?.name || '', cost: treatment?.cost || '' }
+                  }));
                 }}
               >
                 <option value="">Select Treatment</option>
                 {treatments.map((treatment) => (
-                  <option key={treatment.id} value={treatment.name}>{treatment.name} - ${treatment.cost}</option>
+                  <option key={treatment.id} value={treatment.name}>
+                    {treatment.name} - ${treatment.cost}
+                  </option>
                 ))}
-              </select>
-
+              </select>              
               <input
                 type="text"
                 placeholder="Treatment Name"
-                value={newTreatment}
-                onChange={(e) => setNewTreatment(e.target.value)}
+                value={selectedTreatments[toothId]?.newTreatment || ''}
+                onChange={(e) =>
+                  setSelectedTreatments(prev => ({
+                    ...prev,
+                    [toothId]: { ...prev[toothId], newTreatment: e.target.value }
+                  }))
+                }
                 className="border px-3 py-2 rounded-lg mb-2"
               />
               <input
                 type="number"
                 placeholder="Cost"
-                value={newTreatmentCost}
-                onChange={(e) => setNewTreatmentCost(e.target.value)}
+                value={selectedTreatments[toothId]?.newTreatmentCost || ''}
+                onChange={(e) =>
+                  setSelectedTreatments(prev => ({
+                    ...prev,
+                    [toothId]: { ...prev[toothId], newTreatmentCost: e.target.value }
+                  }))
+                }
                 className="border px-3 py-2 rounded-lg mb-4"
               />
+
               <button
                 onClick={() => handleAddTreatment(toothId)}
                 className="bg-[#87AB87] text-white px-4 py-2 rounded-lg"
@@ -209,7 +241,7 @@ export default function Treatment() {
             <label className="block text-sm font-semibold text-gray-700 mb-2">Current Treatments</label>
             {complaints[toothId]?.map((entry, index) => (
               <div key={index} className="flex justify-between bg-gray-100 px-3 py-2 rounded-lg mb-2">
-                <span>{entry.treatment} - ${entry.cost}</span>
+                <span>{entry.treatment} - &#8377; {entry.cost}</span>
                 <button onClick={() => handleRemoveEntry(setComplaints, toothId, index)} className="text-gray-700 font-bold">×</button>
               </div>
             ))}
