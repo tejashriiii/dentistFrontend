@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CredentialsForm = ({ formAction }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     mobileNumber: "",
     password: "",
@@ -48,9 +50,20 @@ const CredentialsForm = ({ formAction }) => {
         if (formAction === "login") {
           sessionStorage.setItem("jwt", responseData.token);
           toast.success("Login successful! Redirecting...");
+          setFormData({
+            mobileNumber: "",
+            password: "",
+            name: "",
+          });
         } else {
           toast.success("Registration successful!");
+          setFormData({
+            mobileNumber: "",
+            password: "",
+            name: "",
+          });
         }
+        
       }
     } catch (error) {
       toast.error("Network error! Please try again.");

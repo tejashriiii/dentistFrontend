@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const PatientAppointmentForm = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +29,11 @@ const PatientAppointmentForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (phoneError) return;
+    if (phoneError) {
+      toast.error("Please correct the phone number error.");
+      return;
+    }
+  
     const dataToSend = {
       phonenumber: formData.phone,
       complaint: {
@@ -34,8 +41,7 @@ const PatientAppointmentForm = () => {
         chief_complaint: formData.chiefComplaint,
       },
     };
-    console.log(JSON.stringify(dataToSend));
-
+  
     try {
       const response = await fetch(`http://127.0.0.1:8000/ad/complaints/`, {
         method: "POST",
@@ -46,21 +52,24 @@ const PatientAppointmentForm = () => {
         },
         body: JSON.stringify(dataToSend),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error:", errorData);
-        // Handle error responses here (e.g., show a message to the user)
+        toast.error(errorData.message || "Failed to register complaint.");
       } else {
         const responseData = await response.json();
         console.log("Complaint registered:", responseData);
-        // Handle successful login (e.g., store token, redirect user)
+        toast.success("Appointment submitted successfully!");
+        
+        setFormData({ name: "", phone: "", chiefComplaint: "" });
       }
     } catch (error) {
       console.error("Network error:", error);
-      // Handle network errors here
+      toast.error("Network error! Please try again.");
     }
   };
+  
 
   return (
     <div className="max-w-md mx-auto p-6 bg-[var(--bg)] rounded-lg shadow-lg mt-2">
