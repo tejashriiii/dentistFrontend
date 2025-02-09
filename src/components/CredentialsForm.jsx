@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CredentialsForm = ({ formAction }) => {
   const [formData, setFormData] = useState({
@@ -19,7 +21,6 @@ const CredentialsForm = ({ formAction }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare the data to be sent
     const dataToSend = {
       phonenumber: formData.mobileNumber,
       password: formData.password,
@@ -36,23 +37,23 @@ const CredentialsForm = ({ formAction }) => {
             Accept: "application/json",
           },
           body: JSON.stringify(dataToSend),
-        },
+        }
       );
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error:", errorData);
-        // Handle error responses here (e.g., show a message to the user)
+        toast.error(errorData.message || " Something went wrong!");
       } else {
         const responseData = await response.json();
-        if (formAction == "login") {
+        if (formAction === "login") {
           sessionStorage.setItem("jwt", responseData.token);
+          toast.success("Login successful! Redirecting...");
+        } else {
+          toast.success("Registration successful!");
         }
-        // Handle successful login (e.g., store token, redirect user)
       }
     } catch (error) {
-      console.error("Network error:", error);
-      // Handle network errors here
+      toast.error("Network error! Please try again.");
     }
   };
 
@@ -61,6 +62,7 @@ const CredentialsForm = ({ formAction }) => {
       <h2 className="p-0 text-2xl font-bold text-[var(--txt)] mb-6">
         Patient {capitalizeFirstLetter(formAction)}
       </h2>
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-sm font-medium text-[var(--txt)]">
@@ -73,7 +75,7 @@ const CredentialsForm = ({ formAction }) => {
             onChange={handleChange}
             required
             className="mt-1 block w-full p-2 border border-[var(--darkgreen)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
-            maxLength={10} // Limit input length to 10
+            maxLength={10}
           />
         </div>
         <div className="mb-4">

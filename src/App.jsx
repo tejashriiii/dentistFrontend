@@ -11,6 +11,8 @@ import DailyTreatment from "./pages/DailyTreatment";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Unauthorized from "./pages/Unauthorized";
 import SendMessage from "./components/SendMessage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const [patients, setPatients] = React.useState([]);
@@ -21,6 +23,7 @@ const App = () => {
 
   return (
     <Router>
+      <ToastContainer position="top-right" autoClose={3000} />
       <div>
         <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
           <div>
