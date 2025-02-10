@@ -23,7 +23,7 @@ const App = () => {
 
   return (
     <Router>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2000} />
       <div>
         <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
           <div>
