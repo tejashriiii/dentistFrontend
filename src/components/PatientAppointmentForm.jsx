@@ -56,7 +56,7 @@ const PatientAppointmentForm = () => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error:", errorData);
-        toast.error(errorData.message || "Failed to register complaint.");
+        toast.error(errorData.error || "Failed to register complaint.");
       } else {
         const responseData = await response.json();
         console.log("Complaint registered:", responseData);

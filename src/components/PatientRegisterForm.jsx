@@ -45,7 +45,7 @@
 //       if (!response.ok) {
 //         const errorData = await response.json();
 //         console.error("Error:", errorData);
-//         toast.error(`Registration failed: ${errorData.message || "Unknown error"}`);
+//         toast.error(`Registration failed: ${errorData.error || "Unknown error"}`);
 //       } else {
 //         const responseData = await response.json();
 //         console.log("Login successful:", responseData);
@@ -193,7 +193,7 @@ const PatientRegisterForm = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        toast.error(errorData.message || "Registration failed!");
+        toast.error(errorData.error || "Registration failed!");
       } else {
         toast.success("Patient registered successfully!");
         setFormData({
