@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const PatientAppointmentForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -33,7 +32,7 @@ const PatientAppointmentForm = () => {
       toast.error("Please correct the phone number error.");
       return;
     }
-  
+
     const dataToSend = {
       phonenumber: formData.phone,
       complaint: {
@@ -41,9 +40,9 @@ const PatientAppointmentForm = () => {
         chief_complaint: formData.chiefComplaint,
       },
     };
-  
+
     try {
-      const response = await fetch(`http://127.0.0.1:8000/ad/complaints/`, {
+      const response = await fetch(`http://127.0.0.1:8000/p/complaints/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +51,7 @@ const PatientAppointmentForm = () => {
         },
         body: JSON.stringify(dataToSend),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error:", errorData);
@@ -61,7 +60,7 @@ const PatientAppointmentForm = () => {
         const responseData = await response.json();
         console.log("Complaint registered:", responseData);
         toast.success("Appointment submitted successfully!");
-        
+
         setFormData({ name: "", phone: "", chiefComplaint: "" });
       }
     } catch (error) {
@@ -69,7 +68,6 @@ const PatientAppointmentForm = () => {
       toast.error("Network error! Please try again.");
     }
   };
-  
 
   return (
     <div className="max-w-md mx-auto p-6 bg-[var(--bg)] rounded-lg shadow-lg mt-2">
