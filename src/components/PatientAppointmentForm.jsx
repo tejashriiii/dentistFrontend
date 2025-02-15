@@ -96,7 +96,7 @@ const PatientAppointmentForm = () => {
             Phone Number
           </label>
           <input
-            type="text"
+            type="number"
             name="phone"
             value={formData.phone}
             onChange={validatePhone}

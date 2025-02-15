@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const CredentialsForm = ({ formAction }) => {
   const navigate = useNavigate();
@@ -10,9 +8,29 @@ const CredentialsForm = ({ formAction }) => {
     password: "",
     name: "",
   });
+  const [errors, setErrors] = useState({
+    mobileNumber: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "mobileNumber") {
+      if (!/^\d*$/.test(value)) {
+        return; 
+      }
+      if (value.length > 10) {
+        return; // Prevent entering more than 10 digits
+      }
+
+      // Validate mobile number length
+      if (value.length !== 10 && value.length > 0) {
+        setErrors((prev) => ({ ...prev, mobileNumber: "Mobile number must be 10 digits" }));
+      } else {
+        setErrors((prev) => ({ ...prev, mobileNumber: "" }));
+      }
+    }
+
     setFormData({ ...formData, [name]: value });
   };
 
@@ -22,6 +40,9 @@ const CredentialsForm = ({ formAction }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (errors.mobileNumber) {
+      return; }
 
     const dataToSend = {
       phonenumber: formData.mobileNumber,
@@ -44,29 +65,17 @@ const CredentialsForm = ({ formAction }) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        toast.error(errorData.error || " Something went wrong!");
+        alert(errorData.error || "Something went wrong!");
       } else {
-        const responseData = await response.json();
-        if (formAction === "login") {
-          sessionStorage.setItem("jwt", responseData.token);
-          toast.success("Login successful! Redirecting...");
-          setFormData({
-            mobileNumber: "",
-            password: "",
-            name: "",
-          });
-        } else {
-          toast.success("Registration successful!");
-          setFormData({
-            mobileNumber: "",
-            password: "",
-            name: "",
-          });
-        }
-        
+        alert(`${capitalizeFirstLetter(formAction)} successful!`);
+        setFormData({
+          mobileNumber: "",
+          password: "",
+          name: "",
+        });
       }
     } catch (error) {
-      toast.error("Network error! Please try again.");
+      alert("Network error! Please try again.");
     }
   };
 
@@ -82,7 +91,7 @@ const CredentialsForm = ({ formAction }) => {
             Mobile Number
           </label>
           <input
-            type="number"
+            type="text"
             name="mobileNumber"
             value={formData.mobileNumber}
             onChange={handleChange}
@@ -90,6 +99,9 @@ const CredentialsForm = ({ formAction }) => {
             className="mt-1 block w-full p-2 border border-[var(--darkgreen)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
             maxLength={10}
           />
+          {errors.mobileNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.mobileNumber}</p>
+          )}
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-[var(--txt)]">
