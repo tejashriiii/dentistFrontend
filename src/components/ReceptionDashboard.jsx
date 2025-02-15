@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/ad/complaints/", {
+      const response = await fetch("http://127.0.0.1:8000/p/complaints/", {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
@@ -23,7 +23,6 @@ const Dashboard = () => {
       }
       const data = await response.json();
 
-      
       console.log("Fetched Data:", data);
 
       const patientList = Array.isArray(data.complaints)
@@ -71,23 +70,25 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   {patients.map((patient, index) => (
-                     <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                     <td className="border border-gray-300 p-2">
-                       {patient.name || "N/A"}
-                     </td>
-                     <td className="border border-gray-300 p-2">
-                       {patient.phonenumber || "N/A"}
-                     </td>
-                     <td className="border border-gray-300 p-2">
-                       {patient.age || "N/A"}
-                     </td>
-                     <td className="border border-gray-300 p-2">
-                       {patient.complaint || "N/A"}
-                     </td>
-                    <td className="border border-gray-300 p-2">
-                       {patient.time ? patient.time.split(".")[0].slice(0, 5) : "N/A"}
-                     </td>
-                   </tr>
+                    <tr key={index} className="even:bg-gray-100 odd:bg-white">
+                      <td className="border border-gray-300 p-2">
+                        {patient.name || "N/A"}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient.phonenumber || "N/A"}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient.age || "N/A"}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient.complaint || "N/A"}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {patient.time
+                          ? patient.time.split(".")[0].slice(0, 5)
+                          : "N/A"}
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>
