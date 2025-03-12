@@ -1,16 +1,18 @@
 // App.jsx
+// ok add this all in header and not here
+
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import ReceptionDashboard from "./components/ReceptionDashboard";
-import PatientRegisterForm from "./components/PatientRegisterForm";
-import CredentialsForm from "./components/CredentialsForm";
-import PatientAppointmentForm from "./components/PatientAppointmentForm";
-import FollowUp from "./components/FollowUp";
+import ReceptionDashboard from "./pages/ReceptionDashboard";
+import PatientRegisterForm from "./pages/PatientRegisterForm";
+import CredentialsForm from "./pages/CredentialsForm";
+import PatientAppointmentForm from "./pages/PatientAppointmentForm";
+import FollowUp from "./pages/FollowUp";
 import Home from "./pages/Home";
 import DailyTreatment from "./pages/DailyTreatment";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Unauthorized from "./pages/Unauthorized";
-import SendMessage from "./components/SendMessage";
+import Unauthorized from "./components/Unauthorized";
+import SendMessage from "./pages/SendMessage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
