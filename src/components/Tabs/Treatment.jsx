@@ -1,18 +1,14 @@
 // Treatment.jsx
 
 import React, { useState, useEffect } from 'react';
-import DentalChart from '../assets/dentalChart.svg';
+import DentalChart from '../../assets/dentalChart.svg';
+import About from './About';
 
 export default function Treatment() {
   const [selectedButtons, setSelectedButtons] = useState([]);
   const [complaints, setComplaints] = useState({});
   const [treatments, setTreatments] = useState([]);
   const [confirmed, setConfirmed] = useState(false);
-  const [pastIllnesses, setPastIllnesses] = useState([]);
-  const [allergies, setAllergies] = useState([]);
-  const [smokes, setSmokes] = useState(null);
-  const [alcohol, setAlcohol] = useState(null);
-  const [tobacco, setTobacco] = useState(null);
   const [newTreatment, setNewTreatment] = useState('');
   const [newTreatmentCost, setNewTreatmentCost] = useState('');
   const [selectedTreatments, setSelectedTreatments] = useState({});
@@ -47,16 +43,7 @@ export default function Treatment() {
     );
   };
 
-  const handleAddItem = (setter, value, inputId) => {
-    if (value) {
-      setter((prev) => [...prev, value]);
-      document.getElementById(inputId).value = '';
-    }
-  };
-
-  const handleRemoveItem = (setter, index) => {
-    setter((prev) => prev.filter((_, i) => i !== index));
-  };
+  
 
   const handleAddEntry = (setter, toothId, value, cost) => {
     if (value) {
@@ -114,39 +101,6 @@ export default function Treatment() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="mt-4 grid grid-cols-2 gap-4">
-        {[{ label: 'Past Illnesses', state: pastIllnesses, setter: setPastIllnesses, id: 'illnessInput' },
-          { label: 'Allergies', state: allergies, setter: setAllergies, id: 'allergyInput' }].map(({ label, state, setter, id }) => (
-          <div key={id}>
-            <label className="block font-semibold text-gray-700">{label}</label>
-            <div className="flex flex-wrap space-x-2">
-              {state.map((item, index) => (
-                <div key={index} className="flex justify-between bg-gray-100 px-3 py-1 rounded-lg">
-                  <span>{item}</span>
-                  <button onClick={() => handleRemoveItem(setter, index)}>×</button>
-                </div>
-              ))}
-            </div>
-            <div className="flex mt-2">
-              <input id={id} type="text" className="border px-3 py-2 rounded-lg flex-grow" placeholder={`Add ${label.toLowerCase()}`} />
-              <button onClick={() => handleAddItem(setter, document.getElementById(id).value, id)} className="ml-2 bg-[#87AB87] text-white px-3 py-2 rounded-lg">Add</button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-4 grid grid-cols-3 gap-4">
-        {[{ label: 'Smokes?', state: smokes, setter: setSmokes }, { label: 'Consumes Alcohol?', state: alcohol, setter: setAlcohol },{ label: 'Eats Tobacco?', state: tobacco, setter: setTobacco }].map(({ label, state, setter }) => (
-          <div key={label} className="flex flex-col">
-            <label className="block font-semibold text-gray-700">{label}</label>
-            <div className="flex space-x-2">
-              {['Yes', 'No'].map((option) => (
-                <button key={option} className={`px-4 py-2 rounded-lg ${state === option ? 'bg-[#4a6d4a] text-white' : 'bg-gray-300'}`} onClick={() => setter(option)}>{option}</button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
 
       <div>
         <img src={DentalChart} alt="Dental Chart" />

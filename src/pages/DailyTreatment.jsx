@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Prescriptions from "../components/Prescriptions";
-import Treatment from "../components/Treatment";
+import About from "../components/Tabs/About";
+import Prescriptions from "../components/Tabs/Prescriptions";
+import Treatment from "../components/Tabs/Treatment";
+
 
 export default function TreatmentDashboard() {
   const todayDate = new Date().toISOString().split("T")[0];
@@ -92,9 +94,19 @@ export default function TreatmentDashboard() {
           </div>
         </div>
 
-        {/* Navbar-like change this to actuall navbar sisnc we have a lot of tabs?? */}
-        <div className="mb-4">
+        
+        <div className="my-7">
           <div className="flex space-x-4 border-b-2 border-[var(--lightgreen)]">
+          <button
+              className={`px-6 py-2 ${
+                selectedTab === "aboutPatient"
+                  ? "bg-[var(--darkgreen)] text-white"
+                  : "bg-transparent text-[var(--darkgreen)]"
+              }`}
+              onClick={() => handleTabChange("aboutPatient")}
+            >
+              About Patient
+            </button>
             <button
               className={`px-6 py-2 ${
                 selectedTab === "treatment"
@@ -120,15 +132,18 @@ export default function TreatmentDashboard() {
 
         {/* Conditionally Render Treatment or Prescription */}
         <div className="mt-6">
-          {selectedTab === "treatment" ? (
+          {selectedTab === "aboutPatient" ? (
             <div className="min-h-64 mb-6">
-              <Treatment />
+              <About />
             </div>
           ) : selectedTab === "prescription" ? (
             <div className="min-h-64 mb-6">
               <Prescriptions />
             </div>
-          ) : null}
+          ) :selectedTab === "treatment" ? (
+            <div className="min-h-64 mb-6">
+              <Treatment />
+            </div>): null}
         </div>
       </div>
     </div>
