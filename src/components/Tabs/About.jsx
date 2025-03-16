@@ -9,27 +9,27 @@ function About() {
     
     const currentPatient = getCurrentPatient();
     
-    // Initialize states with patient-specific localStorage keys
+    // Initialize states with patient-specific sessionStorage keys instead of localStorage
     const [pastIllnesses, setPastIllnesses] = useState(() => {
-        const saved = localStorage.getItem(`pastIllnesses_${currentPatient}`);
+        const saved = sessionStorage.getItem(`pastIllnesses_${currentPatient}`);
         return saved ? JSON.parse(saved) : [];
     });
     
     const [allergies, setAllergies] = useState(() => {
-        const saved = localStorage.getItem(`allergies_${currentPatient}`);
+        const saved = sessionStorage.getItem(`allergies_${currentPatient}`);
         return saved ? JSON.parse(saved) : [];
     });
     
     const [smokes, setSmokes] = useState(() => 
-        localStorage.getItem(`smokes_${currentPatient}`) || null
+        sessionStorage.getItem(`smokes_${currentPatient}`) || null
     );
     
     const [alcohol, setAlcohol] = useState(() => 
-        localStorage.getItem(`alcohol_${currentPatient}`) || null
+        sessionStorage.getItem(`alcohol_${currentPatient}`) || null
     );
     
     const [tobacco, setTobacco] = useState(() => 
-        localStorage.getItem(`tobacco_${currentPatient}`) || null
+        sessionStorage.getItem(`tobacco_${currentPatient}`) || null
     );
     
     const [patientHistory, setPatientHistory] = useState(null);
@@ -45,15 +45,15 @@ function About() {
                 setPatientName(newPatient);
                 
                 // Load data for the new patient
-                const savedPastIllnesses = localStorage.getItem(`pastIllnesses_${newPatient}`);
+                const savedPastIllnesses = sessionStorage.getItem(`pastIllnesses_${newPatient}`);
                 setPastIllnesses(savedPastIllnesses ? JSON.parse(savedPastIllnesses) : []);
                 
-                const savedAllergies = localStorage.getItem(`allergies_${newPatient}`);
+                const savedAllergies = sessionStorage.getItem(`allergies_${newPatient}`);
                 setAllergies(savedAllergies ? JSON.parse(savedAllergies) : []);
                 
-                setSmokes(localStorage.getItem(`smokes_${newPatient}`) || null);
-                setAlcohol(localStorage.getItem(`alcohol_${newPatient}`) || null);
-                setTobacco(localStorage.getItem(`tobacco_${newPatient}`) || null);
+                setSmokes(sessionStorage.getItem(`smokes_${newPatient}`) || null);
+                setAlcohol(sessionStorage.getItem(`alcohol_${newPatient}`) || null);
+                setTobacco(sessionStorage.getItem(`tobacco_${newPatient}`) || null);
                 
                 // Reset patient history
                 setPatientHistory(null);
@@ -67,35 +67,35 @@ function About() {
         }
     }, []);
     
-    // Update localStorage whenever states change - use patient-specific keys
+    // Update sessionStorage whenever states change - use patient-specific keys
     useEffect(() => {
         const patient = getCurrentPatient();
-        localStorage.setItem(`pastIllnesses_${patient}`, JSON.stringify(pastIllnesses));
+        sessionStorage.setItem(`pastIllnesses_${patient}`, JSON.stringify(pastIllnesses));
     }, [pastIllnesses]);
     
     useEffect(() => {
         const patient = getCurrentPatient();
-        localStorage.setItem(`allergies_${patient}`, JSON.stringify(allergies));
+        sessionStorage.setItem(`allergies_${patient}`, JSON.stringify(allergies));
     }, [allergies]);
     
     useEffect(() => {
         if (smokes !== null) {
             const patient = getCurrentPatient();
-            localStorage.setItem(`smokes_${patient}`, smokes);
+            sessionStorage.setItem(`smokes_${patient}`, smokes);
         }
     }, [smokes]);
     
     useEffect(() => {
         if (alcohol !== null) {
             const patient = getCurrentPatient();
-            localStorage.setItem(`alcohol_${patient}`, alcohol);
+            sessionStorage.setItem(`alcohol_${patient}`, alcohol);
         }
     }, [alcohol]);
     
     useEffect(() => {
         if (tobacco !== null) {
             const patient = getCurrentPatient();
-            localStorage.setItem(`tobacco_${patient}`, tobacco);
+            sessionStorage.setItem(`tobacco_${patient}`, tobacco);
         }
     }, [tobacco]);
 

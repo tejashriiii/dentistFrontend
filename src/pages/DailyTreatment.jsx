@@ -13,7 +13,7 @@ export default function TreatmentDashboard() {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/p/complaints/", {
+        const response = await fetch("http://localhost:8000/p/complaints/", {
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
