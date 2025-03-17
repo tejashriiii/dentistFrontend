@@ -8,3 +8,7 @@
   --lightgreen: #acd1af;
   --txt: #3c3e3f;
 }
+
+.Toastify__toast-container {
+  margin-top: 50px !important; /* Adjust height from top */
+}
