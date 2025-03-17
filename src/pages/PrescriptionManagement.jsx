@@ -12,7 +12,8 @@ const Prescriptions = () => {
             const response = await fetch("http://localhost:8000/doc/prescription/", {
                 headers: {
                     "Accept": "application/json",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
                 }
             });
 
@@ -45,7 +46,8 @@ const Prescriptions = () => {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
                 },
                 body: JSON.stringify({ name: newPrescription.name, type: newPrescription.type })
             });
@@ -65,7 +67,8 @@ const Prescriptions = () => {
             method: "PUT",
             headers: {
                 "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
             },
             body: JSON.stringify({
                 id: editingPrescription.id, 
@@ -85,7 +88,12 @@ const Prescriptions = () => {
 
 
     const handleDeletePrescription = async (id) => {
-        try { const response = await fetch(`http://localhost:8000/doc/prescription/${id}/`, { method: "DELETE" });
+        try { const response = await fetch(`http://localhost:8000/doc/prescription/${id}/`, {
+          method: "DELETE",
+          headers: {
+              "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
+          }
+        });
 
             if (!response.ok) throw new Error("Failed to delete prescription");
 

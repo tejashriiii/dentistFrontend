@@ -12,7 +12,8 @@ const Treatments = () => {
             const response = await fetch("http://localhost:8000/doc/treatment/", {
                 headers: {
                     "Accept": "application/json",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
                 }
             });
             if (!response.ok) throw new Error("Failed to fetch treatments");
@@ -34,7 +35,8 @@ const Treatments = () => {
             const response = await fetch("http://localhost:8000/doc/treatment/", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
                 },
                 body: JSON.stringify(newTreatment)
             });
@@ -51,7 +53,8 @@ const Treatments = () => {
             const response = await fetch("http://localhost:8000/doc/treatment/", {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
                 },
                 body: JSON.stringify({ id: editingTreatment.id, treatment: editingTreatment })
             });
@@ -66,7 +69,10 @@ const Treatments = () => {
     const deleteTreatment = async (id) => {
         try {
             const response = await fetch(`http://localhost:8000/doc/treatment/${id}/`, {
-                method: "DELETE"
+                method: "DELETE", 
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
+                }
             });
             if (!response.ok) throw new Error("Failed to delete treatment");
             fetchTreatments();
