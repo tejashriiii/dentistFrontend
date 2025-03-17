@@ -111,6 +111,55 @@ function About() {
         setter(prev => prev.filter((_, i) => i !== index));
     };
 
+    // Find the phone number for the current patient
+    const getPatientPhoneNumber = () => {
+        const patientData = JSON.parse(sessionStorage.getItem('patientData') || '[]');
+        const currentPatient = getCurrentPatient();
+        const patient = patientData.find(p => p.name === currentPatient);
+        return patient?.phonenumber || "9654396543"; // Default fallback???
+    };
+
+    const handleSendToBackend = async () => {
+        try {
+            const patient = getCurrentPatient();
+            const phoneNumber = getPatientPhoneNumber();
+            
+            // Prepare data in the format required by the backend
+            const data = {
+                identity: {
+                    name: patient,
+                    phonenumber: phoneNumber,
+                },
+                medical_details: {
+                    allergies: allergies,
+                    illnesses: pastIllnesses,
+                    smoking: smokes === "Yes",
+                    drinking: alcohol === "Yes",
+                    tobacco: tobacco === "Yes",
+                }
+            };
+            
+            // Send data to backend
+            const response = await fetch('http://localhost:8000/p/medical_details/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem("jwt")}`,
+                },
+                body: JSON.stringify(data),
+            });
+            
+            if (response.ok) {
+                alert("Medical details saved successfully!");
+            } else {
+                alert("Failed to save medical details. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error sending data to backend:", error);
+            alert("Error connecting to the server. Please try again later.");
+        }
+    };
+    
     // Simulated patient history lookup
     
       
@@ -190,7 +239,15 @@ function About() {
                 ))}
             </div>
             
-            
+            {/* Save button - New addition */}
+            <div className="mt-6">
+                <button 
+                    onClick={handleSendToBackend}
+                    className="px-6 py-3 bg-[#4a6d4a] text-white rounded-lg font-medium hover:bg-[#3a5d3a] transition duration-200"
+                >
+                    Save Medical Details
+                </button>
+            </div>
             
             {/* Health summary */}
             {(pastIllnesses.length > 0 || allergies.length > 0) && (

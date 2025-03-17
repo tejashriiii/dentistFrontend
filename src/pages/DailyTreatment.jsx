@@ -23,8 +23,19 @@ export default function TreatmentDashboard() {
           throw new Error("Failed to fetch patients");
         }
         const data = await response.json();
-        // console.log(data);
-        setComplaints(data.complaints || []);
+        // console.log(data); 
+        const patientData = data.complaints || [];
+        setComplaints(patientData);
+        
+        // Store patient data including phone numbers in sessionStorage
+        sessionStorage.setItem('patientData', JSON.stringify(patientData));
+        
+        // Also store individual patient phone numbers for easy access
+        patientData.forEach(patient => {
+          if (patient.name && patient.phonenumber) {
+            sessionStorage.setItem(`phone_${patient.name}`, patient.phonenumber);
+          }
+        });
       } catch (err) {
         console.error("Error:", err.message);
       }
@@ -34,6 +45,18 @@ export default function TreatmentDashboard() {
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
+  };
+
+  const handlePatientChange = (e) => {
+    const selectedPatient = complaints.find(p => p.name === e.target.value);
+    
+    // Update complaint text
+    document.getElementById("complaint-box").innerText = selectedPatient?.complaint || "No complaint available";
+    
+    // Store the current patient's phone number in case it's needed elsewhere
+    if (selectedPatient?.phonenumber) {
+      sessionStorage.setItem(`phone_${selectedPatient.name}`, selectedPatient.phonenumber);
+    }
   };
 
   return (
@@ -63,11 +86,7 @@ export default function TreatmentDashboard() {
               </label>
               <select
                 className="w-full px-3 py-2 border border-[var(--darkgreen)] rounded-lg focus:outline-none focus:ring focus:ring-[var(--darkgreen)] hover:border-[var(--darkgreen)]"
-                onChange={(e) => {
-                  document.getElementById("complaint-box").innerText =
-                    complaints.find((p) => p.name === e.target.value)
-                      ?.complaint || "No complaint available";
-                }}
+                onChange={handlePatientChange}
               >
                 {complaints.map((patient, index) => (
                   <option key={index} value={patient.name}>
