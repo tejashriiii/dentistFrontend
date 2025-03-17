@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function About() {
     // Get the current patient name from the parent component
@@ -150,13 +152,13 @@ function About() {
             });
             
             if (response.ok) {
-                alert("Medical details saved successfully!");
+                toast.success("Medical details saved successfully!");
             } else {
-                alert("Failed to save medical details. Please try again.");
+                toast.error("Failed to save medical details. Please try again.");
             }
         } catch (error) {
             console.error("Error sending data to backend:", error);
-            alert("Error connecting to the server. Please try again later.");
+            toast.error("Error connecting to the server. Please try again later.");
         }
     };
     
