@@ -14,6 +14,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
 import SendMessage from "./pages/SendMessage";
 import { ToastContainer } from "react-toastify";
+import TreatmentManagement from "./pages/TreatmentManagement.jsx"
+import PrescriptionManagement from "./pages/PrescriptionManagement.jsx"
+import PatientDatabase from "./pages/PatientDatabase.jsx"
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
@@ -58,6 +61,17 @@ const App = () => {
             <Link to="/sendmessage" className="p-2">
               SendMessage
             </Link>
+            <Link to="/treatmentcrud" className="p-2">
+              treatmentcrud
+            </Link>
+            <Link to="/prescriptioncrud" className="p-2">
+             prescriptioncrud 
+            </Link>
+
+            <Link to="/patientdb" className="p-2">
+              patientdb 
+            </Link>
+
           </div>
         </nav>
 
@@ -91,6 +105,9 @@ const App = () => {
           </Route>
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/sendmessage" element={<SendMessage />} />
+          <Route path="/treatmentcrud" element={<TreatmentManagement />} />
+          <Route path="/prescriptioncrud" element={<PrescriptionManagement />} />
+          <Route path="/patientdb" element={<PatientDatabase />} />
         </Routes>
       </div>
     </Router>
