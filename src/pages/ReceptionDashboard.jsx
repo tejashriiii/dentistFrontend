@@ -62,7 +62,7 @@ const Dashboard = () => {
       setFollowups(followupList);
     } catch (err) {
       console.error("Error:", err.message);
-      setError(err.message);
+      setError(err.error);
     } finally {
       setLoading(false);
     }

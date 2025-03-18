@@ -1,35 +1,58 @@
-// Treatment.jsx
-
 import React, { useState, useEffect } from 'react';
 import DentalChart from '../../assets/dentalChart.svg';
-import About from './About';
+import { useNavigate } from 'react-router-dom';
 
 export default function Treatment() {
   const [selectedButtons, setSelectedButtons] = useState([]);
   const [complaints, setComplaints] = useState({});
   const [treatments, setTreatments] = useState([]);
-  const [confirmed, setConfirmed] = useState(false);
-  const [newTreatment, setNewTreatment] = useState('');
-  const [newTreatmentCost, setNewTreatmentCost] = useState('');
-  const [selectedTreatments, setSelectedTreatments] = useState({});
+  const [searchTerm, setSearchTerm] = useState({});
+  const [isDropdownOpen, setIsDropdownOpen] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
+  // Load saved state from sessionStorage on component mount
+  useEffect(() => {
+    const savedSelectedButtons = sessionStorage.getItem('selectedButtons');
+    const savedComplaints = sessionStorage.getItem('complaints');
+    
+    if (savedSelectedButtons) {
+      setSelectedButtons(JSON.parse(savedSelectedButtons));
+    }
+    
+    if (savedComplaints) {
+      setComplaints(JSON.parse(savedComplaints));
+    }
+  }, []);
+
+  // Save state to sessionStorage whenever it changes
+  useEffect(() => {
+    if (selectedButtons.length > 0) {
+      sessionStorage.setItem('selectedButtons', JSON.stringify(selectedButtons));
+    }
+    
+    if (Object.keys(complaints).length > 0) {
+      sessionStorage.setItem('complaints', JSON.stringify(complaints));
+    }
+  }, [selectedButtons, complaints]);
 
   const fetchTreatments = async () => {
     try {
-      const response = await fetch('http://localhost:8000/ad/api/treatments/', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
-      if (response.ok) {
+        const response = await fetch("http://localhost:8000/doc/treatment/", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
+            }
+        });
+        if (!response.ok) throw new Error("Failed to fetch treatments");
         const data = await response.json();
-        setTreatments(data);
-      } else {
-        console.error('Error fetching treatments:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error:', error);
+        setTreatments(Array.isArray(data.treatments) ? data.treatments : []);
+    } catch (err) {
+        setError(err.message);
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -43,65 +66,103 @@ export default function Treatment() {
     );
   };
 
-  
-
-  const handleAddEntry = (setter, toothId, value, cost) => {
-    if (value) {
-      setter((prev) => ({
+  const handleAddEntry = (toothId, treatment) => {
+    if (treatment) {
+      setComplaints((prev) => ({
         ...prev,
-        [toothId]: [...(prev[toothId] || []), { treatment: value, cost }],
+        [toothId]: [...(prev[toothId] || []), { treatment: treatment.name, cost: treatment.cost }],
+      }));
+      
+      // Close dropdown after selection
+      setIsDropdownOpen(prev => ({
+        ...prev,
+        [toothId]: false
+      }));
+      
+      // Clear search term
+      setSearchTerm(prev => ({
+        ...prev,
+        [toothId]: ''
       }));
     }
   };
 
-  const handleRemoveEntry = (setter, toothId, index) => {
-    setter((prev) => ({
+  const handleRemoveEntry = (toothId, index) => {
+    setComplaints((prev) => ({
       ...prev,
       [toothId]: prev[toothId].filter((_, i) => i !== index),
     }));
   };
 
-  const handleConfirmSelection = () => {
-    setConfirmed(true);
+  const toggleDropdown = (toothId) => {
+    setIsDropdownOpen(prev => ({
+      ...prev,
+      [toothId]: !prev[toothId]
+    }));
   };
 
-  // const handleAddTreatment = (toothId) => {
-  //   if (newTreatment && newTreatmentCost) {
-  //     setComplaints((prev) => ({
-  //       ...prev,
-  //       [toothId]: [
-  //         ...(prev[toothId] || []),
-  //         { treatment: newTreatment, cost: newTreatmentCost },
-  //       ],
-  //     }));
-  //     setNewTreatment('');
-  //     setNewTreatmentCost('');
-  //   }
-  // };
-  const handleAddTreatment = (toothId) => {
-    if (selectedTreatments[toothId]?.newTreatment && selectedTreatments[toothId]?.newTreatmentCost) {
-      setComplaints((prev) => ({
-        ...prev,
-        [toothId]: [
-          ...(prev[toothId] || []),
-          { treatment: selectedTreatments[toothId].newTreatment, cost: selectedTreatments[toothId].newTreatmentCost },
-        ],
-      }));
-      setSelectedTreatments(prev => ({
-        ...prev,
-        [toothId]: { ...prev[toothId], newTreatment: '', newTreatmentCost: '' }
-      }));
+  const handleSearchChange = (toothId, value) => {
+    setSearchTerm(prev => ({
+      ...prev,
+      [toothId]: value
+    }));
+  };
+
+  const filteredTreatments = (toothId) => {
+    const term = searchTerm[toothId] || '';
+    return treatments.filter(treatment => 
+      treatment.name.toLowerCase().includes(term.toLowerCase())
+    );
+  };
+
+  const handleSaveTreatments = async () => {
+    try {
+      // Here you would make an API call to save the treatments
+      // For now, just show an alert with the summary
+      alert("Treatments saved successfully!");
+      
+      // You can navigate to another page or show a modal with the summary
+    } catch (error) {
+      console.error("Error saving treatments:", error);
+      alert("Failed to save treatments. Please try again.");
     }
   };
-  
+
+  const navigateToTreatmentManagement = () => {
+    navigate('/treatmentcrud');
+  };
+
   const buttonIds = [
     [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28],
     [48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38],
   ];
 
+  // Generate treatment summary
+  const generateSummary = () => {
+    let summary = {};
+    
+    Object.keys(complaints).forEach(toothId => {
+      complaints[toothId].forEach(item => {
+        const key = `${item.treatment} - ₹${item.cost}`;
+        if (!summary[key]) {
+          summary[key] = {
+            teeth: [toothId],
+            cost: Number(item.cost)
+          };
+        } else {
+          summary[key].teeth.push(toothId);
+          summary[key].cost += Number(item.cost);
+        }
+      });
+    });
+    
+    return summary;
+  };
+
+  const treatmentSummary = generateSummary();
+
   return (
     <div className="flex flex-col space-y-4">
-
       <div>
         <img src={DentalChart} alt="Dental Chart" />
       </div>
@@ -116,78 +177,50 @@ export default function Treatment() {
         </div>
       ))}
 
+      {/* Treatment Management Button placed before tooth selection display */}
       <div className="mt-4">
-        <p className="text-lg">Selected button(s): {selectedButtons.length > 0 ? selectedButtons.join(', ') : <span className="italic text-gray-500">None</span>}</p>
-        <button onClick={handleConfirmSelection} className="mt-4 bg-[#4a6d4a] text-white px-4 py-2 rounded-lg">Confirm Selection</button>
+        <button 
+          onClick={navigateToTreatmentManagement} 
+          className="bg-[#4a6d4a] text-white px-4 py-2 rounded-lg"
+        >
+          Treatment Management
+        </button>
       </div>
 
-
-      {confirmed && selectedButtons.map((toothId) => (
+      {selectedButtons.map((toothId) => (
         <div key={toothId} className="mt-4">
           <h3 className="font-semibold text-lg text-[#4a6d4a]">Tooth {toothId}</h3>
 
           <div className="mt-4">
             <label className="block text-sm font-semibold text-gray-700 mb-2">Treatment</label>
-            <div className="flex space-x-2">
-              {treatments.map((treatment) => (
-                <button key={treatment.id} onClick={() => handleAddEntry(setComplaints, toothId, treatment.name, treatment.cost)} className="bg-[#87AB87] text-white px-3 py-2 rounded-lg">
-                  {treatment.name}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Add New Treatment</label>
-              
-                <select
-                className="border px-3 py-2 rounded-lg w-full mb-4"
-                value={selectedTreatments[toothId]?.name || ''}
-                onChange={(e) => {
-                  const treatment = treatments.find(t => t.name === e.target.value);
-                  setSelectedTreatments(prev => ({
-                    ...prev,
-                    [toothId]: { name: treatment?.name || '', cost: treatment?.cost || '' }
-                  }));
-                }}
-              >
-                <option value="">Select Treatment</option>
-                {treatments.map((treatment) => (
-                  <option key={treatment.id} value={treatment.name}>
-                    {treatment.name} - ${treatment.cost}
-                  </option>
-                ))}
-              </select>              
+            
+            <div className="relative">
               <input
                 type="text"
-                placeholder="Treatment Name"
-                value={selectedTreatments[toothId]?.newTreatment || ''}
-                onChange={(e) =>
-                  setSelectedTreatments(prev => ({
-                    ...prev,
-                    [toothId]: { ...prev[toothId], newTreatment: e.target.value }
-                  }))
-                }
-                className="border px-3 py-2 rounded-lg mb-2"
+                placeholder="Search treatments..."
+                value={searchTerm[toothId] || ''}
+                onChange={(e) => handleSearchChange(toothId, e.target.value)}
+                onClick={() => toggleDropdown(toothId)}
+                className="border px-3 py-2 rounded-lg w-full"
               />
-              <input
-                type="number"
-                placeholder="Cost"
-                value={selectedTreatments[toothId]?.newTreatmentCost || ''}
-                onChange={(e) =>
-                  setSelectedTreatments(prev => ({
-                    ...prev,
-                    [toothId]: { ...prev[toothId], newTreatmentCost: e.target.value }
-                  }))
-                }
-                className="border px-3 py-2 rounded-lg mb-4"
-              />
-
-              <button
-                onClick={() => handleAddTreatment(toothId)}
-                className="bg-[#87AB87] text-white px-4 py-2 rounded-lg"
-              >
-                Add Treatment with Cost
-              </button>
+              
+              {isDropdownOpen[toothId] && (
+                <div className="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  {filteredTreatments(toothId).length > 0 ? (
+                    filteredTreatments(toothId).map(treatment => (
+                      <div 
+                        key={treatment.id} 
+                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => handleAddEntry(toothId, treatment)}
+                      >
+                        {treatment.name} - &#8377; {treatment.cost}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="px-3 py-2 text-gray-500">No treatments found</div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -196,12 +229,42 @@ export default function Treatment() {
             {complaints[toothId]?.map((entry, index) => (
               <div key={index} className="flex justify-between bg-gray-100 px-3 py-2 rounded-lg mb-2">
                 <span>{entry.treatment} - &#8377; {entry.cost}</span>
-                <button onClick={() => handleRemoveEntry(setComplaints, toothId, index)} className="text-gray-700 font-bold">×</button>
+                <button onClick={() => handleRemoveEntry(toothId, index)} className="text-gray-700 font-bold">×</button>
               </div>
             ))}
           </div>
         </div>
       ))}
+
+      {selectedButtons.length > 0 && (
+        <div className="mt-8">
+          <h3 className="font-semibold text-lg text-[#4a6d4a] mb-4">Treatment Summary</h3>
+          {Object.keys(treatmentSummary).length > 0 ? (
+            <div className="bg-gray-50 p-4 rounded-lg">
+              {Object.entries(treatmentSummary).map(([treatment, data], index) => (
+                <div key={index} className="mb-2">
+                  <strong>tooth no</strong>
+                  {data.teeth.join(', ')}: {treatment}
+                </div>
+              ))}
+              <div className="mt-4 font-bold">
+                Grand Total: &#8377; {Object.values(treatmentSummary).reduce((sum, item) => sum + item.cost, 0)}
+              </div>
+            </div>
+          ) : (
+            <p>No treatments selected yet.</p>
+          )}
+          
+          <div className="mt-6">
+            <button 
+              onClick={handleSaveTreatments} 
+              className="bg-[#4a6d4a] text-white px-4 py-2 rounded-lg"
+            >
+              Save Treatments
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
