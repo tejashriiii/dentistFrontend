@@ -32,19 +32,22 @@ const App = () => {
       <div>
         <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
           <div>
-            <Link to="/" className="mr-4 ">
-              Admin Dashboard
-            </Link>
             <Link to="/Home" className="p-2">
               HomePage
+            </Link>
+            <Link to="/" className="mr-4 ">
+              AdminDashboard
             </Link>
             <Link to="/dailytreat" className="p-2">
               docDailyTreatment
             </Link>
+            <Link to="/patientdb" className="p-2">
+              SearcPatient 
+            </Link>
           </div>
           <div>
             <Link to="/register" className="p-2">
-              Register Patient
+              RegisterPatient
             </Link>
             <Link to="/login" className="p-2">
               Login
@@ -62,14 +65,10 @@ const App = () => {
               SendMessage
             </Link>
             <Link to="/treatmentcrud" className="p-2">
-              treatmentcrud
+              EditTreatment
             </Link>
             <Link to="/prescriptioncrud" className="p-2">
-             prescriptioncrud 
-            </Link>
-
-            <Link to="/patientdb" className="p-2">
-              patientdb 
+             EditPrescription
             </Link>
 
           </div>

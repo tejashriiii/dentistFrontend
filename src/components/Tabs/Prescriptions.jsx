@@ -1,276 +1,328 @@
-// import React, { useState } from 'react';
-
-// const Prescriptions = () => {
-//   const [medicines] = useState([
-//     'Sensiclave 625',
-//     'Ordent',
-//     'Zerodol SP',
-//     'Injection - Voveron painkiller',
-//     'Metrogill 400',
-//     'Capsule Rabemac DSR',
-//   ]);
-  
-//   const [pastes] = useState([
-//     'Vantage',
-//     'Senquel F',
-//     'Thermokind F',
-//     'Add Others',
-//     'Mouthwashes - CLoveHexPlus',
-//     'Bitaden Gargle',
-//   ]);
-
-//   const [gels] = useState([
-//     'MetroHEx',
-//     'Annabelle',
-//   ]);
-
-//   const [prescriptions, setPrescriptions] = useState([]);
-
-//   const addPrescription = (e) => {
-//     e.preventDefault();
-    
-//     const formData = new FormData(e.target);
-//     const newPrescription = {
-//       medicine: formData.get('medicine'),
-//       paste: formData.get('paste'),
-//       gel: formData.get('gel'),
-//       dosage: formData.getAll('dosage'),
-//       days: formData.get('days'),
-//     };
-
-//     setPrescriptions([...prescriptions, newPrescription]);
-//   };
-
-//   const removePrescription = (index) => {
-//     const updatedPrescriptions = prescriptions.filter((_, i) => i !== index);
-//     setPrescriptions(updatedPrescriptions);
-//   };
-
-//   return (
-//     <div className="p-4">
-//       <h1 className="text-2xl font-bold mb-4">Add Prescription</h1>
-//       <form onSubmit={addPrescription}>
-//         <div className="flex space-x-4 mb-4">
-//           {/* Medicine Dropdown */}
-//           <div>
-//             <label className="block text-lg font-medium">Medicine</label>
-//             <select name="medicine" className="border p-2 rounded w-full" required>
-//               {medicines.map((med, index) => (
-//                 <option key={index} value={med}>
-//                   {med}
-//                 </option>
-//               ))}
-//             </select>
-//           </div>
-
-//           {/* Paste Dropdown */}
-//           <div>
-//             <label className="block text-lg font-medium">Paste</label>
-//             <select name="paste" className="border p-2 rounded w-full">
-//               {pastes.map((paste, index) => (
-//                 <option key={index} value={paste}>
-//                   {paste}
-//                 </option>
-//               ))}
-//             </select>
-//           </div>
-
-//           {/* Gel Dropdown */}
-//           <div>
-//             <label className="block text-lg font-medium">Gel</label>
-//             <select name="gel" className="border p-2 rounded w-full">
-//               {gels.map((gel, index) => (
-//                 <option key={index} value={gel}>
-//                   {gel}
-//                 </option>
-//               ))}
-//             </select>
-//           </div>
-//         </div>
-
-//         {/* Dosage Checkbox */}
-//         <div className="mb-4">
-//           <label className="block text-lg font-medium">Dosage</label>
-//           {['OD', 'BD', 'TDS', 'HALF BD', 'HALF TDS'].map((dosage, index) => (
-//             <div key={index}>
-//               <input type="checkbox" name="dosage" value={dosage} id={dosage} />
-//               <label htmlFor={dosage}>{dosage}</label>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Days Section */}
-//         <div className="mb-4">
-//           <label className="block text-lg font-medium">Days</label>
-//           <select name="days" className="border p-2 rounded w-full">
-//             <option value="3">3</option>
-//             <option value="5">5</option>
-//             <option value="7">7</option>
-            
-//           </select>
-//         </div>
-
-//         <button
-//           type="submit"
-//           className="bg-[var(--darkgreen)] text-white py-2 px-4 rounded"
-//         >
-//           Add Prescription
-//         </button>
-//       </form>
-
-//       {/* Display prescriptions */}
-//       <div className="mt-6">
-//         <h2 className="text-xl font-bold">Prescriptions</h2>
-//         <ul className="list-disc pl-6">
-//           {prescriptions.map((prescription, index) => (
-//             <li key={index} className="flex justify-between items-center">
-//               <div>
-//                 <strong>{prescription.medicine}</strong><br />
-//                 {prescription.paste && <span>Paste: {prescription.paste}</span>}<br />
-//                 {prescription.gel && <span>Gel: {prescription.gel}</span>}<br />
-//                 <span>Dosage: {prescription.dosage.join(', ')}</span><br />
-//                 <span>Days: {prescription.days}</span>
-//               </div>
-//               <button
-//                 onClick={() => removePrescription(index)}
-//                 className="bg-red-600 text-white rounded-full p-1 py-0.5"
-//               >
-//                 x
-//               </button>
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Prescriptions;
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Prescriptions = () => {
-  const [medicines, setMedicines] = useState([
-    'Sensiclave 625',
-    'Ordent',
-    'Zerodol SP',
-    'Injection - Voveron painkiller',
-    'Metrogill 400',
-    'Capsule Rabemac DSR',
-  ]);
-  
-  const [pastes, setPastes] = useState([
-    'Vantage',
-    'Senquel F',
-    'Thermokind F',
-    'Mouthwashes - CLoveHexPlus',
-    'Bitaden Gargle',
-  ]);
-  
-  const [gels, setGels] = useState([
-    'MetroHEx',
-    'Annabelle',
-  ]);
-  
   const [prescriptions, setPrescriptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedMedicationId, setSelectedMedicationId] = useState('');
   const [selectedItems, setSelectedItems] = useState({});
+  const [savedPrescriptions, setSavedPrescriptions] = useState([]);
+  const [summaryItems, setSummaryItems] = useState([]);
+  const navigate = useNavigate();
 
-  const handleCheckboxChange = (category, item) => {
-    setSelectedItems((prev) => ({
-      ...prev,
-      [item]: prev[item] ? undefined : { dosage: 'OD', days: 3 },
-    }));
+  // Fetch prescription data from API
+  const fetchPrescriptions = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:8000/doc/prescription/", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch prescriptions");
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.prescriptions && typeof data.prescriptions === "object") {
+        const flattenedData = Object.entries(data.prescriptions).flatMap(
+          ([type, items]) =>
+            items.map((item) => ({ id: item.id, name: item.name, type })),
+        );
+        setPrescriptions(flattenedData);
+        
+        // Set default selected type if available
+        if (flattenedData.length > 0) {
+          const types = [...new Set(flattenedData.map(item => item.type))];
+          if (types.length > 0 && !selectedType) {
+            setSelectedType(types[0]);
+          }
+        }
+      } else {
+        setPrescriptions([]);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleChange = (item, field, value) => {
-    setSelectedItems((prev) => ({
-      ...prev,
-      [item]: { ...prev[item], [field]: value },
-    }));
+  // Load savedPrescriptions and summary from sessionStorage on component mount
+  useEffect(() => {
+    fetchPrescriptions();
+    const savedItems = sessionStorage.getItem("savedPrescriptions");
+    if (savedItems) {
+      setSavedPrescriptions(JSON.parse(savedItems));
+      setSelectedItems(JSON.parse(sessionStorage.getItem("selectedItems") || "{}"));
+    }
+    
+    // Load dynamic summary from session storage if available
+    const savedSummary = sessionStorage.getItem("prescriptionSummary");
+    if (savedSummary) {
+      setSummaryItems(JSON.parse(savedSummary));
+    }
+  }, []);
+
+  // Reset selected medication when type changes
+  useEffect(() => {
+    setSelectedMedicationId('');
+  }, [selectedType]);
+
+  // Add medication to selected items when medication is selected
+  useEffect(() => {
+    if (selectedMedicationId) {
+      const medication = prescriptions.find(item => item.id === selectedMedicationId);
+      if (medication) {
+        setSelectedItems(prev => {
+          const updated = {
+            ...prev,
+            [medication.id]: { 
+              id: medication.id, 
+              name: medication.name, 
+              type: medication.type,
+              days: 3
+            }
+          };
+          
+          // Only add dosage property for medicine types that need it
+          if (!['Paste', 'Gel', 'Mouthwash'].includes(medication.type)) {
+            updated[medication.id].dosage = '';
+          }
+          
+          sessionStorage.setItem("selectedItems", JSON.stringify(updated));
+          return updated;
+        });
+      }
+    }
+  }, [selectedMedicationId, prescriptions]);
+
+  // Update summary items whenever selected items change
+  useEffect(() => {
+    const newSummary = Object.values(selectedItems);
+    setSummaryItems(newSummary);
+    sessionStorage.setItem("prescriptionSummary", JSON.stringify(newSummary));
+  }, [selectedItems]);
+
+  // Get unique medication types
+  const medicationTypes = [...new Set(prescriptions.map(item => item.type))];
+
+  // Get medications for selected type
+  const medicationsForType = prescriptions.filter(item => item.type === selectedType);
+
+  // Handle dosage or days change
+  const handleChange = (itemId, field, value) => {
+    setSelectedItems((prev) => {
+      const updated = {
+        ...prev,
+        [itemId]: { ...prev[itemId], [field]: value },
+      };
+      sessionStorage.setItem("selectedItems", JSON.stringify(updated));
+      return updated;
+    });
   };
 
-  const addPrescription = () => {
-    const newPrescriptions = Object.entries(selectedItems)
-      .filter(([_, values]) => values)
-      .map(([name, values]) => ({ name, ...values }));
-    setPrescriptions(newPrescriptions);
+  // Remove medication from selected items
+  const removeMedication = (itemId) => {
+    setSelectedItems((prev) => {
+      const updated = {...prev};
+      delete updated[itemId];
+      sessionStorage.setItem("selectedItems", JSON.stringify(updated));
+      return updated;
+    });
   };
 
-  const addNewItem = (category, setCategory) => {
-    const newItem = prompt(`Enter new ${category}:`);
-    if (newItem) setCategory((prev) => [...prev, newItem]);
+  // Check if item needs dosage options (not paste, gel, mouthwash)
+  const needsDosage = (itemType) => {
+    return !['Paste', 'Gel', 'Mouthwash'].includes(itemType);
   };
+
+  // Save prescription
+  const savePrescription = async () => {
+    const prescriptionsToSave = Object.values(selectedItems);
+    setSavedPrescriptions(prescriptionsToSave);
+    sessionStorage.setItem("savedPrescriptions", JSON.stringify(prescriptionsToSave));
+    
+    // Send data to backend
+    // try {
+    //   const response = await fetch("http://localhost:8000/doc/save-prescription/", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+    //     },
+    //     body: JSON.stringify({ prescriptions: prescriptionsToSave }),
+    //   });
+      
+    //   if (!response.ok) throw new Error("Failed to save prescriptions");
+      
+    //   const data = await response.json();
+    //   console.log("Saved successfully:", data);
+      
+    //   // You could add a success message here
+    // } catch (err) {
+    //   console.error("Error saving prescriptions:", err);
+    //   setError(err.message);
+    // }
+    alert('saved to dv') //alert for now
+  };
+
+  // Navigate to prescription management
+  const navigateToPrescriptionManagement = () => {
+    navigate('/prescriptioncrud');
+  };
+
+  if (loading) return <div className="p-4">Loading prescriptions...</div>;
+  if (error) return <div className="p-4 text-red-600">Error: {error}</div>;
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Add Prescription</h1>
-      {[['Medicine', medicines, setMedicines], ['Paste', pastes, setPastes], ['Gel', gels, setGels]].map(([label, list, setList]) => (
-        <div key={label} className="mb-4">
-          <h2 className="text-lg font-semibold">{label}s</h2>
-          {list.map((item) => (
-            <div key={item} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={!!selectedItems[item]}
-                onChange={() => handleCheckboxChange(label, item)}
-              />
-              <span>{item}</span>
-              {selectedItems[item] && (
-                <>
-                  <div className="ml-4">
-                    <label>Dosage: </label>
-                    {['OD', 'BD', 'TDS', 'HALF BD', 'HALF TDS'].map((d) => (
-                      <label key={d} className="ml-2">
-                        <input
-                          type="radio"
-                          name={`dosage-${item}`}
-                          value={d}
-                          checked={selectedItems[item]?.dosage === d}
-                          onChange={(e) => handleChange(item, 'dosage', e.target.value)}
-                        />
-                        {d}
-                      </label>
-                    ))}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Add Prescription</h1>
+        <button 
+          onClick={navigateToPrescriptionManagement} 
+          className="bg-[var(--darkgreen)] text-white p-2 rounded"
+        >
+          Manage Prescriptions
+        </button>
+      </div>
+
+      <div className="mb-6">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+          {/* Medication Type Dropdown */}
+          <div className="flex-1">
+            <label htmlFor="medicationType" className="block font-semibold mb-2">
+              Select Medication Type:
+            </label>
+            <select
+              id="medicationType"
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="p-2 border rounded w-full"
+            >
+              <option value="">Select Type</option>
+              {medicationTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Medication Dropdown */}
+          <div className="flex-1">
+            <label htmlFor="medication" className="block font-semibold mb-2">
+              Select Medication:
+            </label>
+            <select
+              id="medication"
+              value={selectedMedicationId}
+              onChange={(e) => setSelectedMedicationId(e.target.value)}
+              className="p-2 border rounded w-full"
+              disabled={!selectedType}
+            >
+              <option value="">Select Medication</option>
+              {medicationsForType.map((med) => (
+                <option key={med.id} value={med.id}>
+                  {med.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Medications dosage editing area */}
+      {Object.values(selectedItems).length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-3">Selected Medications</h2>
+          {Object.values(selectedItems).map((item) => (
+            <div key={item.id} className="mb-4 p-4 border rounded">
+              <div className="flex justify-between">
+                <div>
+                  <span className="font-medium">{item.name}</span>
+                  <span className="text-gray-500 ml-2">({item.type})</span>
+                </div>
+                <button 
+                  onClick={() => removeMedication(item.id)}
+                  className="text-red-500"
+                >
+                  Remove
+                </button>
+              </div>
+              
+              <div className="mt-3">
+                {/* Only show dosage options for medicine types that need it */}
+                {needsDosage(item.type) && (
+                  <div className="mb-3">
+                    <p className="mb-1 font-medium">Dosage:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['OD', 'BD', 'TDS', 'HALF BD', 'HALF TDS'].map((d) => (
+                        <label key={d} className="inline-flex items-center">
+                          <input
+                            type="radio"
+                            name={`dosage-${item.id}`}
+                            value={d}
+                            checked={item.dosage === d}
+                            onChange={(e) => handleChange(item.id, 'dosage', e.target.value)}
+                            className="mr-1"
+                          />
+                          {d}
+                        </label>
+                      ))}
+                    </div>
                   </div>
-                  <div className="ml-4">
-                    <label>Days: </label>
-                    {[3, 5, 7].map((d) => (
-                      <label key={d} className="ml-2">
-                        <input
-                          type="radio"
-                          name={`days-${item}`}
-                          value={d}
-                          checked={selectedItems[item]?.days === d}
-                          onChange={(e) => handleChange(item, 'days', parseInt(e.target.value))}
-                        />
-                        {d}
-                      </label>
-                    ))}
-                  </div>
-                </>
-              )}
+                )}
+                
+                <div>
+                  <p className="mb-1 font-medium">Days:</p>
+                  <input
+                    type="number"
+                    min="1"
+                    value={item.days}
+                    onChange={(e) => handleChange(item.id, 'days', parseInt(e.target.value))}
+                    className="p-1 border rounded w-16"
+                  />
+                </div>
+              </div>
             </div>
           ))}
-          <button
-            className="bg-[var(--darkgreen)] text-[var(--txt)] p-1 rounded ml-2"
-            onClick={() => addNewItem(label, setList)}
-          >
-            +
-          </button>
         </div>
-      ))}
+      )}
 
-      <button onClick={addPrescription} className="bg-[var(--darkgreen)] text-white p-2 rounded">Save Prescription</button>
+      {/* Dynamic Summary */}
+      {summaryItems.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-2">Prescription Summary</h2>
+          <div className="border rounded p-4 bg-gray-50">
+            {summaryItems.map((item, index) => (
+              <div key={index} className="mb-2">
+                <strong>{item.name}</strong> ({item.type}) 
+                {needsDosage(item.type) && item.dosage && (
+                  <span> - Dosage: {item.dosage}</span>
+                )}
+                <span>, Days: {item.days}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-      <div className="mt-6">
-        <h2 className="text-xl font-bold">Prescriptions</h2>
-        <ul className="list-disc pl-6">
-          {prescriptions.map((p, index) => (
-            <li key={index}>
-              <strong>{p.name}</strong> - Dosage: {p.dosage}, Days: {p.days}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* Save Button */}
+      <button 
+        onClick={savePrescription} 
+        className="bg-[var(--darkgreen)] text-white p-2 rounded"
+        disabled={Object.values(selectedItems).length === 0}
+      >
+        Save Prescription
+      </button>
+
+      
     </div>
   );
 };

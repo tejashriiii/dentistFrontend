@@ -23,6 +23,7 @@ const Prescriptions = () => {
       if (!response.ok) throw new Error("Failed to fetch prescriptions");
 
       const data = await response.json();
+      console.log(data);
 
       if (data.prescriptions && typeof data.prescriptions === "object") {
         const flattenedData = Object.entries(data.prescriptions).flatMap(
