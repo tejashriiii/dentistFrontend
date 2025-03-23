@@ -130,6 +130,26 @@ const Dashboard = () => {
               </svg>
               Schedule Appointment
             </Link>
+            <Link
+              to="/patientdb"
+              className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              Search Patient
+            </Link>
           </div>
         </div>
       )}
@@ -138,7 +158,7 @@ const Dashboard = () => {
 
   // Top navigation cards
   const ActionCards = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       <Link to="/register" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
         <div className="flex items-center gap-4">
           <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
@@ -188,6 +208,31 @@ const Dashboard = () => {
           </div>
         </div>
       </Link>
+
+      <Link to="/patientdb" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+        <div className="flex items-center gap-4">
+          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">Search Patient</h3>
+            <p className="text-gray-600">Find patient records</p>
+          </div>
+        </div>
+      </Link>
     </div>
   );
 
@@ -213,8 +258,10 @@ const Dashboard = () => {
         Reception Dashboard
       </h1>
 
-      {/* Add the new components */}
+      {/* Add the action cards */}
       <ActionCards />
+      
+      {/* Add the stats component */}
       <DashboardStats />
 
       <div className="mt-8">
