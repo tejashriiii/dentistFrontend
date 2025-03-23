@@ -59,10 +59,7 @@ const PatientRegisterForm = () => {
   };
 
   return (
-    <div className="max-w-md my-auto mx-auto p-6 bg-[var(--bg)] rounded-lg shadow-lg mt-2">
-      <h2 className="text-2xl font-bold text-[var(--txt)] mb-6">
-        Patient Registration
-      </h2>
+    <div className="max-w-md my-auto mx-auto p-6 rounded-lg mt-2">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-sm font-medium text-[var(--txt)]">
@@ -143,3 +140,4 @@ const PatientRegisterForm = () => {
   );
 };
 export default PatientRegisterForm;
+

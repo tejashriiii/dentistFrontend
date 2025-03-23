@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // Make sure you have this import
+import { Link } from "react-router-dom";
+import PatientRegisterForm from './PatientRegisterForm'; // Import the form component
 
 const Dashboard = () => {
   const [patients, setPatients] = useState([]);
@@ -7,6 +8,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showQuickActions, setShowQuickActions] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); // State for modal visibility
 
   useEffect(() => {
     fetchPatients();
@@ -25,12 +27,7 @@ const Dashboard = () => {
         throw new Error("Failed to fetch patients");
       }
       const data = await response.json();
-
-      console.log("Fetched Data:", data);
-
-      const patientList = Array.isArray(data.complaints)
-        ? data.complaints
-        : [data];
+      const patientList = Array.isArray(data.complaints) ? data.complaints : [data];
       setPatients(patientList);
     } catch (err) {
       console.error("Error:", err.message);
@@ -52,12 +49,7 @@ const Dashboard = () => {
         throw new Error("Failed to fetch followups");
       }
       const data = await response.json();
-
-      console.log("Fetched followups:", data);
-
-      const followupList = Array.isArray(data.followups)
-        ? data.followups
-        : [data];
+      const followupList = Array.isArray(data.followups) ? data.followups : [data];
       setFollowups(followupList);
     } finally {
       setLoading(false);
@@ -90,8 +82,8 @@ const Dashboard = () => {
       {showQuickActions && (
         <div className="absolute bottom-20 right-0 bg-white rounded-lg shadow-xl p-4 w-64 transform transition-all duration-300">
           <div className="flex flex-col gap-3">
-            <Link
-              to="/register"
+            <button
+              onClick={() => setIsRegisterModalOpen(true)} // Trigger modal
               className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
             >
               <svg
@@ -109,7 +101,7 @@ const Dashboard = () => {
                 />
               </svg>
               Register New Patient
-            </Link>
+            </button>
             <Link
               to="/appointment"
               className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
@@ -159,7 +151,10 @@ const Dashboard = () => {
   // Top navigation cards
   const ActionCards = () => (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <Link to="/register" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+      <button
+        onClick={() => setIsRegisterModalOpen(true)} // Trigger modal
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+      >
         <div className="flex items-center gap-4">
           <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
             <svg
@@ -177,13 +172,12 @@ const Dashboard = () => {
               />
             </svg>
           </div>
-          <div>
+          <div className="text-left">
             <h3 className="text-xl font-semibold text-[var(--darkergreen)]">Register Patient</h3>
             <p className="text-gray-600">Add a new patient to the system</p>
           </div>
         </div>
-      </Link>
-
+      </button>
       <Link to="/appointment" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
         <div className="flex items-center gap-4">
           <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
@@ -208,7 +202,6 @@ const Dashboard = () => {
           </div>
         </div>
       </Link>
-
       <Link to="/patientdb" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
         <div className="flex items-center gap-4">
           <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
@@ -258,17 +251,13 @@ const Dashboard = () => {
         Reception Dashboard
       </h1>
 
-      {/* Add the action cards */}
       <ActionCards />
-      
-      {/* Add the stats component */}
       <DashboardStats />
 
       <div className="mt-8">
         <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
           Appointments
         </h2>
-
         <div className="bg-white rounded-lg shadow-md p-4">
           {loading ? (
             <p className="text-[var(--txt)]">Loading patients...</p>
@@ -291,22 +280,12 @@ const Dashboard = () => {
                 <tbody>
                   {patients.map((patient, index) => (
                     <tr key={index} className="even:bg-gray-100 odd:bg-white">
+                      <td className="border border-gray-300 p-2">{patient.name || "N/A"}</td>
+                      <td className="border border-gray-300 p-2">{patient.phonenumber || "N/A"}</td>
+                      <td className="border border-gray-300 p-2">{patient.age || "N/A"}</td>
+                      <td className="border border-gray-300 p-2">{patient.complaint || "N/A"}</td>
                       <td className="border border-gray-300 p-2">
-                        {patient.name || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {patient.phonenumber || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {patient.age || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {patient.complaint || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {patient.time
-                          ? patient.time.split(".")[0].slice(0, 5)
-                          : "N/A"}
+                        {patient.time ? patient.time.split(".")[0].slice(0, 5) : "N/A"}
                       </td>
                     </tr>
                   ))}
@@ -316,11 +295,11 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+
       <div className="mt-8">
         <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
           Followups
         </h2>
-
         <div className="bg-white rounded-lg shadow-md p-4">
           {loading ? (
             <p className="text-[var(--txt)]">Loading followups...</p>
@@ -343,22 +322,12 @@ const Dashboard = () => {
                 <tbody>
                   {followups.map((followup, index) => (
                     <tr key={index} className="even:bg-gray-100 odd:bg-white">
+                      <td className="border border-gray-300 p-2">{followup.name || "N/A"}</td>
+                      <td className="border border-gray-300 p-2">{followup.phonenumber || "N/A"}</td>
+                      <td className="border border-gray-300 p-2">{followup.age || "N/A"}</td>
+                      <td className="border border-gray-300 p-2">{followup.followup || "N/A"}</td>
                       <td className="border border-gray-300 p-2">
-                        {followup.name || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {followup.phonenumber || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {followup.age || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {followup.followup || "N/A"}
-                      </td>
-                      <td className="border border-gray-300 p-2">
-                        {followup.time
-                          ? followup.time.split(".")[0].slice(0, 5)
-                          : "N/A"}
+                        {followup.time ? followup.time.split(".")[0].slice(0, 5) : "N/A"}
                       </td>
                     </tr>
                   ))}
@@ -369,8 +338,38 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Add the floating action button */}
       <QuickActionButton />
+
+      {/* Modal for Patient Registration */}
+      {isRegisterModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[var(--txt)]">Register Patient</h2>
+              <button
+                onClick={() => setIsRegisterModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <PatientRegisterForm />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
