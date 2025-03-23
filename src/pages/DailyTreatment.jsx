@@ -116,38 +116,41 @@ export default function TreatmentDashboard() {
         
         <div className="my-7">
           <div className="flex space-x-4 border-b-2 border-[var(--lightgreen)]">
-          <button
-              className={`px-6 py-2 ${
+            <button
+              className={`px-6 py-2 transition duration-300 ${
                 selectedTab === "aboutPatient"
                   ? "bg-[var(--darkgreen)] text-white"
-                  : "bg-transparent text-[var(--darkgreen)]"
+                  : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
               }`}
               onClick={() => handleTabChange("aboutPatient")}
             >
               About Patient
             </button>
+
             <button
-              className={`px-6 py-2 ${
+              className={`px-6 py-2 transition duration-300 ${
                 selectedTab === "treatment"
                   ? "bg-[var(--darkgreen)] text-white"
-                  : "bg-transparent text-[var(--darkgreen)]"
+                  : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
               }`}
               onClick={() => handleTabChange("treatment")}
             >
               Treatment
             </button>
+
             <button
-              className={`px-6 py-2 ${
+              className={`px-6 py-2 transition duration-300 ${
                 selectedTab === "prescription"
                   ? "bg-[var(--darkgreen)] text-white"
-                  : "bg-transparent text-[var(--darkgreen)]"
+                  : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
               }`}
               onClick={() => handleTabChange("prescription")}
             >
               Prescription
             </button>
+             
           </div>
-        </div>
+    </div>
 
         {/* Conditionally Render Treatment or Prescription */}
         <div className="mt-6">
