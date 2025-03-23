@@ -1,11 +1,12 @@
-// Dashboard.jsx
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Make sure you have this import
 
 const Dashboard = () => {
   const [patients, setPatients] = useState([]);
   const [followups, setFollowups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showQuickActions, setShowQuickActions] = useState(false);
 
   useEffect(() => {
     fetchPatients();
@@ -30,7 +31,6 @@ const Dashboard = () => {
       const patientList = Array.isArray(data.complaints)
         ? data.complaints
         : [data];
-      // setPatients(data.complaints || []);
       setPatients(patientList);
     } catch (err) {
       console.error("Error:", err.message);
@@ -58,21 +58,164 @@ const Dashboard = () => {
       const followupList = Array.isArray(data.followups)
         ? data.followups
         : [data];
-      // setPatients(data.complaints || []);
       setFollowups(followupList);
-    } catch (err) {
-      console.error("Error:", err.message);
-      setError(err.error);
     } finally {
       setLoading(false);
     }
   };
 
+  // Quick action buttons that float on the page
+  const QuickActionButton = () => (
+    <div className="fixed bottom-8 right-8 z-50">
+      <button
+        onClick={() => setShowQuickActions(!showQuickActions)}
+        className="bg-[var(--darkgreen)] h-16 w-16 rounded-full shadow-lg flex items-center justify-center text-white hover:bg-[var(--darkergreen)] transition-all duration-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-8 w-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          />
+        </svg>
+      </button>
+
+      {showQuickActions && (
+        <div className="absolute bottom-20 right-0 bg-white rounded-lg shadow-xl p-4 w-64 transform transition-all duration-300">
+          <div className="flex flex-col gap-3">
+            <Link
+              to="/register"
+              className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                />
+              </svg>
+              Register New Patient
+            </Link>
+            <Link
+              to="/appointment"
+              className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              Schedule Appointment
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  // Top navigation cards
+  const ActionCards = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      <Link to="/register" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+        <div className="flex items-center gap-4">
+          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">Register Patient</h3>
+            <p className="text-gray-600">Add a new patient to the system</p>
+          </div>
+        </div>
+      </Link>
+
+      <Link to="/appointment" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+        <div className="flex items-center gap-4">
+          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">Schedule Appointment</h3>
+            <p className="text-gray-600">Book a new appointment</p>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+
+  // Dashboard stats component
+  const DashboardStats = () => (
+    <div className="bg-white rounded-lg shadow-md p-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-[var(--darkgreen)] bg-opacity-10 p-4 rounded-lg">
+          <h3 className="text-lg font-semibold text-white">Today's Appointments</h3>
+          <p className="text-3xl font-bold text-white">{patients.length}</p>
+        </div>
+        <div className="bg-[var(--darkgreen)] bg-opacity-10 p-4 rounded-lg">
+          <h3 className="text-lg font-semibold text-white">Today's Followups</h3>
+          <p className="text-3xl font-bold text-white">{followups.length}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold text-center text-[var(--txt)] mb-6">
-        Waiting List
+        Reception Dashboard
       </h1>
+
+      {/* Add the new components */}
+      <ActionCards />
+      <DashboardStats />
 
       <div className="mt-8">
         <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
@@ -178,6 +321,9 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+
+      {/* Add the floating action button */}
+      <QuickActionButton />
     </div>
   );
 };
