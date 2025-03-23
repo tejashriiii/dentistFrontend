@@ -72,12 +72,17 @@ const SearchPatients = () => {
         setSidebarOpen(true);
         fetchPatientHistory(patient.id);
     };
-
+    
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            searchPatients();
+        }
+    };
     const closeSidebar = () => {
         setSidebarOpen(false);
         setSelectedPatient(null);
     };
-
+ 
     // Close sidebar on escape key press
     useEffect(() => {
         const handleEsc = (event) => {
@@ -100,6 +105,7 @@ const SearchPatients = () => {
                     placeholder="Enter Name"
                     value={searchName}
                     onChange={(e) => setSearchName(e.target.value)}
+                    onKeyPress={handleKeyPress}
                     className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
                 />
                 <input
@@ -107,6 +113,7 @@ const SearchPatients = () => {
                     placeholder="Enter Phone Number"
                     value={searchPhone}
                     onChange={(e) => setSearchPhone(e.target.value)}
+                    onKeyPress={handleKeyPress}
                     className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
                 />
                 <button
