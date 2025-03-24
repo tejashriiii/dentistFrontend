@@ -2,42 +2,63 @@ import React, { useState, useEffect } from "react";
 import About from "../components/Tabs/About";
 import Prescriptions from "../components/Tabs/Prescriptions";
 import Treatment from "../components/Tabs/Treatment";
-
+import Followup from "../components/Tabs/Followup";
 
 export default function TreatmentDashboard() {
   const todayDate = new Date().toISOString().split("T")[0];
 
   const [complaints, setComplaints] = useState([]);
-  const [selectedTab, setSelectedTab] = useState("treatment"); // State to track selected tab
+  const [activeComplaint, setActiveComplaint] = useState({});
+  const [selectedTab, setSelectedTab] = useState("aboutPatient"); // State to track selected tab
 
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await fetch("http://localhost:8000/p/complaints/", {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch patients");
+        const [complaintResponse, followupResponse] = await Promise.all([
+          fetch("http://localhost:8000/p/complaints/", {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+            },
+          }),
+          fetch("http://localhost:8000/p/followup/", {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+            },
+          }),
+        ]);
+        if (!complaintResponse.ok) {
+          throw new Error("Failed to fetch complaints");
         }
-        const data = await response.json();
-        // console.log(data); 
-        const patientData = data.complaints || [];
+        if (!followupResponse.ok) {
+          throw new Error("Failed to fetch followups");
+        }
+        const complaintData = await complaintResponse.json();
+        const followupData = await followupResponse.json();
+        const patientData = [
+          ...(complaintData.complaints || []),
+          ...(followupData.followups || []),
+        ];
+
+        console.log("complaints got fetched!!");
         setComplaints(patientData);
-        
+        setActiveComplaint(patientData[0]);
+
         // Store patient data including phone numbers in sessionStorage
-        sessionStorage.setItem('patientData', JSON.stringify(patientData));
-        
+        sessionStorage.setItem("patientData", JSON.stringify(patientData));
+
         // Also store individual patient phone numbers for easy access
-        patientData.forEach(patient => {
+        patientData.forEach((patient) => {
           if (patient.name && patient.phonenumber) {
-            sessionStorage.setItem(`phone_${patient.name}`, patient.phonenumber);
+            sessionStorage.setItem(
+              `phone_${patient.name}`,
+              patient.phonenumber,
+            );
           }
         });
       } catch (err) {
-        console.error("Error:", err.message);
+        console.error("Error:", err);
       }
     };
     fetchPatients();
@@ -48,14 +69,15 @@ export default function TreatmentDashboard() {
   };
 
   const handlePatientChange = (e) => {
-    const selectedPatient = complaints.find(p => p.name === e.target.value);
-    
-    // Update complaint text
-    document.getElementById("complaint-box").innerText = selectedPatient?.complaint || "No complaint available";
-    
+    const selectedPatient = complaints.find((p) => p.name === e.target.value);
+    setActiveComplaint(selectedPatient);
+
     // Store the current patient's phone number in case it's needed elsewhere
     if (selectedPatient?.phonenumber) {
-      sessionStorage.setItem(`phone_${selectedPatient.name}`, selectedPatient.phonenumber);
+      sessionStorage.setItem(
+        `phone_${selectedPatient.name}`,
+        selectedPatient.phonenumber,
+      );
     }
   };
 
@@ -88,15 +110,20 @@ export default function TreatmentDashboard() {
                 className="w-full px-3 py-2 border border-[var(--darkgreen)] rounded-lg focus:outline-none focus:ring focus:ring-[var(--darkgreen)] hover:border-[var(--darkgreen)]"
                 onChange={handlePatientChange}
               >
-                {complaints.map((patient, index) => (
-                  <option key={index} value={patient.name}>
-                    {patient.name}
+                {complaints.length == 0 ? (
+                  <option key="0" value={null}>
+                    No patients remaining
                   </option>
-                ))}
+                ) : (
+                  complaints.map((patient, index) => (
+                    <option key={index} value={patient.name}>
+                      {patient.name}
+                    </option>
+                  ))
+                )}
               </select>
             </div>
 
-            
             <div className="w-1/2 pl-4">
               <label className="block text-lg font-semibold text-[var(--darkergreen)] mb-1">
                 Complaint
@@ -106,14 +133,14 @@ export default function TreatmentDashboard() {
                 className="w-full px-3 py-2 border border-[var(--darkgreen)] rounded-lg"
               >
                 {complaints.length > 0
-                  ? complaints[0].complaint
+                  ? activeComplaint.complaint_object?.complaint ||
+                    activeComplaint.complaint
                   : "No complaint available"}
               </div>
             </div>
           </div>
         </div>
 
-        
         <div className="my-7">
           <div className="flex space-x-4 border-b-2 border-[var(--lightgreen)]">
             <button
@@ -148,9 +175,18 @@ export default function TreatmentDashboard() {
             >
               Prescription
             </button>
-             
+            <button
+              className={`px-6 py-2 ${
+                selectedTab === "followup"
+                  ? "bg-[var(--darkgreen)] text-white"
+                  : "bg-transparent text-[var(--darkgreen)]"
+              }`}
+              onClick={() => handleTabChange("followup")}
+            >
+              Followup
+            </button>
           </div>
-    </div>
+        </div>
 
         {/* Conditionally Render Treatment or Prescription */}
         <div className="mt-6">
@@ -162,10 +198,15 @@ export default function TreatmentDashboard() {
             <div className="min-h-64 mb-6">
               <Prescriptions />
             </div>
-          ) :selectedTab === "treatment" ? (
+          ) : selectedTab === "treatment" ? (
             <div className="min-h-64 mb-6">
               <Treatment />
-            </div>): null}
+            </div>
+          ) : selectedTab === "followup" ? (
+            <div className="min-h-64 mb-6">
+              <Followup activeComplaint={activeComplaint} />
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
