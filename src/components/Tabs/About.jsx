@@ -218,29 +218,33 @@ function About() {
             </div>
             
             {/* Yes/No questions */}
-            <div className="mt-6 grid grid-cols-3 gap-4">
+              <div className="mt-6 grid grid-cols-3 gap-4">
                 {[
-                    { label: 'Smokes?', state: smokes, setter: setSmokes }, 
-                    { label: 'Consumes Alcohol?', state: alcohol, setter: setAlcohol },
-                    { label: 'Eats Tobacco?', state: tobacco, setter: setTobacco }
+                  { label: "Smokes?", state: smokes, setter: setSmokes },
+                  { label: "Consumes Alcohol?", state: alcohol, setter: setAlcohol },
+                  { label: "Eats Tobacco?", state: tobacco, setter: setTobacco },
                 ].map(({ label, state, setter }) => (
-                    <div key={label} className="flex flex-col">
-                        <label className="block font-semibold text-gray-700">{label}</label>
-                        <div className="flex space-x-2">
-                            {['Yes', 'No'].map((option) => (
-                                <button 
-                                    key={option} 
-                                    className={`px-4 mr-5 mt-3 py-2 rounded-lg ${state === option ? 'bg-[#4a6d4a] text-white' : 'bg-gray-300'}`} 
-                                    onClick={() => setter(option)}
-                                >
-                                    {option}
-                                </button>
-                            ))}
-                        </div>
+                  <div key={label} className="flex flex-col">
+                    <label className="block font-semibold text-gray-700">{label}</label>
+                    <div className="flex space-x-2">
+                      {["Yes", "No"].map((option) => (
+                        <button
+                          key={option}
+                          className={`px-4 mr-5 mt-3 py-2 rounded-lg transition duration-300 ${
+                            state === option
+                              ? "bg-[#4a6d4a] text-white"
+                              : "bg-gray-300 hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
+                          }`}
+                          onClick={() => setter(option)}
+                        >
+                          {option}
+                        </button>
+                      ))}
                     </div>
+                  </div>
                 ))}
-            </div>
-            
+              </div>
+                         
             {/* Save button - New addition */}
             <div className="mt-6">
                 <button 
