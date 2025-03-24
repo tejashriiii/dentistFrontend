@@ -1,0 +1,109 @@
+const FollowupForm = ({
+  followup,
+  setFollowup,
+  onSubmit,
+  isEdit,
+  onCancel,
+  onCheckSchedule,
+}) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFollowup((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <div className="space-y-3">
+      <label htmlFor="title" className="block font-semibold mb-2">
+        Title:
+      </label>
+      <input
+        type="text"
+        name="title"
+        value={followup.title}
+        onChange={handleInputChange}
+        placeholder="Title"
+        className="w-full px-3 py-2 border rounded-md"
+      />
+
+      <label htmlFor="description" className="block font-semibold mb-2">
+        Description:
+      </label>
+      <textarea
+        name="description"
+        value={followup.description}
+        onChange={handleInputChange}
+        placeholder="Description"
+        className="w-full px-3 py-2 border rounded-md"
+      />
+
+      <div className="flex justify-between gap-10">
+        <div className={isEdit ? "w-2/5" : "w-1/2"}>
+          <label htmlFor="date" className="block font-semibold mb-2">
+            Date:
+          </label>
+          <input
+            type="date"
+            name="date"
+            value={followup.date}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border rounded-md"
+          />
+        </div>
+        <div className={isEdit ? "w-2/5" : "w-1/2"}>
+          <label htmlFor="time" className="block font-semibold mb-2">
+            Time:
+          </label>
+          <input
+            type="time"
+            name="time"
+            value={followup.time}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border rounded-md"
+          />
+        </div>
+        {isEdit ? (
+          <div className="w-1/6">
+            <label className="block font-semibold mb-2">Completed:</label>
+            <select
+              name="completed"
+              value={followup.completed}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border rounded-md"
+            >
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+        ) : null}
+        <button
+          className="bg-[var(--darkgreen)] text-var[(--txt)] mt-5 py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer self-end h-3/5 w-1/5"
+          onClick={() => onCheckSchedule(followup.date)}
+        >
+          Check schedule
+        </button>
+      </div>
+
+      <div className="flex justify-between gap-5 mt-7">
+        <button
+          onClick={onSubmit}
+          className={`bg-[var(--darkgreen)] text-[var(--txt)] font-semibold mt-5 py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer w-full`}
+        >
+          {isEdit ? "Edit Followup" : "Add Followup"}
+        </button>
+        {isEdit ? (
+          <button
+            onClick={onCancel}
+            className="w-full bg-red-700 font-semibold text-white mt-5 py-2 rounded-md hover:bg-red-800 hover:cursor-pointer"
+          >
+            Cancel
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
+export default FollowupForm;

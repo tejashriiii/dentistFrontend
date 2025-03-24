@@ -7,16 +7,15 @@ import ReceptionDashboard from "./pages/ReceptionDashboard";
 import PatientRegisterForm from "./pages/PatientRegisterForm";
 import CredentialsForm from "./pages/CredentialsForm";
 import PatientAppointmentForm from "./pages/PatientAppointmentForm";
-import FollowUp from "./pages/FollowUp";
 import Home from "./pages/Home";
 import DailyTreatment from "./pages/DailyTreatment";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
 import SendMessage from "./pages/SendMessage";
 import { ToastContainer } from "react-toastify";
-import TreatmentManagement from "./pages/TreatmentManagement.jsx"
-import PrescriptionManagement from "./pages/PrescriptionManagement.jsx"
-import PatientDatabase from "./pages/PatientDatabase.jsx"
+import TreatmentManagement from "./pages/TreatmentManagement.jsx";
+import PrescriptionManagement from "./pages/PrescriptionManagement.jsx";
+import PatientDatabase from "./pages/PatientDatabase.jsx";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
@@ -42,7 +41,7 @@ const App = () => {
               docDailyTreatment
             </Link>
             <Link to="/patientdb" className="p-2">
-              SearcPatient 
+              SearcPatient
             </Link>
           </div>
           <div>
@@ -68,9 +67,8 @@ const App = () => {
               EditTreatment
             </Link>
             <Link to="/prescriptioncrud" className="p-2">
-             EditPrescription
+              EditPrescription
             </Link>
-
           </div>
         </nav>
 
@@ -94,10 +92,6 @@ const App = () => {
             element={<CredentialsForm formAction="signup" />}
           />
           <Route path="/appointment" element={<PatientAppointmentForm />} />
-          <Route
-            path="/followUp"
-            element={<FollowUp allowedRoles={["dentist"]} />}
-          />
           <Route path="/Home" element={<Home />} />
           <Route element={<ProtectedRoute allowedRoles={["dentist"]} />}>
             <Route path="/dailytreat" element={<DailyTreatment />} />
@@ -105,7 +99,10 @@ const App = () => {
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/sendmessage" element={<SendMessage />} />
           <Route path="/treatmentcrud" element={<TreatmentManagement />} />
-          <Route path="/prescriptioncrud" element={<PrescriptionManagement />} />
+          <Route
+            path="/prescriptioncrud"
+            element={<PrescriptionManagement />}
+          />
           <Route path="/patientdb" element={<PatientDatabase />} />
         </Routes>
       </div>
