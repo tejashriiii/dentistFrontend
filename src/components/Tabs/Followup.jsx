@@ -21,6 +21,7 @@ const Followup = ({ activeComplaint }) => {
 
   const fetchPastFollowups = async () => {
     try {
+      if (Object.keys(activeComplaint) == 0) return;
       const PAST_FOLLOWUPS_URL = `http://localhost:8000/p/followup/${activeComplaint.id}/`;
       const response = await fetch(PAST_FOLLOWUPS_URL, {
         method: "GET",
@@ -126,7 +127,7 @@ const Followup = ({ activeComplaint }) => {
   };
 
   useEffect(() => {
-    console.log(activeComplaint);
+    console.log("activeComplaint", activeComplaint);
     fetchPastFollowups();
   }, [activeComplaint]);
 
@@ -186,9 +187,11 @@ const Followup = ({ activeComplaint }) => {
     setIsScheduleOpen(true);
   };
 
-  return (
-    <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">New Followup</h2>
+  return Object.keys(activeComplaint).length > 0 ? (
+    <div className="p-4 mx-auto">
+      <h2 className="text-2xl font-semibold mb-4 text-[var(--txt)]">
+        New Followup
+      </h2>
       <FollowupForm
         followup={newFollowup}
         setFollowup={setNewFollowup}
@@ -241,9 +244,10 @@ const Followup = ({ activeComplaint }) => {
         )}
       </Modal>
 
-      <h2 className="text-2xl font-semibold mt-14 mb-4 border-[var(--darkgreen)]border-t-1 ">
+      <h2 className="text-2xl font-semibold mt-14 mb-4 text-[var(--txt)]">
         Sittings History
       </h2>
+
       <table className="w-full border-collapse border border-gray-300 py-5 my-5 mb-10">
         <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
           <tr>
@@ -256,39 +260,36 @@ const Followup = ({ activeComplaint }) => {
           </tr>
         </thead>
         <tbody>
-          {
-            <tr key={-1} className="even:bg-gray-100 odd:bg-white">
-              <td className="border border-gray-300 p-2">0</td>
-              <td className="border border-gray-300 p-2">
-                {activeComplaint.complaint_object
-                  ? `Complaint: ${activeComplaint.complaint_object.complaint}`
-                  : `Complaint: ${activeComplaint.complaint}`}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {activeComplaint.complaint_object
-                  ? activeComplaint.complaint_object.description ||
-                    "To be filled"
-                  : activeComplaint.description || "To be filled"}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {activeComplaint.complaint_object
-                  ? activeComplaint.complaint_object.date
-                  : new Date().toISOString().split("T")[0]}
-              </td>
-              <td className="border border-gray-300 p-2">
-                {activeComplaint.complaint_object
+          <tr key={-1} className="even:bg-gray-100 odd:bg-white">
+            <td className="border border-gray-300 p-2">0</td>
+            <td className="border border-gray-300 p-2">
+              {activeComplaint.complaint_object
+                ? `Complaint: ${activeComplaint.complaint_object.complaint}`
+                : `Complaint: ${activeComplaint.complaint}`}
+            </td>
+            <td className="border border-gray-300 p-2">
+              {activeComplaint.complaint_object
+                ? activeComplaint.complaint_object.description || "To be filled"
+                : activeComplaint.description || "To be filled"}
+            </td>
+            <td className="border border-gray-300 p-2">
+              {activeComplaint.complaint_object
+                ? activeComplaint.complaint_object.date
+                : new Date().toISOString().split("T")[0]}
+            </td>
+            <td className="border border-gray-300 p-2">
+              {activeComplaint.complaint_object
+                ? activeComplaint.complaint_object.time
                   ? activeComplaint.complaint_object.time
-                    ? activeComplaint.complaint_object.time
-                        .split(".")[0]
-                        .slice(0, 5)
-                    : "Not set"
-                  : activeComplaint.time
-                    ? activeComplaint.time.split(".")[0].slice(0, 5)
-                    : "Not set"}
-              </td>
-              <td className="border border-gray-300 p-2">-</td>
-            </tr>
-          }
+                      .split(".")[0]
+                      .slice(0, 5)
+                  : "Not set"
+                : activeComplaint.time
+                  ? activeComplaint.time.split(".")[0].slice(0, 5)
+                  : "Not set"}
+            </td>
+            <td className="border border-gray-300 p-2">-</td>
+          </tr>
           {pastFollowups.map((followup, index) => (
             <tr
               key={index}
@@ -319,9 +320,10 @@ const Followup = ({ activeComplaint }) => {
           ))}
         </tbody>
       </table>
+
       {editMode ? (
         <div>
-          <h2 className="text-2xl font-semibold mt-14 mb-4">
+          <h2 className="text-2xl font-semibold mt-14 mb-4 text-[var(--txt)]">
             Edit Sitting No. {editFollowup.number}
           </h2>
 
@@ -338,6 +340,12 @@ const Followup = ({ activeComplaint }) => {
       <button className="bg-[var(--darkgreen)] mt-10 text-[var(--txt)] font-semibold py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer w-full">
         Generate PDF
       </button>
+    </div>
+  ) : (
+    <div className="p-4 flex justify-center items-center">
+      <h2 className="text-3xl text-[var(--txt)] font-semibold mb-4">
+        No Active complaint/followup
+      </h2>
     </div>
   );
 };

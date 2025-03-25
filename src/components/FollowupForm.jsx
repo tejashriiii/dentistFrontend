@@ -16,7 +16,10 @@ const FollowupForm = ({
 
   return (
     <div className="space-y-3">
-      <label htmlFor="title" className="block font-semibold mb-2">
+      <label
+        htmlFor="title"
+        className="block font-semibold mb-2 text-[var(--darkergreen)]"
+      >
         Title:
       </label>
       <input
@@ -25,10 +28,13 @@ const FollowupForm = ({
         value={followup.title}
         onChange={handleInputChange}
         placeholder="Title"
-        className="w-full px-3 py-2 border rounded-md"
+        className="w-full px-3 py-2 border rounded-md border-[var(--lightgreen)]"
       />
 
-      <label htmlFor="description" className="block font-semibold mb-2">
+      <label
+        htmlFor="description"
+        className="block font-semibold mb-2 text-[var(--darkergreen)]"
+      >
         Description:
       </label>
       <textarea
@@ -36,12 +42,15 @@ const FollowupForm = ({
         value={followup.description}
         onChange={handleInputChange}
         placeholder="Description"
-        className="w-full px-3 py-2 border rounded-md"
+        className="w-full px-3 py-2 border rounded-md border-[var(--lightgreen)]"
       />
 
       <div className="flex justify-between gap-10">
         <div className={isEdit ? "w-2/5" : "w-1/2"}>
-          <label htmlFor="date" className="block font-semibold mb-2">
+          <label
+            htmlFor="date"
+            className="block font-semibold mb-2 text-[var(--darkergreen)]"
+          >
             Date:
           </label>
           <input
@@ -49,11 +58,14 @@ const FollowupForm = ({
             name="date"
             value={followup.date}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2 border rounded-md border-[var(--lightgreen)]"
           />
         </div>
         <div className={isEdit ? "w-2/5" : "w-1/2"}>
-          <label htmlFor="time" className="block font-semibold mb-2">
+          <label
+            htmlFor="time"
+            className="block font-semibold mb-2 text-[var(--darkergreen)]"
+          >
             Time:
           </label>
           <input
@@ -61,17 +73,19 @@ const FollowupForm = ({
             name="time"
             value={followup.time}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2 border rounded-md border-[var(--lightgreen)]"
           />
         </div>
         {isEdit ? (
           <div className="w-1/6">
-            <label className="block font-semibold mb-2">Completed:</label>
+            <label className="block font-semibold mb-2 text-[var(--darkergreen)]">
+              Completed:
+            </label>
             <select
               name="completed"
               value={followup.completed}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded-md"
+              className="w-full px-3 py-2 border border-[var(--lightgreen)] rounded-md"
             >
               <option value="No">No</option>
               <option value="Yes">Yes</option>

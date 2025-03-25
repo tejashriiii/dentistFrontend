@@ -57,9 +57,6 @@ const App = () => {
             <Link to="/appointment" className="p-2">
               Appointment
             </Link>
-            <Link to="/followup" className="p-2">
-              followup
-            </Link>
             <Link to="/sendmessage" className="p-2">
               SendMessage
             </Link>
@@ -77,7 +74,9 @@ const App = () => {
             path="/"
             element={<ReceptionDashboard patients={patients} />}
           />
-          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route
+            element={<ProtectedRoute allowedRoles={["admin", "dentist"]} />}
+          >
             <Route
               path="/register"
               element={<PatientRegisterForm addPatient={addPatient} />}
