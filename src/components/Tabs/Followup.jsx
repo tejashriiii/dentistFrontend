@@ -126,6 +126,29 @@ const Followup = ({ activeComplaint }) => {
     return false;
   };
 
+  const fetchPDF = async () => {
+    const complaint_id = activeComplaint.id;
+    const sitting = activeComplaint.sitting || 0;
+    console.log("sitting: ", 0);
+    try {
+      const GENERATE_PDF_URL = `http://localhost:8000/p/prescription/pdf/${complaint_id}/${sitting}/`;
+      const response = await fetch(GENERATE_PDF_URL, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+        },
+      });
+      const prescriptionPDF = await response.blob();
+      const pdfUrl = URL.createObjectURL(prescriptionPDF);
+      window.open(pdfUrl, `_blank`, "noopener, noreferrer");
+      toast.success("PDF opened in new tab");
+    } catch (error) {
+      console.error(error);
+      toast.error("Coundn't generate pdf");
+    }
+  };
+
   useEffect(() => {
     console.log("activeComplaint", activeComplaint);
     fetchPastFollowups();
@@ -337,7 +360,10 @@ const Followup = ({ activeComplaint }) => {
           />
         </div>
       ) : null}
-      <button className="bg-[var(--darkgreen)] mt-10 text-[var(--txt)] font-semibold py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer w-full">
+      <button
+        className="bg-[var(--darkgreen)] mt-10 text-[var(--txt)] font-semibold py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer w-full"
+        onClick={fetchPDF}
+      >
         Generate PDF
       </button>
     </div>
