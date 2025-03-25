@@ -44,6 +44,7 @@ export default function TreatmentDashboard() {
         console.log("complaints got fetched!!");
         setComplaints(patientData);
         setActiveComplaint(patientData[0]);
+        if (patientData.length == 0) setActiveComplaint({});
 
         // Store patient data including phone numbers in sessionStorage
         sessionStorage.setItem("patientData", JSON.stringify(patientData));
@@ -68,6 +69,10 @@ export default function TreatmentDashboard() {
     setSelectedTab(tab);
   };
 
+  useEffect(() => {
+    console.log("active-complaint: ", activeComplaint);
+  }, [activeComplaint]);
+
   const handlePatientChange = (e) => {
     const selectedPatient = complaints.find((p) => p.name === e.target.value);
     setActiveComplaint(selectedPatient);
@@ -83,7 +88,7 @@ export default function TreatmentDashboard() {
 
   return (
     <div className="p-6 bg-[var(--bg)] min-h-screen">
-      <div className="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
+      <div className="w-2/3 mx-auto bg-white shadow-md rounded-lg p-6">
         <div className="mb-4">
           <div className="flex justify-between pb-1.5">
             <div className="w-1/2 flex items-center space-x-2">
@@ -144,7 +149,7 @@ export default function TreatmentDashboard() {
         <div className="my-7">
           <div className="flex space-x-4 border-b-2 border-[var(--lightgreen)]">
             <button
-              className={`px-6 py-2 transition duration-300 ${
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
                 selectedTab === "aboutPatient"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
@@ -155,7 +160,7 @@ export default function TreatmentDashboard() {
             </button>
 
             <button
-              className={`px-6 py-2 transition duration-300 ${
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
                 selectedTab === "treatment"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
@@ -166,7 +171,7 @@ export default function TreatmentDashboard() {
             </button>
 
             <button
-              className={`px-6 py-2 transition duration-300 ${
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
                 selectedTab === "prescription"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
@@ -176,10 +181,10 @@ export default function TreatmentDashboard() {
               Prescription
             </button>
             <button
-              className={`px-6 py-2 ${
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
                 selectedTab === "followup"
                   ? "bg-[var(--darkgreen)] text-white"
-                  : "bg-transparent text-[var(--darkgreen)]"
+                  : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
               }`}
               onClick={() => handleTabChange("followup")}
             >

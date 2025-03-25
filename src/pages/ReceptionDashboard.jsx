@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PatientRegisterForm from './PatientRegisterForm'; // Import the form component
+import PatientRegisterForm from "./PatientRegisterForm"; // Import the form component
 
 const Dashboard = () => {
   const [patients, setPatients] = useState([]);
@@ -27,7 +27,9 @@ const Dashboard = () => {
         throw new Error("Failed to fetch patients");
       }
       const data = await response.json();
-      const patientList = Array.isArray(data.complaints) ? data.complaints : [data];
+      const patientList = Array.isArray(data.complaints)
+        ? data.complaints
+        : [data];
       setPatients(patientList);
     } catch (err) {
       console.error("Error:", err.message);
@@ -49,7 +51,9 @@ const Dashboard = () => {
         throw new Error("Failed to fetch followups");
       }
       const data = await response.json();
-      const followupList = Array.isArray(data.followups) ? data.followups : [data];
+      const followupList = Array.isArray(data.followups)
+        ? data.followups
+        : [data];
       setFollowups(followupList);
     } finally {
       setLoading(false);
@@ -153,7 +157,7 @@ const Dashboard = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       <button
         onClick={() => setIsRegisterModalOpen(true)} // Trigger modal
-        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        className="bg-white rounded-lg shadow-md p-6 hover:cursor-pointer hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
         <div className="flex items-center gap-4">
           <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
@@ -173,12 +177,17 @@ const Dashboard = () => {
             </svg>
           </div>
           <div className="text-left">
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">Register Patient</h3>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+              Register Patient
+            </h3>
             <p className="text-gray-600">Add a new patient to the system</p>
           </div>
         </div>
       </button>
-      <Link to="/appointment" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+      <Link
+        to="/appointment"
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+      >
         <div className="flex items-center gap-4">
           <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
             <svg
@@ -197,12 +206,17 @@ const Dashboard = () => {
             </svg>
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">Schedule Appointment</h3>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+              Schedule Appointment
+            </h3>
             <p className="text-gray-600">Book a new appointment</p>
           </div>
         </div>
       </Link>
-      <Link to="/patientdb" className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+      <Link
+        to="/patientdb"
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+      >
         <div className="flex items-center gap-4">
           <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
             <svg
@@ -221,7 +235,9 @@ const Dashboard = () => {
             </svg>
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">Search Patient</h3>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+              Search Patient
+            </h3>
             <p className="text-gray-600">Find patient records</p>
           </div>
         </div>
@@ -234,11 +250,15 @@ const Dashboard = () => {
     <div className="bg-white rounded-lg shadow-md p-4 mb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-[var(--darkgreen)] bg-opacity-10 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-white">Today's Appointments</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Today's Appointments
+          </h3>
           <p className="text-3xl font-bold text-white">{patients.length}</p>
         </div>
         <div className="bg-[var(--darkgreen)] bg-opacity-10 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-white">Today's Followups</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Today's Followups
+          </h3>
           <p className="text-3xl font-bold text-white">{followups.length}</p>
         </div>
       </div>
@@ -246,130 +266,158 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center text-[var(--txt)] mb-6">
-        Reception Dashboard
-      </h1>
+    <div className="min-h-screen flex justify-center bg-gray-100 p-6">
+      <div className="w-2/3">
+        <h1 className="text-3xl font-bold text-center text-[var(--txt)] my-10">
+          Reception Dashboard
+        </h1>
 
-      <ActionCards />
-      <DashboardStats />
+        <ActionCards />
+        <DashboardStats />
 
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
-          Appointments
-        </h2>
-        <div className="bg-white rounded-lg shadow-md p-4">
-          {loading ? (
-            <p className="text-[var(--txt)]">Loading patients...</p>
-          ) : error ? (
-            <p className="text-red-600">Error: {error}</p>
-          ) : patients.length === 0 ? (
-            <p className="text-[var(--txt)]">No patients registered yet.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse border border-gray-300">
-                <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
-                  <tr>
-                    <th className="border border-gray-300 p-2">Name</th>
-                    <th className="border border-gray-300 p-2">Phone Number</th>
-                    <th className="border border-gray-300 p-2">Age</th>
-                    <th className="border border-gray-300 p-2">Complaint</th>
-                    <th className="border border-gray-300 p-2">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {patients.map((patient, index) => (
-                    <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                      <td className="border border-gray-300 p-2">{patient.name || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">{patient.phonenumber || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">{patient.age || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">{patient.complaint || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">
-                        {patient.time ? patient.time.split(".")[0].slice(0, 5) : "N/A"}
-                      </td>
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
+            Appointments
+          </h2>
+          <div className="bg-white rounded-lg shadow-md p-4">
+            {loading ? (
+              <p className="text-[var(--txt)]">Loading patients...</p>
+            ) : error ? (
+              <p className="text-red-600">Error: {error}</p>
+            ) : patients.length === 0 ? (
+              <p className="text-[var(--txt)]">No patients registered yet.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300">
+                  <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
+                    <tr>
+                      <th className="border border-gray-300 p-2">Name</th>
+                      <th className="border border-gray-300 p-2">
+                        Phone Number
+                      </th>
+                      <th className="border border-gray-300 p-2">Age</th>
+                      <th className="border border-gray-300 p-2">Complaint</th>
+                      <th className="border border-gray-300 p-2">Time</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
-          Followups
-        </h2>
-        <div className="bg-white rounded-lg shadow-md p-4">
-          {loading ? (
-            <p className="text-[var(--txt)]">Loading followups...</p>
-          ) : error ? (
-            <p className="text-red-600">Error: {error}</p>
-          ) : followups.length === 0 ? (
-            <p className="text-[var(--txt)]">No Followups for today.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse border border-gray-300">
-                <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
-                  <tr>
-                    <th className="border border-gray-300 p-2">Name</th>
-                    <th className="border border-gray-300 p-2">Phone Number</th>
-                    <th className="border border-gray-300 p-2">Age</th>
-                    <th className="border border-gray-300 p-2">Followup</th>
-                    <th className="border border-gray-300 p-2">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {followups.map((followup, index) => (
-                    <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                      <td className="border border-gray-300 p-2">{followup.name || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">{followup.phonenumber || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">{followup.age || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">{followup.followup || "N/A"}</td>
-                      <td className="border border-gray-300 p-2">
-                        {followup.time ? followup.time.split(".")[0].slice(0, 5) : "N/A"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <QuickActionButton />
-
-      {/* Modal for Patient Registration */}
-      {isRegisterModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-[var(--txt)]">Register Patient</h2>
-              <button
-                onClick={() => setIsRegisterModalOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <PatientRegisterForm />
+                  </thead>
+                  <tbody>
+                    {patients.map((patient, index) => (
+                      <tr key={index} className="even:bg-gray-100 odd:bg-white">
+                        <td className="border border-gray-300 p-2">
+                          {patient.name || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {patient.phonenumber || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {patient.age || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {patient.complaint || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {patient.time
+                            ? patient.time.split(".")[0].slice(0, 5)
+                            : "N/A"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
-      )}
+
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
+            Followups
+          </h2>
+          <div className="bg-white rounded-lg shadow-md p-4">
+            {loading ? (
+              <p className="text-[var(--txt)]">Loading followups...</p>
+            ) : error ? (
+              <p className="text-red-600">Error: {error}</p>
+            ) : followups.length === 0 ? (
+              <p className="text-[var(--txt)]">No Followups for today.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300">
+                  <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
+                    <tr>
+                      <th className="border border-gray-300 p-2">Name</th>
+                      <th className="border border-gray-300 p-2">
+                        Phone Number
+                      </th>
+                      <th className="border border-gray-300 p-2">Age</th>
+                      <th className="border border-gray-300 p-2">Followup</th>
+                      <th className="border border-gray-300 p-2">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {followups.map((followup, index) => (
+                      <tr key={index} className="even:bg-gray-100 odd:bg-white">
+                        <td className="border border-gray-300 p-2">
+                          {followup.name || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {followup.phonenumber || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {followup.age || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {followup.followup || "N/A"}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {followup.time
+                            ? followup.time.split(".")[0].slice(0, 5)
+                            : "N/A"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <QuickActionButton />
+
+        {/* Modal for Patient Registration */}
+        {isRegisterModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-[var(--txt)]">
+                  Register Patient
+                </h2>
+                <button
+                  onClick={() => setIsRegisterModalOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <PatientRegisterForm />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
