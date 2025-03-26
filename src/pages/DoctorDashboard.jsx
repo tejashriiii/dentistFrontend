@@ -179,6 +179,7 @@ const DentistDashboard = () => {
   // Action Cards component
   const ActionCards = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      {/* Register Patient */}
       <button
         onClick={() => setIsRegisterModalOpen(true)}
         className="bg-white rounded-lg shadow-md p-6 hover:cursor-pointer hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
@@ -208,6 +209,8 @@ const DentistDashboard = () => {
           </div>
         </div>
       </button>
+
+      {/* Schedule Appointment */}
       <Link
         to="/appointment"
         className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
@@ -237,6 +240,8 @@ const DentistDashboard = () => {
           </div>
         </div>
       </Link>
+
+      {/* Search Patient */}
       <Link
         to="/patientdb"
         className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
@@ -266,6 +271,8 @@ const DentistDashboard = () => {
           </div>
         </div>
       </Link>
+
+      {/* View Daily Treatments */}
       <Link
         to="/dailytreat"
         className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
@@ -295,9 +302,70 @@ const DentistDashboard = () => {
           </div>
         </div>
       </Link>
+
+      {/* Manage Treatments */}
+      <Link
+        to="/treatmentcrud"
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+      >
+        <div className="flex items-center gap-4">
+          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+              Manage Treatments
+            </h3>
+            <p className="text-gray-600">Manage treatment details</p>
+          </div>
+        </div>
+      </Link>
+
+      {/* Manage Prescriptions */}
+      <Link
+        to="/prescriptioncrud"
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+      >
+        <div className="flex items-center gap-4">
+          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+              Manage Prescriptions
+            </h3>
+            <p className="text-gray-600">Manage prescription records</p>
+          </div>
+        </div>
+      </Link>
     </div>
   );
-
   // Dashboard Stats component
   const DashboardStats = () => (
     <div className="bg-white rounded-lg shadow-md p-4 mb-8">
