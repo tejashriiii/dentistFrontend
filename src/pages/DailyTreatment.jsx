@@ -3,6 +3,7 @@ import About from "../components/Tabs/About";
 import Prescriptions from "../components/Tabs/Prescriptions";
 import Treatment from "../components/Tabs/Treatment";
 import Followup from "../components/Tabs/Followup";
+import { Link } from "react-router-dom";
 
 export default function TreatmentDashboard() {
   const todayDate = new Date().toISOString().split("T")[0];
@@ -89,6 +90,15 @@ export default function TreatmentDashboard() {
   return (
     <div className="p-6 bg-[var(--bg)] min-h-screen">
       <div className="w-2/3 mx-auto bg-white shadow-md rounded-lg p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-[var(--darkergreen)]">Daily Treatment</h2>
+            <Link
+              to="/doctordashboard"
+              className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)]"
+            >
+              Back to Dashboard
+            </Link>
+        </div>
         <div className="mb-4">
           <div className="flex justify-between pb-1.5">
             <div className="w-1/2 flex items-center space-x-2">
