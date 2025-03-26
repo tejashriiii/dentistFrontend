@@ -151,7 +151,7 @@ const DentistDashboard = () => {
               Search Patient
             </Link>
             <Link
-              to="/dailytreatment"
+              to="/dailytreat"
               className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
             >
               <svg
