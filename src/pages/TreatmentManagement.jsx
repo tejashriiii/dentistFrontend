@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef } from "react"; // Added useRef
+import { useEffect, useState, useRef } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const Treatments = () => {
   const [treatments, setTreatments] = useState([]);
@@ -9,7 +10,7 @@ const Treatments = () => {
   const [error, setError] = useState(null);
   const [newTreatment, setNewTreatment] = useState({ name: "", price: "" });
   const [editingTreatment, setEditingTreatment] = useState(null);
-  const formRef = useRef(null); // Added ref for scrolling
+  const formRef = useRef(null);
 
   const fetchTreatments = async () => {
     try {
@@ -109,16 +110,22 @@ const Treatments = () => {
   const handleEditClick = (treatment) => {
     setEditingTreatment(treatment);
     toast.info(`Editing "${treatment.name}"`);
-    // Scroll to the form
     formRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center text-[var(--txt)] mb-6">Manage Treatments</h1>
-      <div className="mt-8">
-        {/* Add/Edit Treatment Form - Moved to top */}
-        <div ref={formRef} className="bg-white p-4 rounded-lg shadow-md max-w-4xl mx-auto mb-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-[var(--txt)]">Manage Treatments</h1>
+          <Link
+            to="/doctordashboard"
+            className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)]"
+          >
+            Back to Dashboard
+          </Link>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-md mb-6" ref={formRef}>
           <h2 className="text-xl font-semibold">
             {editingTreatment ? "Edit Treatment" : "Add Treatment"}
           </h2>
@@ -170,9 +177,8 @@ const Treatments = () => {
           </div>
         </div>
 
-        {/* Treatments List Section */}
         <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4 text-center">Treatments List</h2>
-        <div className="bg-white rounded-lg shadow-md p-4 max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-4">
           {loading ? (
             <div className="flex justify-center items-center">
               <FaSpinner className="animate-spin text-[var(--darkgreen)]" size={24} />
