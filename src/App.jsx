@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import TreatmentManagement from "./pages/TreatmentManagement.jsx";
 import PrescriptionManagement from "./pages/PrescriptionManagement.jsx";
 import PatientDatabase from "./pages/PatientDatabase.jsx";
+import DoctorDashboard from "./pages/DoctorDashboard.jsx";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
@@ -66,6 +67,9 @@ const App = () => {
             <Link to="/prescriptioncrud" className="p-2">
               EditPrescription
             </Link>
+            <Link to="/doctordashboard" className="p-2">
+              DoctorDashboard  
+            </Link>
           </div>
         </nav>
 
@@ -94,6 +98,7 @@ const App = () => {
           <Route path="/Home" element={<Home />} />
           <Route element={<ProtectedRoute allowedRoles={["dentist"]} />}>
             <Route path="/dailytreat" element={<DailyTreatment />} />
+            <Route path="/doctordashboard" element={<DoctorDashboard/>} />
           </Route>
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/sendmessage" element={<SendMessage />} />
@@ -103,6 +108,7 @@ const App = () => {
             element={<PrescriptionManagement />}
           />
           <Route path="/patientdb" element={<PatientDatabase />} />
+
         </Routes>
       </div>
     </Router>
