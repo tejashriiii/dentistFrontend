@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaPhone, FaUser, FaLock } from "react-icons/fa";
+import { getUserRole } from "../utils/auth.js";
 
 const CredentialsForm = ({ formAction }) => {
   const navigate = useNavigate();
@@ -48,9 +49,26 @@ const CredentialsForm = ({ formAction }) => {
       } else {
         const responseData = await response.json();
         if (formAction === "login") {
-          sessionStorage.setItem("jwt", responseData.token);
+          const token = responseData.token;
+          sessionStorage.setItem("jwt", token);
+
+          const userRole = getUserRole();
           toast.success("Login successful! Redirecting...");
+
+          // Clear form data
           setFormData({ mobileNumber: "", password: "", name: "" });
+
+          // Redirect based on role with a 3-second delay
+          setTimeout(() => {
+            if (userRole === "admin") {
+              navigate("/");
+            } else if (userRole === "dentist") {
+              navigate("/doctordashboard");
+            } else {
+              toast.error("Unknown or missing role. Redirecting to default dashboard.");
+              navigate("/dashboard");
+            }
+          }, 3400); 
         } else {
           toast.success("Registration successful!");
           setFormData({ mobileNumber: "", password: "", name: "" });
