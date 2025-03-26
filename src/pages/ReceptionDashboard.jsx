@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PatientRegisterForm from "./PatientRegisterForm"; // Import the form component
+import PatientRegisterForm from "./PatientRegisterForm";
 
 const Dashboard = () => {
   const [patients, setPatients] = useState([]);
@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showQuickActions, setShowQuickActions] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); // State for modal visibility
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   useEffect(() => {
     fetchPatients();
@@ -87,7 +87,7 @@ const Dashboard = () => {
         <div className="absolute bottom-20 right-0 bg-white rounded-lg shadow-xl p-4 w-64 transform transition-all duration-300">
           <div className="flex flex-col gap-3">
             <button
-              onClick={() => setIsRegisterModalOpen(true)} // Trigger modal
+              onClick={() => setIsRegisterModalOpen(true)}
               className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
             >
               <svg
@@ -146,6 +146,26 @@ const Dashboard = () => {
               </svg>
               Search Patient
             </Link>
+            <Link
+              to="/sendmessage"
+              className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              Send Reminder
+            </Link>
           </div>
         </div>
       )}
@@ -154,9 +174,9 @@ const Dashboard = () => {
 
   // Top navigation cards
   const ActionCards = () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"> {/* Changed to grid-cols-4 */}
       <button
-        onClick={() => setIsRegisterModalOpen(true)} // Trigger modal
+        onClick={() => setIsRegisterModalOpen(true)}
         className="bg-white rounded-lg shadow-md p-6 hover:cursor-pointer hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
         <div className="flex items-center gap-4">
@@ -239,6 +259,35 @@ const Dashboard = () => {
               Search Patient
             </h3>
             <p className="text-gray-600">Find patient records</p>
+          </div>
+        </div>
+      </Link>
+      <Link
+        to="/sendmessage"
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+      >
+        <div className="flex items-center gap-4">
+          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+              Send Reminder
+            </h3>
+            <p className="text-gray-600">Send followup reminders</p>
           </div>
         </div>
       </Link>
