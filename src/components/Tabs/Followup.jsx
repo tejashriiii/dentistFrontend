@@ -304,8 +304,8 @@ const Followup = ({ activeComplaint }) => {
               {activeComplaint.complaint_object
                 ? activeComplaint.complaint_object.time
                   ? activeComplaint.complaint_object.time
-                      .split(".")[0]
-                      .slice(0, 5)
+                    .split(".")[0]
+                    .slice(0, 5)
                   : "Not set"
                 : activeComplaint.time
                   ? activeComplaint.time.split(".")[0].slice(0, 5)
@@ -361,7 +361,7 @@ const Followup = ({ activeComplaint }) => {
         </div>
       ) : null}
       <button
-        className="bg-[var(--darkgreen)] mt-10 text-[var(--txt)] font-semibold py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer w-full"
+        className="bg-[var(--darkgreen)] mt-10 text-white py-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer w-1/6"
         onClick={fetchPDF}
       >
         Generate PDF
