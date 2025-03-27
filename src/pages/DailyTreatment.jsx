@@ -91,13 +91,15 @@ export default function TreatmentDashboard() {
     <div className="p-6 bg-[var(--bg)] min-h-screen">
       <div className="w-2/3 mx-auto bg-white shadow-md rounded-lg p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-[var(--darkergreen)]">Daily Treatment</h2>
-            <Link
-              to="/doctordashboard"
-              className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)]"
-            >
-              Back to Dashboard
-            </Link>
+          <h2 className="text-2xl font-bold text-[var(--txt)]">
+            Daily Treatment
+          </h2>
+          <Link
+            to="/doctordashboard"
+            className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)]"
+          >
+            Back to Dashboard
+          </Link>
         </div>
         <div className="mb-4">
           <div className="flex justify-between pb-1.5">
@@ -149,7 +151,7 @@ export default function TreatmentDashboard() {
               >
                 {complaints.length > 0
                   ? activeComplaint.complaint_object?.complaint ||
-                    activeComplaint.complaint
+                  activeComplaint.complaint
                   : "No complaint available"}
               </div>
             </div>
@@ -159,43 +161,39 @@ export default function TreatmentDashboard() {
         <div className="my-7">
           <div className="flex space-x-4 border-b-2 border-[var(--lightgreen)]">
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "aboutPatient"
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${selectedTab === "aboutPatient"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("aboutPatient")}
             >
               About Patient
             </button>
 
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "treatment"
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${selectedTab === "treatment"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("treatment")}
             >
               Treatment
             </button>
 
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "prescription"
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${selectedTab === "prescription"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("prescription")}
             >
               Prescription
             </button>
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "followup"
+              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${selectedTab === "followup"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("followup")}
             >
               Followup
@@ -207,7 +205,7 @@ export default function TreatmentDashboard() {
         <div className="mt-6">
           {selectedTab === "aboutPatient" ? (
             <div className="min-h-64 mb-6">
-              <About />
+              <About activeComplaint={activeComplaint} />
             </div>
           ) : selectedTab === "prescription" ? (
             <div className="min-h-64 mb-6">

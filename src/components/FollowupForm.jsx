@@ -93,24 +93,24 @@ const FollowupForm = ({
           </div>
         ) : null}
         <button
-          className="bg-[var(--darkgreen)] text-var[(--txt)] mt-5 py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer self-end h-3/5 w-1/5"
+          className="bg-[var(--darkgreen)] text-white mt-5 py-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer self-end h-3/5 w-1/5"
           onClick={() => onCheckSchedule(followup.date)}
         >
           Check schedule
         </button>
       </div>
 
-      <div className="flex justify-between gap-5 mt-7">
+      <div className="flex justify-start gap-5 mt-7">
         <button
           onClick={onSubmit}
-          className={`bg-[var(--darkgreen)] text-[var(--txt)] font-semibold mt-5 py-2 rounded-md hover:bg-[var(--darkergreen)] hover:text-white hover:cursor-pointer w-full`}
+          className={`bg-[var(--darkgreen)] text-white mt-5 py-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer w-1/5`}
         >
           {isEdit ? "Edit Followup" : "Add Followup"}
         </button>
         {isEdit ? (
           <button
             onClick={onCancel}
-            className="w-full bg-red-700 font-semibold text-white mt-5 py-2 rounded-md hover:bg-red-800 hover:cursor-pointer"
+            className="w-1/5 bg-gray-500 text-white mt-5 py-2 rounded-md hover:bg-gray-600 hover:cursor-pointer"
           >
             Cancel
           </button>
