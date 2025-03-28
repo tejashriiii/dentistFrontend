@@ -70,7 +70,7 @@ export default function Treatment() {
     if (treatment) {
       setComplaints((prev) => ({
         ...prev,
-        [toothId]: [...(prev[toothId] || []), { treatment: treatment.name, cost: treatment.cost }],
+        [toothId]: [...(prev[toothId] || []), { treatment: treatment.name, price: treatment.price }],
       }));
       
       // Close dropdown after selection
@@ -119,7 +119,7 @@ export default function Treatment() {
     try {
       // Here you would make an API call to save the treatments
       // For now, just show an alert with the summary
-      alert("Treatments saved successfully!");
+      alert("Treatments will be saved successfully, after that saving to db thing");
       
       // You can navigate to another page or show a modal with the summary
     } catch (error) {
@@ -143,15 +143,15 @@ export default function Treatment() {
     
     Object.keys(complaints).forEach(toothId => {
       complaints[toothId].forEach(item => {
-        const key = `${item.treatment} - ₹${item.cost}`;
+        const key = `${item.treatment} - ₹${item.price}`;
         if (!summary[key]) {
           summary[key] = {
             teeth: [toothId],
-            cost: Number(item.cost)
+            price: Number(item.price)
           };
         } else {
           summary[key].teeth.push(toothId);
-          summary[key].cost += Number(item.cost);
+          summary[key].price += Number(item.price);
         }
       });
     });
@@ -213,7 +213,7 @@ export default function Treatment() {
                         className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
                         onClick={() => handleAddEntry(toothId, treatment)}
                       >
-                        {treatment.name} - &#8377; {treatment.cost}
+                        {treatment.name} - &#8377; {treatment.price}
                       </div>
                     ))
                   ) : (
@@ -228,7 +228,7 @@ export default function Treatment() {
             <label className="block text-sm font-semibold text-gray-700 mb-2">Current Treatments</label>
             {complaints[toothId]?.map((entry, index) => (
               <div key={index} className="flex justify-between bg-gray-100 px-3 py-2 rounded-lg mb-2">
-                <span>{entry.treatment} - &#8377; {entry.cost}</span>
+                <span>{entry.treatment} - &#8377; {entry.price}</span>
                 <button onClick={() => handleRemoveEntry(toothId, index)} className="text-gray-700 font-bold">×</button>
               </div>
             ))}
@@ -248,7 +248,7 @@ export default function Treatment() {
                 </div>
               ))}
               <div className="mt-4 font-bold">
-                Grand Total: &#8377; {Object.values(treatmentSummary).reduce((sum, item) => sum + item.cost, 0)}
+                Grand Total: &#8377; {Object.values(treatmentSummary).reduce((sum, item) => sum + item.price, 0)}
               </div>
             </div>
           ) : (
