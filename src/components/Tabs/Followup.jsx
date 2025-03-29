@@ -213,7 +213,7 @@ const Followup = ({ activeComplaint }) => {
   return Object.keys(activeComplaint).length > 0 ? (
     <div className="p-4 mx-auto">
       <h2 className="text-2xl font-semibold mb-4 text-[var(--txt)]">
-        New Followup
+        New Follow-up
       </h2>
       <FollowupForm
         followup={newFollowup}
@@ -227,7 +227,7 @@ const Followup = ({ activeComplaint }) => {
       <Modal
         isOpen={isScheduleOpen}
         onClose={() => setIsScheduleOpen(false)}
-        title={`Schedule on ${scheduleDate}`}
+        title={`Schedule on ${new Date(scheduleDate).toLocaleDateString()}`}
       >
         {scheduledFollowups.length != 0 ? (
           <table className="w-full border-collapse border border-gray-300 py-5 my-5">
@@ -297,8 +297,10 @@ const Followup = ({ activeComplaint }) => {
             </td>
             <td className="border border-gray-300 p-2">
               {activeComplaint.complaint_object
-                ? activeComplaint.complaint_object.date
-                : new Date().toISOString().split("T")[0]}
+                ? new Date(
+                  activeComplaint.complaint_object.date,
+                ).toLocaleDateString()
+                : new Date().toLocaleDateString()}
             </td>
             <td className="border border-gray-300 p-2">
               {activeComplaint.complaint_object
@@ -329,7 +331,7 @@ const Followup = ({ activeComplaint }) => {
                 {followup.description || "To be filled"}
               </td>
               <td className="border border-gray-300 p-2">
-                {followup.date || "N/A"}
+                {new Date(followup.date).toLocaleDateString() || "N/A"}
               </td>
               <td className="border border-gray-300 p-2">
                 {followup.time

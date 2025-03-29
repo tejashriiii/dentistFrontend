@@ -22,14 +22,29 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         className="bg-[var(--bg)] p-10 rounded-lg shadow-xl z-50 w-full max-w-[50vw] relative max-h-[50vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
       >
-        <h2 className="text-2xl font-semibold mb-4">{title}</h2>
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-semibold mb-4">{title}</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 self-start hover:cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
         <div className="mb-4">{children}</div>
-        <button
-          onClick={onClose}
-          className="mt-5 px-4 py-2 bg-red-500 font-semibold text-white rounded-sm hover:bg-red-600 hover:cursor-pointer transition"
-        >
-          Close
-        </button>
       </div>
     </div>
   );

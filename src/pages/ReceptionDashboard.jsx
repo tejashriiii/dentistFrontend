@@ -11,8 +11,7 @@ const Dashboard = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchPatients();
-    fetchFollowups();
+    Promise.all([fetchPatients(), fetchFollowups()]);
   }, []);
 
   const fetchPatients = async () => {
@@ -174,7 +173,9 @@ const Dashboard = () => {
 
   // Top navigation cards
   const ActionCards = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"> {/* Changed to grid-cols-4 */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      {" "}
+      {/* Changed to grid-cols-4 */}
       <button
         onClick={() => setIsRegisterModalOpen(true)}
         className="bg-white rounded-lg shadow-md p-6 hover:cursor-pointer hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
@@ -306,7 +307,7 @@ const Dashboard = () => {
         </div>
         <div className="bg-[var(--darkgreen)] bg-opacity-10 p-4 rounded-lg">
           <h3 className="text-lg font-semibold text-white">
-            Today's Followups
+            Today's Follow-ups
           </h3>
           <p className="text-3xl font-bold text-white">{followups.length}</p>
         </div>
@@ -380,15 +381,15 @@ const Dashboard = () => {
 
         <div className="mt-8">
           <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
-            Followups
+            Follow-ups
           </h2>
           <div className="bg-white rounded-lg shadow-md p-4">
             {loading ? (
-              <p className="text-[var(--txt)]">Loading followups...</p>
+              <p className="text-[var(--txt)]">Loading follow-ups...</p>
             ) : error ? (
               <p className="text-red-600">Error: {error}</p>
             ) : followups.length === 0 ? (
-              <p className="text-[var(--txt)]">No Followups for today.</p>
+              <p className="text-[var(--txt)]">No Follow-ups for today.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-300">
@@ -399,7 +400,7 @@ const Dashboard = () => {
                         Phone Number
                       </th>
                       <th className="border border-gray-300 p-2">Age</th>
-                      <th className="border border-gray-300 p-2">Followup</th>
+                      <th className="border border-gray-300 p-2">Follow-up</th>
                       <th className="border border-gray-300 p-2">Time</th>
                     </tr>
                   </thead>
