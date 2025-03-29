@@ -105,7 +105,7 @@ const FollowupForm = ({
           onClick={onSubmit}
           className={`bg-[var(--darkgreen)] text-white mt-5 py-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer w-1/5`}
         >
-          {isEdit ? "Edit Followup" : "Add Followup"}
+          {isEdit ? "Edit Follow-up" : "Add Follow-up"}
         </button>
         {isEdit ? (
           <button
