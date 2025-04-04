@@ -1,16 +1,22 @@
-import { useEffect, useState, useRef } from "react";
-import { FaSpinner } from "react-icons/fa";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+"use client"
+
+import { useEffect, useState, useRef } from "react"
+import { FaSpinner, FaSearch, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { Link } from "react-router-dom"
 
 const Treatments = () => {
-  const [treatments, setTreatments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [newTreatment, setNewTreatment] = useState({ name: "", price: "" });
-  const [editingTreatment, setEditingTreatment] = useState(null);
-  const formRef = useRef(null);
+  const [treatments, setTreatments] = useState([])
+  const [filteredTreatments, setFilteredTreatments] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [newTreatment, setNewTreatment] = useState({ name: "", price: "" })
+  const [editingTreatment, setEditingTreatment] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "ascending" })
+  const [priceRange, setPriceRange] = useState({ min: "", max: "" })
+  const formRef = useRef(null)
 
   const fetchTreatments = async () => {
     try {
@@ -20,26 +26,72 @@ const Treatments = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
-      });
-      if (!response.ok) throw new Error("Failed to fetch treatments");
-      const data = await response.json();
-      setTreatments(Array.isArray(data.treatments) ? data.treatments : []);
+      })
+      if (!response.ok) throw new Error("Failed to fetch treatments")
+      const data = await response.json()
+      const treatmentsList = Array.isArray(data.treatments) ? data.treatments : []
+      setTreatments(treatmentsList)
+      setFilteredTreatments(treatmentsList)
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchTreatments();
-  }, []);
+    fetchTreatments()
+  }, [])
+
+  // Apply search, sort, and filter whenever treatments, searchTerm, or sortConfig changes
+  useEffect(() => {
+    let result = [...treatments]
+
+    // Apply search
+    if (searchTerm) {
+      result = result.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    }
+
+    // Apply price range filter
+    if (priceRange.min !== "") {
+      result = result.filter((item) => Number(item.price) >= Number(priceRange.min))
+    }
+
+    if (priceRange.max !== "") {
+      result = result.filter((item) => Number(item.price) <= Number(priceRange.max))
+    }
+
+    // Apply sorting
+    if (sortConfig.key) {
+      result.sort((a, b) => {
+        if (sortConfig.key === "price") {
+          return sortConfig.direction === "ascending"
+            ? Number(a.price) - Number(b.price)
+            : Number(b.price) - Number(a.price)
+        } else {
+          return sortConfig.direction === "ascending"
+            ? a[sortConfig.key].localeCompare(b[sortConfig.key])
+            : b[sortConfig.key].localeCompare(a[sortConfig.key])
+        }
+      })
+    }
+
+    setFilteredTreatments(result)
+  }, [treatments, searchTerm, sortConfig, priceRange])
+
+  const requestSort = (key) => {
+    let direction = "ascending"
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending"
+    }
+    setSortConfig({ key, direction })
+  }
 
   const addTreatment = async () => {
     if (!newTreatment.name || !newTreatment.price) {
-      setError("Name and price are required");
-      toast.error("Name and price are required");
-      return;
+      setError("Name and price are required")
+      toast.error("Name and price are required")
+      return
     }
     try {
       const response = await fetch("http://localhost:8000/doc/treatment/", {
@@ -49,22 +101,22 @@ const Treatments = () => {
           Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
         body: JSON.stringify(newTreatment),
-      });
-      if (!response.ok) throw new Error("Failed to add treatment");
-      await fetchTreatments();
-      setNewTreatment({ name: "", price: "" });
-      toast.success("Treatment added successfully!");
+      })
+      if (!response.ok) throw new Error("Failed to add treatment")
+      await fetchTreatments()
+      setNewTreatment({ name: "", price: "" })
+      toast.success("Treatment added successfully!")
     } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      setError(err.message)
+      toast.error(err.message)
     }
-  };
+  }
 
   const updateTreatment = async () => {
     if (!editingTreatment.name || !editingTreatment.price) {
-      setError("Name and price are required");
-      toast.error("Name and price are required");
-      return;
+      setError("Name and price are required")
+      toast.error("Name and price are required")
+      return
     }
     try {
       const response = await fetch("http://localhost:8000/doc/treatment/", {
@@ -74,16 +126,16 @@ const Treatments = () => {
           Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
         body: JSON.stringify({ id: editingTreatment.id, treatment: editingTreatment }),
-      });
-      if (!response.ok) throw new Error("Failed to update treatment");
-      await fetchTreatments();
-      setEditingTreatment(null);
-      toast.success("Treatment updated successfully!");
+      })
+      if (!response.ok) throw new Error("Failed to update treatment")
+      await fetchTreatments()
+      setEditingTreatment(null)
+      toast.success("Treatment updated successfully!")
     } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      setError(err.message)
+      toast.error(err.message)
     }
-  };
+  }
 
   const deleteTreatment = async (id) => {
     try {
@@ -92,26 +144,32 @@ const Treatments = () => {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
         },
-      });
-      if (!response.ok) throw new Error("Failed to delete treatment");
-      await fetchTreatments();
-      toast.success("Treatment deleted successfully!");
+      })
+      if (!response.ok) throw new Error("Failed to delete treatment")
+      await fetchTreatments()
+      toast.success("Treatment deleted successfully!")
     } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      setError(err.message)
+      toast.error(err.message)
     }
-  };
+  }
 
   const cancelEdit = () => {
-    setEditingTreatment(null);
-    setError(null);
-  };
+    setEditingTreatment(null)
+    setError(null)
+  }
 
   const handleEditClick = (treatment) => {
-    setEditingTreatment(treatment);
-    toast.info(`Editing "${treatment.name}"`);
-    formRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+    setEditingTreatment(treatment)
+    toast.info(`Editing "${treatment.name}"`)
+    formRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const resetFilters = () => {
+    setSearchTerm("")
+    setPriceRange({ min: "", max: "" })
+    setSortConfig({ key: null, direction: "ascending" })
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -126,9 +184,7 @@ const Treatments = () => {
           </Link>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md mb-6" ref={formRef}>
-          <h2 className="text-xl font-semibold">
-            {editingTreatment ? "Edit Treatment" : "Add Treatment"}
-          </h2>
+          <h2 className="text-xl font-semibold">{editingTreatment ? "Edit Treatment" : "Add Treatment"}</h2>
           <div className="flex flex-col gap-4 mt-2">
             <div>
               <label className="block text-sm font-medium text-[var(--txt)]">Name</label>
@@ -166,10 +222,7 @@ const Treatments = () => {
                 {editingTreatment ? "Update Treatment" : "Add Treatment"}
               </button>
               {editingTreatment && (
-                <button
-                  onClick={cancelEdit}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                >
+                <button onClick={cancelEdit} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
                   Cancel
                 </button>
               )}
@@ -178,6 +231,50 @@ const Treatments = () => {
         </div>
 
         <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4 text-center">Treatments List</h2>
+
+        {/* Search and Filter Controls */}
+        <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaSearch className="text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search treatments..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                />
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <div>
+                <input
+                  type="number"
+                  placeholder="Min price"
+                  value={priceRange.min}
+                  onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
+                  className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Max price"
+                  value={priceRange.max}
+                  onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
+                  className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                />
+              </div>
+              <button onClick={resetFilters} className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-white rounded-lg shadow-md p-4">
           {loading ? (
             <div className="flex justify-center items-center">
@@ -185,20 +282,44 @@ const Treatments = () => {
             </div>
           ) : error ? (
             <p className="text-red-600 text-center">{error}</p>
-          ) : treatments.length === 0 ? (
-            <p className="text-[var(--txt)] text-center">No treatments available.</p>
+          ) : filteredTreatments.length === 0 ? (
+            <p className="text-[var(--txt)] text-center">
+              {searchTerm || priceRange.min || priceRange.max
+                ? "No treatments match your search criteria."
+                : "No treatments available."}
+            </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse border border-gray-300">
                 <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                   <tr>
-                    <th className="border border-gray-300 p-2">Name</th>
-                    <th className="border border-gray-300 p-2">Price</th>
+                    <th className="border border-gray-300 p-2 cursor-pointer" onClick={() => requestSort("name")}>
+                      <div className="flex items-center justify-between">
+                        Name
+                        {sortConfig.key === "name" &&
+                          (sortConfig.direction === "ascending" ? (
+                            <FaSortAmountUp className="ml-1" />
+                          ) : (
+                            <FaSortAmountDown className="ml-1" />
+                          ))}
+                      </div>
+                    </th>
+                    <th className="border border-gray-300 p-2 cursor-pointer" onClick={() => requestSort("price")}>
+                      <div className="flex items-center justify-between">
+                        Price
+                        {sortConfig.key === "price" &&
+                          (sortConfig.direction === "ascending" ? (
+                            <FaSortAmountUp className="ml-1" />
+                          ) : (
+                            <FaSortAmountDown className="ml-1" />
+                          ))}
+                      </div>
+                    </th>
                     <th className="border border-gray-300 p-2">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {treatments.map((treatment) => (
+                  {filteredTreatments.map((treatment) => (
                     <tr key={treatment.id} className="even:bg-gray-100 odd:bg-white">
                       <td className="border border-gray-300 p-2">{treatment.name || "N/A"}</td>
                       <td className="border border-gray-300 p-2">₹{treatment.price || "N/A"}</td>
@@ -225,7 +346,9 @@ const Treatments = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Treatments;
+export default Treatments
+
+
