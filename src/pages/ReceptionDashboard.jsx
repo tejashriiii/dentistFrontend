@@ -16,12 +16,15 @@ const Dashboard = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/p/complaints/", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/complaints/`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
         },
-      });
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch patients");
       }
@@ -40,12 +43,15 @@ const Dashboard = () => {
 
   const fetchFollowups = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/p/followup/", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/followup/`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
         },
-      });
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch followups");
       }

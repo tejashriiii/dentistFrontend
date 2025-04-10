@@ -42,15 +42,18 @@ const PatientAppointmentForm = () => {
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/p/complaints/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/complaints/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
+          body: JSON.stringify(dataToSend),
         },
-        body: JSON.stringify(dataToSend),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

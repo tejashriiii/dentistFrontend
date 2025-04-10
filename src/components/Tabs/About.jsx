@@ -34,7 +34,7 @@ function About({ activeComplaint }) {
       const phoneNumber = activeComplaint.phonenumber;
 
       // Send data to backend
-      const FETCH_MEDICAL_DETAILS_URL = `http://localhost:8000/p/medical_details/${phoneNumber}/${patient}/`;
+      const FETCH_MEDICAL_DETAILS_URL = `${import.meta.env.VITE_API_URL}/p/medical_details/${phoneNumber}/${patient}/`;
       const response = await fetch(FETCH_MEDICAL_DETAILS_URL, {
         method: "GET",
         headers: {
@@ -65,7 +65,7 @@ function About({ activeComplaint }) {
       const patientId = activeComplaint.patient_id;
 
       // Send data to backend
-      const FETCH_HISTORY_URL = `http://localhost:8000/p/history/${patientId}/`;
+      const FETCH_HISTORY_URL = `${import.meta.env.VITE_API_URL}/p/history/${patientId}/`;
       const response = await fetch(FETCH_HISTORY_URL, {
         method: "GET",
         headers: {
@@ -110,14 +110,17 @@ function About({ activeComplaint }) {
       };
 
       // Send data to backend
-      const response = await fetch("http://localhost:8000/p/medical_details/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/medical_details/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       if (response.ok) {
         toast.success("Medical details saved successfully!");
