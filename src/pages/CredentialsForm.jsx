@@ -34,14 +34,17 @@ const CredentialsForm = ({ formAction }) => {
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/auth/${formAction}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/${formAction}/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(dataToSend),
         },
-        body: JSON.stringify(dataToSend),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -65,10 +68,12 @@ const CredentialsForm = ({ formAction }) => {
             } else if (userRole === "dentist") {
               navigate("/doctordashboard");
             } else {
-              toast.error("Unknown or missing role. Redirecting to default dashboard.");
+              toast.error(
+                "Unknown or missing role. Redirecting to default dashboard.",
+              );
               navigate("/dashboard");
             }
-          }, 3400); 
+          }, 3400);
         } else {
           toast.success("Registration successful!");
           setFormData({ mobileNumber: "", password: "", name: "" });
@@ -86,7 +91,9 @@ const CredentialsForm = ({ formAction }) => {
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         {/* Branding Section */}
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-[var(--txt)]">Ojas Dental Clinic</h1>
+          <h1 className="text-3xl font-bold text-[var(--txt)]">
+            Ojas Dental Clinic
+          </h1>
         </div>
 
         <h2 className="text-2xl font-bold text-[var(--txt)] mb-6 text-center">
@@ -96,7 +103,10 @@ const CredentialsForm = ({ formAction }) => {
         <form onSubmit={handleSubmit}>
           {/* Mobile Number Field with Icon */}
           <div className="mb-4">
-            <label htmlFor="mobileNumber" className="block text-sm font-medium text-[var(--txt)]">
+            <label
+              htmlFor="mobileNumber"
+              className="block text-sm font-medium text-[var(--txt)]"
+            >
               Mobile Number
             </label>
             <div className="flex items-center border border-[var(--darkgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
@@ -117,7 +127,10 @@ const CredentialsForm = ({ formAction }) => {
 
           {/* Name Field with Icon */}
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-[var(--txt)]">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-[var(--txt)]"
+            >
               Name
             </label>
             <div className="flex items-center border border-[var(--darkgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
@@ -137,7 +150,10 @@ const CredentialsForm = ({ formAction }) => {
 
           {/* Password Field with Icon */}
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-[var(--txt)]">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-[var(--txt)]"
+            >
               Password
             </label>
             <div className="flex items-center border border-[var(--darkgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
@@ -160,7 +176,9 @@ const CredentialsForm = ({ formAction }) => {
             type="submit"
             disabled={isSubmitting}
             className={`w-full bg-[var(--darkgreen)] text-white p-3 rounded-md hover:bg-[var(--darkergreen)] duration-200 shadow-md hover:shadow-lg ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:cursor-pointer"
+              isSubmitting
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:cursor-pointer"
             }`}
           >
             {isSubmitting ? "Submitting..." : capitalizeFirstLetter(formAction)}

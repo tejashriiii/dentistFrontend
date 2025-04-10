@@ -11,18 +11,21 @@ const SendMessage = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/m/sendwhatsapp/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", 
-          "Accept": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/m/sendwhatsapp/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            phone_number: phoneNumber,
+            template_name: template,
+            language_code: "en_US",
+          }),
         },
-        body: JSON.stringify({
-          phone_number: phoneNumber,
-          template_name: template,
-          language_code: "en_US",
-        }),
-      });
+      );
 
       const data = await response.json();
       console.log("Response:", data);

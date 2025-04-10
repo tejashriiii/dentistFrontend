@@ -19,13 +19,16 @@ const Prescriptions = ({ activeComplaint }) => {
   // Fetch prescription data from API
   const fetchAllPrescriptions = async () => {
     try {
-      const response = await fetch("http://localhost:8000/doc/prescription/", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/doc/prescription/`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) throw new Error("Failed to fetch prescriptions");
 
@@ -58,7 +61,7 @@ const Prescriptions = ({ activeComplaint }) => {
       const sitting = activeComplaint.complaint_object
         ? activeComplaint.sitting
         : 0;
-      const FETCH_PATIENT_PRESCRIPTIONS_URL = `http://localhost:8000/p/prescription/${activeComplaint.id}/${sitting}/`;
+      const FETCH_PATIENT_PRESCRIPTIONS_URL = `${import.meta.env.VITE_API_URL}/p/prescription/${activeComplaint.id}/${sitting}/`;
       console.log(FETCH_PATIENT_PRESCRIPTIONS_URL);
       const response = await fetch(FETCH_PATIENT_PRESCRIPTIONS_URL, {
         method: "GET",
@@ -86,15 +89,18 @@ const Prescriptions = ({ activeComplaint }) => {
 
   const createPatientPrescription = async (prescriptionToCreate) => {
     try {
-      const response = await fetch("http://localhost:8000/p/prescription/", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/prescription/`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
+          body: JSON.stringify(prescriptionToCreate),
         },
-        body: JSON.stringify(prescriptionToCreate),
-      });
+      );
 
       if (response.ok) {
         toast.success("Prescription created!");
@@ -112,15 +118,18 @@ const Prescriptions = ({ activeComplaint }) => {
 
   const updatePatientPrescription = async (formattedPrescriptionToEdit) => {
     try {
-      const response = await fetch("http://localhost:8000/p/prescription/", {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/prescription/`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
+          body: JSON.stringify(formattedPrescriptionToEdit),
         },
-        body: JSON.stringify(formattedPrescriptionToEdit),
-      });
+      );
 
       if (response.ok) {
         toast.success("Prescription updated!");
@@ -139,7 +148,7 @@ const Prescriptions = ({ activeComplaint }) => {
 
   const deletePrescription = async (prescriptionId) => {
     try {
-      const DELETE_PRESCRIPTION_URL = `http://localhost:8000/p/prescription/delete/${prescriptionId}/`;
+      const DELETE_PRESCRIPTION_URL = `${import.meta.env.VITE_API_URL}/p/prescription/delete/${prescriptionId}/`;
       const response = await fetch(DELETE_PRESCRIPTION_URL, {
         method: "DELETE",
         headers: {

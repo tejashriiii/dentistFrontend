@@ -16,13 +16,13 @@ export default function TreatmentDashboard() {
     const fetchPatients = async () => {
       try {
         const [complaintResponse, followupResponse] = await Promise.all([
-          fetch("http://localhost:8000/p/complaints/", {
+          fetch(`${import.meta.env.VITE_API_URL}/p/complaints/`, {
             headers: {
               Accept: "application/json",
               Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
             },
           }),
-          fetch("http://localhost:8000/p/followup/", {
+          fetch(`${import.meta.env.VITE_API_URL}/p/followup/`, {
             headers: {
               Accept: "application/json",
               Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,

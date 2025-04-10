@@ -22,12 +22,15 @@ const DentistDashboard = () => {
   // Fetch appointments from the same endpoint as patient dashboard
   const fetchAppointments = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/p/complaints/", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/complaints/`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
         },
-      });
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch appointments");
       }
@@ -46,17 +49,22 @@ const DentistDashboard = () => {
   // Fetch follow-ups from the same endpoint as patient dashboard
   const fetchFollowups = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/p/followup/", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/followup/`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
         },
-      });
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch follow-ups");
       }
       const data = await response.json();
-      const followupList = Array.isArray(data.followups) ? data.followups : [data];
+      const followupList = Array.isArray(data.followups)
+        ? data.followups
+        : [data];
       setFollowups(followupList);
     } catch (err) {
       setFollowupsError(err.message);
@@ -414,7 +422,9 @@ const DentistDashboard = () => {
                   <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                     <tr>
                       <th className="border border-gray-300 p-2">Name</th>
-                      <th className="border border-gray-300 p-2">Phone Number</th>
+                      <th className="border border-gray-300 p-2">
+                        Phone Number
+                      </th>
                       <th className="border border-gray-300 p-2">Age</th>
                       <th className="border border-gray-300 p-2">Complaint</th>
                       <th className="border border-gray-300 p-2">Time</th>
@@ -476,7 +486,9 @@ const DentistDashboard = () => {
                   <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                     <tr>
                       <th className="border border-gray-300 p-2">Name</th>
-                      <th className="border border-gray-300 p-2">Phone Number</th>
+                      <th className="border border-gray-300 p-2">
+                        Phone Number
+                      </th>
                       <th className="border border-gray-300 p-2">Age</th>
                       <th className="border border-gray-300 p-2">Follow-up</th>
                       <th className="border border-gray-300 p-2">Time</th>

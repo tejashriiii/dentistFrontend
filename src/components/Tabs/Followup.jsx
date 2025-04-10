@@ -22,7 +22,7 @@ const Followup = ({ activeComplaint }) => {
   const fetchPastFollowups = async () => {
     try {
       if (Object.keys(activeComplaint) == 0) return;
-      const PAST_FOLLOWUPS_URL = `http://localhost:8000/p/followup/${activeComplaint.id}/`;
+      const PAST_FOLLOWUPS_URL = `${import.meta.env.VITE_API_URL}/p/followup/${activeComplaint.id}/`;
       const response = await fetch(PAST_FOLLOWUPS_URL, {
         method: "GET",
         headers: {
@@ -43,7 +43,7 @@ const Followup = ({ activeComplaint }) => {
 
   const fetchScheduledFollowups = async (date) => {
     try {
-      const SCHEDULED_FOLLOWUPS_URL = `http://localhost:8000/p/followup/${date}/`;
+      const SCHEDULED_FOLLOWUPS_URL = `${import.meta.env.VITE_API_URL}/p/followup/${date}/`;
       const response = await fetch(SCHEDULED_FOLLOWUPS_URL, {
         method: "GET",
         headers: {
@@ -63,7 +63,7 @@ const Followup = ({ activeComplaint }) => {
 
   const createNewFollowup = async (followup) => {
     try {
-      const CREATE_FOLLOWUP_URL = `http://localhost:8000/p/followup/`;
+      const CREATE_FOLLOWUP_URL = `${import.meta.env.VITE_API_URL}/p/followup/`;
       console.log(activeComplaint);
       const followupToCreate = {
         complaint_id: activeComplaint.id,
@@ -98,7 +98,7 @@ const Followup = ({ activeComplaint }) => {
 
   const updatePastFollowup = async (updatedFollowup) => {
     try {
-      const UPDATE_FOLLOWUP_URL = `http://localhost:8000/p/followup/`;
+      const UPDATE_FOLLOWUP_URL = `${import.meta.env.VITE_API_URL}/p/followup/`;
       const formattedUpdatedFollowup = {
         id: updatedFollowup.id,
         title: updatedFollowup.title,
@@ -131,7 +131,7 @@ const Followup = ({ activeComplaint }) => {
     const sitting = activeComplaint.sitting || 0;
     console.log("sitting: ", 0);
     try {
-      const GENERATE_PDF_URL = `http://localhost:8000/p/prescription/pdf/${complaint_id}/${sitting}/`;
+      const GENERATE_PDF_URL = `${import.meta.env.VITE_API_URL}/p/prescription/pdf/${complaint_id}/${sitting}/`;
       const response = await fetch(GENERATE_PDF_URL, {
         method: "GET",
         headers: {
@@ -298,16 +298,16 @@ const Followup = ({ activeComplaint }) => {
             <td className="border border-gray-300 p-2">
               {activeComplaint.complaint_object
                 ? new Date(
-                  activeComplaint.complaint_object.date,
-                ).toLocaleDateString()
+                    activeComplaint.complaint_object.date,
+                  ).toLocaleDateString()
                 : new Date().toLocaleDateString()}
             </td>
             <td className="border border-gray-300 p-2">
               {activeComplaint.complaint_object
                 ? activeComplaint.complaint_object.time
                   ? activeComplaint.complaint_object.time
-                    .split(".")[0]
-                    .slice(0, 5)
+                      .split(".")[0]
+                      .slice(0, 5)
                   : "Not set"
                 : activeComplaint.time
                   ? activeComplaint.time.split(".")[0].slice(0, 5)
