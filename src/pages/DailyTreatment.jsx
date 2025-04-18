@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, act } from "react";
 import About from "../components/Tabs/About";
 import Prescriptions from "../components/Tabs/Prescriptions";
-import Treatment from "../components/Tabs/Treatment";
+import Diagnosis from "../components/Tabs/Diagnosis";
 import Followup from "../components/Tabs/Followup";
 import { Link } from "react-router-dom";
 
@@ -151,7 +151,7 @@ export default function TreatmentDashboard() {
               >
                 {complaints.length > 0
                   ? activeComplaint.complaint_object?.complaint ||
-                    activeComplaint.complaint
+                  activeComplaint.complaint
                   : "No complaint available"}
               </div>
             </div>
@@ -161,43 +161,39 @@ export default function TreatmentDashboard() {
         <div className="my-7">
           <div className="flex space-x-4 border-b-2 border-[var(--lightgreen)]">
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "aboutPatient"
+              className={`px-6 py-2 transition duration-300 rounded-t-md hover:cursor-pointer ${selectedTab === "aboutPatient"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("aboutPatient")}
             >
               About Patient
             </button>
 
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "treatment"
+              className={`px-6 py-2 transition duration-300 rounded-t-md hover:cursor-pointer ${selectedTab === "treatment"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("treatment")}
             >
-              Treatment
+              Diagnosis
             </button>
 
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "prescription"
+              className={`px-6 py-2 transition duration-300 rounded-t-md hover:cursor-pointer ${selectedTab === "prescription"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("prescription")}
             >
               Prescription
             </button>
             <button
-              className={`px-6 py-2 transition duration-300 hover:cursor-pointer ${
-                selectedTab === "followup"
+              className={`px-6 py-2 transition duration-300 rounded-t-md hover:cursor-pointer ${selectedTab === "followup"
                   ? "bg-[var(--darkgreen)] text-white"
                   : "bg-transparent text-[var(--darkgreen)] hover:bg-[var(--lightgreen)] hover:text-[var(--txt)]"
-              }`}
+                }`}
               onClick={() => handleTabChange("followup")}
             >
               Follow-up
@@ -217,7 +213,7 @@ export default function TreatmentDashboard() {
             </div>
           ) : selectedTab === "treatment" ? (
             <div className="min-h-64 mb-6">
-              <Treatment />
+              <Diagnosis activeComplaint={activeComplaint} />
             </div>
           ) : selectedTab === "followup" ? (
             <div className="min-h-64 mb-6">
