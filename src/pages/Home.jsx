@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
 import { 
   Phone, 
   Mail, 
@@ -24,7 +23,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--txt)]">
-      <Header />
+     
 
       {/* Welcome Section */}
       <section className="flex flex-col md:flex-row justify-between items-center p-8 pt-16 md:pt-20"> <div className="md:w-1/2 animate-fade-in">

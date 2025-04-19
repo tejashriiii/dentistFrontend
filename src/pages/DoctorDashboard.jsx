@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PatientRegisterForm from "./PatientRegisterForm"; // Assuming this component exists
-import QuickActionButton from "../components/QuickActionButton";
+// import QuickActionButton from "../components/QuickActionButton";
 
 const DentistDashboard = () => {
   // State variables for appointments, follow-ups, loading, errors, and UI controls
@@ -424,10 +424,10 @@ const DentistDashboard = () => {
           </div>
         </div>
 
-        <QuickActionButton
+        {/* <QuickActionButton
           setShowQuickActions={setShowQuickActions}
           showQuickActions={showQuickActions}
-        />
+        /> */}
 
         {/* Patient Registration Modal */}
         {isRegisterModalOpen && (

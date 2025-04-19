@@ -18,6 +18,7 @@ import PrescriptionManagement from "./pages/PrescriptionManagement.jsx";
 import PatientDatabase from "./pages/PatientDatabase.jsx";
 import DoctorDashboard from "./pages/DoctorDashboard.jsx";
 import "react-toastify/dist/ReactToastify.css";
+import Header from "./components/Header.jsx";
 
 const App = () => {
   const [patients, setPatients] = React.useState([]);
@@ -30,52 +31,11 @@ const App = () => {
     <Router>
       <ToastContainer position="top-right" autoClose={2000} />
       <div>
-        <nav className="bg-[var(--darkgreen)] p-4 flex justify-between ">
-          <div>
-            <Link to="/Home" className="p-2">
-              HomePage
-            </Link>
-            <Link to="/" className="mr-4 ">
-              AdminDashboard
-            </Link>
-            <Link to="/dailytreat" className="p-2">
-              docDailyTreatment
-            </Link>
-            <Link to="/patientdb" className="p-2">
-              SearcPatient
-            </Link>
-          </div>
-          <div>
-            <Link to="/register" className="p-2">
-              RegisterPatient
-            </Link>
-            <Link to="/login" className="p-2">
-              Login
-            </Link>
-            <Link to="/signup" className="p-2">
-              Signup
-            </Link>
-            <Link to="/appointment" className="p-2">
-              Appointment
-            </Link>
-            <Link to="/sendmessage" className="p-2">
-              SendMessage
-            </Link>
-            <Link to="/treatmentcrud" className="p-2">
-              EditTreatment
-            </Link>
-            <Link to="/prescriptioncrud" className="p-2">
-              EditPrescription
-            </Link>
-            <Link to="/doctordashboard" className="p-2">
-              DoctorDashboard  
-            </Link>
-          </div>
-        </nav>
+        <Header/>
 
         <Routes>
           <Route
-            path="/"
+            path="/admindashboard"
             element={<ReceptionDashboard patients={patients} />}
           />
           <Route
@@ -95,7 +55,7 @@ const App = () => {
             element={<CredentialsForm formAction="signup" />}
           />
           <Route path="/appointment" element={<PatientAppointmentForm />} />
-          <Route path="/Home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route element={<ProtectedRoute allowedRoles={["dentist"]} />}>
             <Route path="/dailytreat" element={<DailyTreatment />} />
             <Route path="/doctordashboard" element={<DoctorDashboard/>} />

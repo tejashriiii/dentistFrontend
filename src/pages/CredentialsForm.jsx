@@ -54,6 +54,7 @@ const CredentialsForm = ({ formAction }) => {
         if (formAction === "login") {
           const token = responseData.token;
           sessionStorage.setItem("jwt", token);
+          window.dispatchEvent(new Event("roleChanged"));
 
           const userRole = getUserRole();
           toast.success("Login successful! Redirecting...");
@@ -63,17 +64,16 @@ const CredentialsForm = ({ formAction }) => {
 
           // Redirect based on role with a 3-second delay
           setTimeout(() => {
-            if (userRole === "admin") {
-              navigate("/");
-            } else if (userRole === "dentist") {
-              navigate("/doctordashboard");
+            if (userRole === 'dentist') {
+              navigate('/doctordashboard');
+            } else if (userRole === 'admin') {
+              navigate('/admindashboard');
+            } else if (userRole === 'patient') {
+              navigate('/');
             } else {
-              toast.error(
-                "Unknown or missing role. Redirecting to default dashboard.",
-              );
-              navigate("/dashboard");
+              navigate('/');
             }
-          }, 3400);
+          }, 2000);
         } else {
           toast.success("Registration successful!");
           setFormData({ mobileNumber: "", password: "", name: "" });
