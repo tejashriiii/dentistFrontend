@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { getUserRole } from "../utils/auth"
+import { toast } from "react-toastify"
 
 function Header({ className }) {
   const [userRole, setUserRole] = useState(null)
@@ -23,14 +24,13 @@ function Header({ className }) {
     }
   }, [])
 
-  // const handleLogout = () => {
-  //   // Clear session storage
-  //   sessionStorage.removeItem("jwt");
-  //   // Reset user role state
-  //   setUserRole(null);
-  //   // Navigate to home page
-  //   navigate('/');
-  // };
+  const handleLogout = () => {
+    sessionStorage.removeItem("jwt")
+    setUserRole(null)
+    window.dispatchEvent(new Event("roleChanged"))
+    toast.success("Logged out successfully")
+    navigate("/")
+  }
 
   const renderNavLinks = () => {
     // If not logged in
@@ -57,8 +57,6 @@ function Header({ className }) {
     if (userRole === "dentist") {
       return (
         <div className="flex items-center space-x-4 flex-wrap">
-          {/* doc dash has all these already, add it to navbar or not? */}
-          {/* <Link to="/" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Home</Link> */}
           <Link to="/dailytreat" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Daily-Treatment
           </Link>
@@ -89,10 +87,12 @@ function Header({ className }) {
           >
             Doctor Dashboard
           </Link>
-          <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
-            Login
-          </Link>
-          {/* <button onClick={handleLogout} className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Logout</button> */}
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
+          >
+            Logout
+          </button>
         </div>
       )
     }
@@ -122,11 +122,12 @@ function Header({ className }) {
           >
             Admin Dashboard
           </Link>
-          <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
-            Login
-          </Link>
-
-          {/* <button onClick={handleLogout} className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Logout</button> */}
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
+          >
+            Logout
+          </button>
         </div>
       )
     }
@@ -147,9 +148,12 @@ function Header({ className }) {
           <Link to="/appointment" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Book Appointment
           </Link>
-          <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
-            Login
-          </Link>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
+          >
+            Logout
+          </button>
         </div>
       )
     }
