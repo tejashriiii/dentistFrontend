@@ -62,18 +62,18 @@ const CredentialsForm = ({ formAction }) => {
           // Clear form data
           setFormData({ mobileNumber: "", password: "", name: "" });
 
-          // Redirect based on role with a 3-second delay
+          // Redirect based on role with a 1.5-second delay
           setTimeout(() => {
             if (userRole === 'dentist') {
               navigate('/doctordashboard');
             } else if (userRole === 'admin') {
               navigate('/admindashboard');
             } else if (userRole === 'patient') {
-              navigate('/');
+              navigate('/patientdashboard');
             } else {
               navigate('/');
             }
-          }, 2000);
+          }, 1500);
         } else {
           toast.success("Registration successful!");
           setFormData({ mobileNumber: "", password: "", name: "" });
