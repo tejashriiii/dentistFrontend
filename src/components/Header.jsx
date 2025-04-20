@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getUserRole } from "../utils/auth";
+"use client"
+
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { getUserRole } from "../utils/auth"
 
 function Header({ className }) {
-  const [userRole, setUserRole] = useState(null);
-  const navigate = useNavigate();
+  const [userRole, setUserRole] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const checkRole = () => {
-      const role = getUserRole();
-      setUserRole(role);
-    };
+      const role = getUserRole()
+      setUserRole(role)
+    }
 
-    checkRole();
+    checkRole()
 
-    window.addEventListener("roleChanged", checkRole);
+    window.addEventListener("roleChanged", checkRole)
 
     return () => {
-      window.removeEventListener("roleChanged", checkRole);
-    };
-  }, []);
+      window.removeEventListener("roleChanged", checkRole)
+    }
+  }, [])
 
   // const handleLogout = () => {
   //   // Clear session storage
@@ -35,32 +37,20 @@ function Header({ className }) {
     if (!userRole) {
       return (
         <div className="flex items-center space-x-4">
-          <Link
-            to="/"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Home
           </Link>
-          <Link
-            to="/login"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Login
           </Link>
-          <Link
-            to="/signup"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/signup" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Signup
           </Link>
-          <Link
-            to="/contactus"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/contactus" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Contact Us
           </Link>
         </div>
-      );
+      )
     }
 
     // If logged in as dentist
@@ -69,28 +59,16 @@ function Header({ className }) {
         <div className="flex items-center space-x-4 flex-wrap">
           {/* doc dash has all these already, add it to navbar or not? */}
           {/* <Link to="/" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Home</Link> */}
-          <Link
-            to="/dailytreat"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/dailytreat" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Daily-Treatment
           </Link>
-          <Link
-            to="/patientdb"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/patientdb" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             SearchPatient
           </Link>
-          <Link
-            to="/register"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/register" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Register Patient
           </Link>
-          <Link
-            to="/appointment"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/appointment" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Appointment
           </Link>
           <Link
@@ -111,49 +89,31 @@ function Header({ className }) {
           >
             Doctor Dashboard
           </Link>
-          <Link
-            to="/login"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Login
           </Link>
           {/* <button onClick={handleLogout} className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Logout</button> */}
         </div>
-      );
+      )
     }
 
     // If logged in as admin
     if (userRole === "admin") {
       return (
         <div className="flex items-center space-x-4">
-          <Link
-            to="/"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Home
           </Link>
-          <Link
-            to="/register"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/register" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Register Patient
           </Link>
-          <Link
-            to="/appointment"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/appointment" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Appointment
           </Link>
-          <Link
-            to="/patientdb"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/patientdb" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Search Patient
           </Link>
-          <Link
-            to="/sendmessage"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/sendmessage" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Send Message
           </Link>
           <Link
@@ -162,63 +122,54 @@ function Header({ className }) {
           >
             Admin Dashboard
           </Link>
-          <Link
-            to="/login"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Login
           </Link>
 
           {/* <button onClick={handleLogout} className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Logout</button> */}
         </div>
-      );
+      )
     }
 
     // If logged in as patient
     if (userRole === "patient") {
       return (
         <div className="flex items-center space-x-4">
-          <Link
-            to="/"
-            className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-          >
+          <Link to="/" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
             Home
           </Link>
           <Link
             to="/patientdashboard"
             className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
           >
-            Patient Dashboard
+            Dashboard
           </Link>
-          {/* <button onClick={handleLogout} className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">Logout</button> */}
+          <Link to="/appointment" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
+            Book Appointment
+          </Link>
+          <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
+            Login
+          </Link>
         </div>
-      );
+      )
     }
 
     // Fallback if role is undefined or not recognized
     return (
       <div className="flex items-center space-x-4">
-        <Link
-          to="/"
-          className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-        >
+        <Link to="/" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
           Home
         </Link>
-        <Link
-          to="/login"
-          className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]"
-        >
+        <Link to="/login" className="px-4 py-2 text-lg text-[var(--txt)] rounded hover:bg-[var(--darkergreen)]">
           Login
         </Link>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div>
-      <header
-        className={`${className} justify-between p-2 bg-[var(--darkgreen)]`}
-      >
+      <header className={`${className} justify-between p-2 bg-[var(--darkgreen)]`}>
         <div className="flex items-center">
           <Link to="/">
             <img src="./src/assets/logo.svg" alt="Logo" className="w-18 h-16" />
@@ -227,7 +178,8 @@ function Header({ className }) {
         {renderNavLinks()}
       </header>
     </div>
-  );
+  )
 }
 
-export default Header;
+export default Header
+
