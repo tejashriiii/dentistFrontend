@@ -80,25 +80,23 @@ const DentistDashboard = () => {
     }
   };
 
-  // Quick Action Button component
-
   // Action Cards component
   const ActionCards = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
       {/* Register Patient */}
       <button
         onClick={() => setIsRegisterModalOpen(true)}
-        className="bg-white rounded-lg shadow-md p-6 hover:cursor-pointer hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:cursor-pointer hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
-        <div className="flex items-center gap-4">
-          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
-            <UserPlus className="h-8 w-8" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="bg-[var(--darkgreen)] p-2 sm:p-4 rounded-full text-white">
+            <UserPlus className="h-6 w-6 sm:h-8 sm:w-8" />
           </div>
           <div className="text-left">
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+            <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Register Patient
             </h3>
-            <p className="text-gray-600">Add a new patient to the system</p>
+            <p className="text-sm sm:text-base text-gray-600">Add a new patient to the system</p>
           </div>
         </div>
       </button>
@@ -106,17 +104,17 @@ const DentistDashboard = () => {
       {/* Schedule Appointment */}
       <Link
         to="/appointment"
-        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
-        <div className="flex items-center gap-4">
-          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
-            <CalendarPlus className="h-8 w-8" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="bg-[var(--darkgreen)] p-2 sm:p-4 rounded-full text-white">
+            <CalendarPlus className="h-6 w-6 sm:h-8 sm:w-8" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+            <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Schedule Appointment
             </h3>
-            <p className="text-gray-600">Book a new appointment</p>
+            <p className="text-sm sm:text-base text-gray-600">Book a new appointment</p>
           </div>
         </div>
       </Link>
@@ -124,17 +122,17 @@ const DentistDashboard = () => {
       {/* Search Patient */}
       <Link
         to="/patientdb"
-        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
-        <div className="flex items-center gap-4">
-          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
-            <Search className="h-8 w-8" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="bg-[var(--darkgreen)] p-2 sm:p-4 rounded-full text-white">
+            <Search className="h-6 w-6 sm:h-8 sm:w-8" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+            <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Search Patient
             </h3>
-            <p className="text-gray-600">Find patient records</p>
+            <p className="text-sm sm:text-base text-gray-600">Find patient records</p>
           </div>
         </div>
       </Link>
@@ -142,17 +140,17 @@ const DentistDashboard = () => {
       {/* View Daily Treatments */}
       <Link
         to="/dailytreat"
-        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
-        <div className="flex items-center gap-4">
-          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
-            <ClipboardList className="h-8 w-8" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="bg-[var(--darkgreen)] p-2 sm:p-4 rounded-full text-white">
+            <ClipboardList className="h-6 w-6 sm:h-8 sm:w-8" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+            <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               View Daily Treatments
             </h3>
-            <p className="text-gray-600">Manage today's treatments</p>
+            <p className="text-sm sm:text-base text-gray-600">Manage today's treatments</p>
           </div>
         </div>
       </Link>
@@ -160,17 +158,17 @@ const DentistDashboard = () => {
       {/* Manage Treatments */}
       <Link
         to="/treatmentcrud"
-        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
-        <div className="flex items-center gap-4">
-          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
-            <Hospital className="h-8 w-8" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="bg-[var(--darkgreen)] p-2 sm:p-4 rounded-full text-white">
+            <Hospital className="h-6 w-6 sm:h-8 sm:w-8" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+            <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Manage Treatments
             </h3>
-            <p className="text-gray-600">Manage treatment details</p>
+            <p className="text-sm sm:text-base text-gray-600">Manage treatment details</p>
           </div>
         </div>
       </Link>
@@ -178,17 +176,17 @@ const DentistDashboard = () => {
       {/* Manage Prescriptions */}
       <Link
         to="/prescriptioncrud"
-        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+        className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
-        <div className="flex items-center gap-4">
-          <div className="bg-[var(--darkgreen)] p-4 rounded-full text-white">
-            <BriefcaseMedical className="h-8 w-8" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="bg-[var(--darkgreen)] p-2 sm:p-4 rounded-full text-white">
+            <BriefcaseMedical className="h-6 w-6 sm:h-8 sm:w-8" />
           </div>
           <div>
-            <h3 className="text-xl font-semibold text-[var(--darkergreen)]">
+            <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Manage Prescriptions
             </h3>
-            <p className="text-gray-600">Manage prescription records</p>
+            <p className="text-sm sm:text-base text-gray-600">Manage prescription records</p>
           </div>
         </div>
       </Link>
@@ -197,7 +195,7 @@ const DentistDashboard = () => {
   // Dashboard Stats component
   const DashboardStats = () => (
     <div className="bg-white rounded-lg shadow-md p-4 mb-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-[var(--darkgreen)] bg-opacity-10 p-4 rounded-lg">
           <h3 className="text-lg font-semibold text-white">
             Today's Appointments
@@ -216,9 +214,9 @@ const DentistDashboard = () => {
 
   // Main render
   return (
-    <div className="min-h-screen flex justify-center bg-gray-100 p-6">
-      <div className="w-2/3">
-        <h1 className="text-3xl font-bold text-center text-[var(--txt)] my-10">
+    <div className="min-h-screen flex justify-center bg-gray-100 p-3 sm:p-6">
+      <div className="w-full sm:w-4/5 md:w-2/3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-[var(--txt)] my-6 sm:my-10">
           Dentist Dashboard
         </h1>
         <ActionCards />
@@ -226,7 +224,7 @@ const DentistDashboard = () => {
 
         {/* Appointments Section */}
         <div className="mt-8">
-          <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
+          <h2 className="text-xl sm:text-2xl font-semibold text-[var(--darkergreen)] mb-4">
             Appointments
           </h2>
           <div className="bg-white rounded-lg shadow-md p-4">
@@ -241,42 +239,42 @@ const DentistDashboard = () => {
                 <table className="w-full border-collapse border border-gray-300">
                   <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                     <tr>
-                      <th className="border border-gray-300 p-2">Name</th>
-                      <th className="border border-gray-300 p-2">
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Name</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                         Phone Number
                       </th>
-                      <th className="border border-gray-300 p-2">Age</th>
-                      <th className="border border-gray-300 p-2">Complaint</th>
-                      <th className="border border-gray-300 p-2">Time</th>
-                      <th className="border border-gray-300 p-2">Actions</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">Age</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Complaint</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Time</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {appointments.map((appointment, index) => (
                       <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           {appointment.name || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                           {appointment.phonenumber || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                           {appointment.age || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           {appointment.complaint || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           {appointment.time
                             ? appointment.time.split(".")[0].slice(0, 5)
                             : "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           <Link
                             to={`/dailytreatment/${appointment.id}`}
-                            className="text-blue-500 hover:underline"
+                            className="text-blue-500 hover:underline text-sm sm:text-base"
                           >
-                            View Treatment
+                            View
                           </Link>
                         </td>
                       </tr>
@@ -290,7 +288,7 @@ const DentistDashboard = () => {
 
         {/* Follow-ups Section */}
         <div className="mt-8">
-          <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4">
+          <h2 className="text-xl sm:text-2xl font-semibold text-[var(--darkergreen)] mb-4">
             Follow-ups
           </h2>
           <div className="bg-white rounded-lg shadow-md p-4">
@@ -305,42 +303,42 @@ const DentistDashboard = () => {
                 <table className="w-full border-collapse border border-gray-300">
                   <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                     <tr>
-                      <th className="border border-gray-300 p-2">Name</th>
-                      <th className="border border-gray-300 p-2">
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Name</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                         Phone Number
                       </th>
-                      <th className="border border-gray-300 p-2">Age</th>
-                      <th className="border border-gray-300 p-2">Follow-up</th>
-                      <th className="border border-gray-300 p-2">Time</th>
-                      <th className="border border-gray-300 p-2">Actions</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">Age</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Follow-up</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Time</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {followups.map((followup, index) => (
                       <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           {followup.name || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                           {followup.phonenumber || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                           {followup.age || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           {followup.followup || "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           {followup.time
                             ? followup.time.split(".")[0].slice(0, 5)
                             : "N/A"}
                         </td>
-                        <td className="border border-gray-300 p-2">
+                        <td className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
                           <Link
                             to={`/dailytreatment/${followup.id}`}
-                            className="text-blue-500 hover:underline"
+                            className="text-blue-500 hover:underline text-sm sm:text-base"
                           >
-                            View Treatment
+                            View
                           </Link>
                         </td>
                       </tr>
@@ -354,10 +352,10 @@ const DentistDashboard = () => {
 
         {/* Patient Registration Modal */}
         {isRegisterModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[var(--txt)]">
+                <h2 className="text-xl sm:text-2xl font-bold text-[var(--txt)]">
                   Register Patient
                 </h2>
                 <button
