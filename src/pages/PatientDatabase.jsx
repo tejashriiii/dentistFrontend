@@ -388,7 +388,7 @@ const SearchPatients = () => {
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-2 md:mb-0"
+          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)] mb-2 md:mb-0"
         />
         <input
           type="text"
@@ -396,11 +396,11 @@ const SearchPatients = () => {
           value={searchPhone}
           onChange={(e) => setSearchPhone(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 mb-2 md:mb-0"
+          className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)] mb-2 md:mb-0"
         />
         <button
           onClick={searchPatients}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition w-full md:w-auto"
+          className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded-lg hover:bg-[var(--lightgreen)] transition w-full md:w-auto"
         >
           Search
         </button>
@@ -504,7 +504,7 @@ const SearchPatients = () => {
 
           {isLoading ? (
             <div className="flex justify-center items-center h-40">
-              <div className="animate-spin rounded-full h-8 w-8 md:h-10 md:w-10 border-t-2 border-b-2 border-green-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 md:h-10 md:w-10 border-t-2 border-b-2 border-[var(--darkgreen)]"></div>
             </div>
           ) : patientHistory.length > 0 ? (
             <div>
@@ -515,7 +515,7 @@ const SearchPatients = () => {
                 {patientHistory.map((item, index) => (
                   <div
                     key={index}
-                    className="border-l-4 border-green-600 pl-3 md:pl-4 py-2"
+                    className="border-l-4 border-[var(--lightgreen)] pl-3 md:pl-4 py-2"
                   >
                     <div className="text-xs md:text-sm text-gray-500 mb-1">
                       {item.date}
@@ -525,7 +525,7 @@ const SearchPatients = () => {
                     </h4>
                     <p className="text-xs md:text-sm text-gray-700">{item.description}</p>
                     {item.treatment && (
-                      <p className="mt-1 text-xs md:text-sm text-green-700">
+                      <p className="mt-1 text-xs md:text-sm bg-[var(--darkgreen)]">
                         <span className="font-medium">Treatment:</span>{" "}
                         {item.treatment}
                       </p>

@@ -53,7 +53,7 @@ const SendMessage = () => {
       />
       <button
         onClick={sendMessage}
-        className="bg-green-500 text-white p-2 rounded-lg w-full hover:bg-green-600"
+        className="bg-[var(--darkgreen)] text-white p-2 rounded-lg w-full hover:bg[var(--lightgreen)]"
       >
         Send Message
       </button>
