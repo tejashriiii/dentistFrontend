@@ -234,19 +234,19 @@ export default function Diagnosis({ activeComplaint }) {
   return Object.keys(activeComplaint).length > 0 ? (
     <div className="flex flex-col space-y-4 p-4">
       <div>
-        <img src={DentalChart} alt="Dental Chart" />
+        <img src={DentalChart} alt="Dental Chart" className="w-full max-w-md mx-auto" />
       </div>
-      <div className="flex w-full justify-between mb-5">
+      <div className="flex flex-col sm:flex-row sm:justify-between mb-5 gap-3">
         <h1 className="text-2xl font-bold text-[var(--txt)]">Add Diagnosis</h1>
         <button
           onClick={navigateToTreatmentManagement}
-          className="mt-1 bg-[var(--darkgreen)] text-white p-2 rounded hover:bg-[var(--darkergreen)] hover:cursor-pointer"
+          className="bg-[var(--darkgreen)] text-white p-2 rounded hover:bg-[var(--darkergreen)] hover:cursor-pointer w-full sm:w-auto"
         >
           Manage Treatments
         </button>
       </div>
-      <div className="flex flex-wrap gap-7 w-full items-end">
-        <div>
+      <div className="flex flex-col sm:flex-row flex-wrap gap-5 w-full items-start sm:items-end">
+        <div className="w-full sm:w-auto">
           <label
             htmlFor="treatment-list"
             className="block font-semibold mb-2 text-[var(--darkergreen)]"
@@ -260,9 +260,9 @@ export default function Diagnosis({ activeComplaint }) {
             inputValue={selectedTreatment}
           />
         </div>
-        <div>
+        <div className="w-full sm:w-auto">
           <label
-            htmlFor="tooh-number-list"
+            htmlFor="tooth-number-list"
             className="block font-semibold mb-2 text-[var(--darkergreen)]"
           >
             Tooth Number:
@@ -274,27 +274,30 @@ export default function Diagnosis({ activeComplaint }) {
             inputValue={selectedToothNumber}
           />
         </div>
-        <button
-          className="w-1/5 bg-[var(--darkgreen)] text-white mt-5 p-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer"
-          onClick={saveDiagnosis}
-        >
-          {editMode ? "Update diagnosis" : "Save Diagnosis"}
-        </button>
-        {editMode && (
+        <div className="flex gap-3 w-full sm:w-auto">
           <button
-            onClick={cancelEditMode}
-            className="w-1/5 bg-gray-500 text-white mt-5 p-2 rounded-md hover:bg-gray-600 hover:cursor-pointer"
+            className="flex-1 sm:w-40 bg-[var(--darkgreen)] text-white mt-5 p-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer"
+            onClick={saveDiagnosis}
           >
-            Cancel
+            {editMode ? "Update diagnosis" : "Save Diagnosis"}
           </button>
-        )}
+          {editMode && (
+            <button
+              onClick={cancelEditMode}
+              className="flex-1 sm:w-40 bg-gray-500 text-white mt-5 p-2 rounded-md hover:bg-gray-600 hover:cursor-pointer"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </div>
-      {savedDiagnosis.length > 0 ? (
-        <div className="my-12">
+  
+      {savedDiagnosis.length > 0 && (
+        <div className="my-12 overflow-x-auto">
           <h1 className="block text-2xl font-bold mb-4 text-[var(--txt)]">
             Saved Diagnosis
           </h1>
-          <table className="w-full border-collapse border border-gray-300 py-5 my-5">
+          <table className="w-full border-collapse border border-gray-300 min-w-[600px]">
             <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
               <tr>
                 <th className="border border-gray-300 p-2">No.</th>
@@ -315,37 +318,31 @@ export default function Diagnosis({ activeComplaint }) {
                   <td className="border border-gray-300 p-2">
                     {diagnosis.treatment_name}
                   </td>
-                  <td className="border border-gray-300 p-2 text-center">
+                  <td className="border border-gray-300 p-2">
                     {diagnosis.tooth_number}
                   </td>
-                  <td
-                    className="w-1/12 border border-[var(--lightgreen)] border-b-gray-500 text-[var(--txt)] bg-[var(--lightgreen)] hover:border-[var(--darkergreen)] hover:bg-[var(--darkergreen)] hover:cursor-pointer hover:text-white font-bold p-2 text-center"
-                    onClick={() => handleEditDiagnosis(diagnosis)}
-                  >
-                    <PencilRuler className="mx-auto" />
+                  <td className="border border-gray-300 p-2 text-center">
+                    <button
+                      onClick={() => handleEditDiagnosis(diagnosis)}
+                      className="text-blue-600 hover:underline"
+                    >
+                      <PencilRuler className="inline w-4 h-4" />
+                    </button>
                   </td>
-                  <td
-                    className="w-1/12 border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-2 text-center"
-                    onClick={() => handleDeleteDiagnosis(diagnosis.id)}
-                  >
-                    <OctagonX className="mx-auto" />
+                  <td className="border border-gray-300 p-2 text-center">
+                    <button
+                      onClick={() => handleDeleteDiagnosis(diagnosis.id)}
+                      className="text-red-600 hover:underline"
+                    >
+                      <OctagonX className="inline w-4 h-4" />
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      ) : (
-        <div className="w-full my-14 text-center mx-auto italic text-2xl text-gray-500">
-          No Diagnosis given for this complaint.
-        </div>
       )}
     </div>
-  ) : (
-    <div className="p-4 flex justify-center items-center">
-      <h2 className="text-3xl text-[var(--txt)] font-semibold mb-4">
-        No Active complaint/followup
-      </h2>
-    </div>
-  );
+  ) : null;  
 }

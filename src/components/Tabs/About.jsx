@@ -150,14 +150,14 @@ function About({ activeComplaint }) {
   }, [activeComplaint]);
 
   return Object.keys(activeComplaint).length > 0 ? (
-    <div className="p-4">
+    <div className="p-2 md:p-4">
       {detailsEditMode ? (
         <div>
-          <h2 className="text-[var(--txt)] text-2xl font-semibold">
+          <h2 className="text-[var(--txt)] text-xl md:text-2xl font-semibold">
             Edit Medical Details
           </h2>
-          <div className="flex flex-col space-y-6">
-            <div className="mt-4 grid grid-cols-1 gap-6">
+          <div className="flex flex-col space-y-4 md:space-y-6">
+            <div className="mt-2 md:mt-4 grid grid-cols-1 gap-4 md:gap-6">
               {[
                 {
                   label: "Past Illnesses",
@@ -172,7 +172,7 @@ function About({ activeComplaint }) {
                   id: "allergyInput",
                 },
               ].map(({ label, state, setter, id }) => (
-                <div key={id} className="w-1/2">
+                <div key={id} className="w-full md:w-1/2">
                   <label className="block font-semibold text-[var(--darkergreen)]">
                     {label}
                   </label>
@@ -180,7 +180,7 @@ function About({ activeComplaint }) {
                     <input
                       id={id}
                       type="text"
-                      className="border px-3 py-2 rounded-lg flex-grow border-[var(--lightgreen)]"
+                      className="border px-2 md:px-3 py-1 md:py-2 rounded-lg flex-grow border-[var(--lightgreen)]"
                       placeholder={`Add ${label.toLowerCase()}`}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
@@ -201,7 +201,7 @@ function About({ activeComplaint }) {
                           id,
                         )
                       }
-                      className="ml-2 bg-[var(--darkgreen)] text-white px-3 py-2 rounded-lg hover:bg-[var(--darkergreen)] hover:cursor-pointer"
+                      className="ml-2 bg-[var(--darkgreen)] text-white px-2 md:px-3 py-1 md:py-2 rounded-lg hover:bg-[var(--darkergreen)] hover:cursor-pointer text-sm md:text-base"
                     >
                       Add
                     </button>
@@ -209,22 +209,22 @@ function About({ activeComplaint }) {
 
                   {/* Numbered list of items */}
                   {state.length > 0 && (
-                    <div className="mt-3">
+                    <div className="mt-2 md:mt-3">
                       <div>
                         {state.map((item, index) => (
                           <div
                             key={index}
-                            className="flex my-1 px-2 w-fit items-center py-1 bg-[var(--bg)] border-1 border-[var(--lightgreen)] rounded-xl"
+                            className="flex my-1 px-1 md:px-2 w-fit items-center py-1 bg-[var(--bg)] border-1 border-[var(--lightgreen)] rounded-xl"
                           >
-                            <span className="mr-2 text-[var(--txt)] font-semibold">
+                            <span className="mr-1 md:mr-2 text-[var(--txt)] font-semibold text-sm md:text-base">
                               {index + 1}.
                             </span>
-                            <span className="text-[var(--txt)] font-medium">
+                            <span className="text-[var(--txt)] font-medium text-sm md:text-base">
                               {item}
                             </span>
                             <button
                               onClick={() => handleRemoveItem(setter, index)}
-                              className="ml-5 text-red-700 font-bold hover:text-red-600 hover:cursor-pointer"
+                              className="ml-2 md:ml-5 text-red-700 font-bold hover:text-red-600 hover:cursor-pointer"
                             >
                               X
                             </button>
@@ -238,7 +238,7 @@ function About({ activeComplaint }) {
             </div>
 
             {/* Yes/No questions */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
               {[
                 { label: "Smokes?", state: smokes, setter: setSmokes },
                 {
@@ -256,7 +256,7 @@ function About({ activeComplaint }) {
                     {["Yes", "No"].map((option) => (
                       <button
                         key={option}
-                        className={`px-4 mr-5 mt-3 py-2 rounded-lg transition duration-300 ${
+                        className={`px-3 md:px-4 mr-2 md:mr-5 mt-2 md:mt-3 py-1 md:py-2 rounded-lg transition duration-300 text-sm md:text-base ${
                           state === option
                             ? "bg-[var(--darkgreen)] text-white"
                             : "bg-gray-300 hover:bg-[var(--lightgreen)] hover:text-[var(--txt)] hover:cursor-pointer"
@@ -272,15 +272,15 @@ function About({ activeComplaint }) {
             </div>
 
             {/* Save button - New addition */}
-            <div className="mt-6">
+            <div className="mt-4 md:mt-6">
               <button
                 onClick={handleSendToBackend}
-                className="px-6 py-2 mr-2 bg-[var(--darkgreen)] text-white rounded-lg font-medium hover:bg-[var(--darkergreen)] hover:cursor-pointer transition duration-200"
+                className="px-4 md:px-6 py-1 md:py-2 mr-2 bg-[var(--darkgreen)] text-white rounded-lg font-medium hover:bg-[var(--darkergreen)] hover:cursor-pointer transition duration-200 text-sm md:text-base"
               >
                 Save Medical Details
               </button>
               <button
-                className="px-6 py-2 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 hover:cursor-pointer transition duration-200"
+                className="px-4 md:px-6 py-1 md:py-2 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 hover:cursor-pointer transition duration-200 text-sm md:text-base"
                 onClick={handleCancel}
               >
                 Cancel
@@ -290,13 +290,13 @@ function About({ activeComplaint }) {
         </div>
       ) : (
         <div>
-          <div className="my-6 p-4 pb-6 border-1 border-[var(--lightgreen)] rounded-lg bg-[var(--bg)]">
-            <h2 className="font-semibold text-2xl text-[var(--txt)] p-3">
+          <div className="my-4 md:my-6 p-2 md:p-4 pb-4 md:pb-6 border-1 border-[var(--lightgreen)] rounded-lg bg-[var(--bg)]">
+            <h2 className="font-semibold text-xl md:text-2xl text-[var(--txt)] p-2 md:p-3">
               Patient Health Summary
             </h2>
-            <div className="grid grid-cols-3 gap-4 p-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-2 md:p-3">
               <div>
-                <h4 className="font-bold text-xl text-[var(--darkergreen)]">
+                <h4 className="font-bold text-lg md:text-xl text-[var(--darkergreen)]">
                   Past Illnesses
                 </h4>
                 {pastIllnesses.length > 0 ? (
@@ -304,18 +304,18 @@ function About({ activeComplaint }) {
                     {pastIllnesses.map((illness, index) => (
                       <div key={index} className="flex items-center py-1">
                         <span className="mr-2 font-semibold">{index + 1}.</span>
-                        <span>{illness}</span>
+                        <span className="text-sm md:text-base">{illness}</span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500 py-2 italic">
+                  <p className="text-gray-500 py-1 md:py-2 italic text-sm md:text-base">
                     No past illnesses recorded
                   </p>
                 )}
               </div>
               <div>
-                <h4 className="font-bold text-xl text-[var(--darkergreen)]">
+                <h4 className="font-bold text-lg md:text-xl text-[var(--darkergreen)]">
                   Allergies
                 </h4>
                 {allergies.length > 0 ? (
@@ -323,29 +323,29 @@ function About({ activeComplaint }) {
                     {allergies.map((allergy, index) => (
                       <div key={index} className="flex items-center py-1">
                         <span className="mr-2 font-semibold">{index + 1}.</span>
-                        <span>{allergy}</span>
+                        <span className="text-sm md:text-base">{allergy}</span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500 py-2 italic">
+                  <p className="text-gray-500 py-1 md:py-2 italic text-sm md:text-base">
                     No allergies recorded
                   </p>
                 )}
               </div>
               <div>
-                <h4 className="font-bold text-xl text-[var(--darkergreen)]">
+                <h4 className="font-bold text-lg md:text-xl text-[var(--darkergreen)]">
                   Habits
                 </h4>
-                <div className="font-semibold text-[var(--darkergreen)] mt-2 pl-2">
+                <div className="font-semibold text-[var(--darkergreen)] mt-2 pl-2 text-sm md:text-base">
                   <span className="text-black">1.</span> Smokes:{"  "}
                   <span className="text-black">{smokes}</span>
                 </div>
-                <div className="font-semibold text-[var(--darkergreen)] mt-2 pl-2">
+                <div className="font-semibold text-[var(--darkergreen)] mt-2 pl-2 text-sm md:text-base">
                   <span className="text-black">2.</span> Consumes Alcohol:{"  "}
                   <span className="text-black">{alcohol}</span>
                 </div>
-                <div className="font-semibold text-[var(--darkergreen)] mt-2 pl-2">
+                <div className="font-semibold text-[var(--darkergreen)] mt-2 pl-2 text-sm md:text-base">
                   <span className="text-black">3.</span> Eats Tobacco:{"  "}
                   <span className="text-black">{tobacco}</span>
                 </div>
@@ -353,7 +353,7 @@ function About({ activeComplaint }) {
             </div>
           </div>
           <button
-            className="px-6 py-2 bg-[var(--darkgreen)] text-white rounded-lg font-medium hover:bg-[var(--darkergreen)] hover:cursor-pointer transition duration-200"
+            className="px-4 md:px-6 py-1 md:py-2 bg-[var(--darkgreen)] text-white rounded-lg font-medium hover:bg-[var(--darkergreen)] hover:cursor-pointer transition duration-200 text-sm md:text-base"
             onClick={() => {
               setDetailsEditMode(true);
             }}
@@ -362,8 +362,8 @@ function About({ activeComplaint }) {
           </button>
         </div>
       )}
-      <div className="mt-12">
-        <h2 className="text-2xl text-[var(--txt)] font-semibold my-4">
+      <div className="mt-8 md:mt-12">
+        <h2 className="text-xl md:text-2xl text-[var(--txt)] font-semibold my-3 md:my-4">
           Past Complaints
         </h2>
         <PatientHistory
@@ -373,8 +373,8 @@ function About({ activeComplaint }) {
       </div>
     </div>
   ) : (
-    <div className="p-4 flex justify-center items-center">
-      <h2 className="text-3xl text-[var(--txt)] font-semibold mb-4">
+    <div className="p-2 md:p-4 flex justify-center items-center">
+      <h2 className="text-xl md:text-3xl text-[var(--txt)] font-semibold mb-4">
         No Active complaint/followup
       </h2>
     </div>

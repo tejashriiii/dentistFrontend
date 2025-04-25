@@ -157,22 +157,22 @@ const Bills = ({ activeComplaint }) => {
   }, [fetchedDiscount, totalCost]);
 
   return (
-    <div className="p-4">
-      <h2 className="block text-2xl font-bold mb-4 text-[var(--txt)]">
+    <div className="p-2 md:p-4">
+      <h2 className="block text-xl md:text-2xl font-bold mb-2 md:mb-4 text-[var(--txt)]">
         Billing Summary
       </h2>
 
-      <div className="mb-4">
+      <div className="mb-2 md:mb-4">
         {billEntries.length > 0 ? (
-          <div className="my-6 p-4 pb-6 border-1 border-[var(--lightgreen)] rounded-lg bg-[var(--bg)]">
-            <h3 className="text-[var(--darkergreen)] text-xl font-semibold">
+          <div className="my-4 md:my-6 p-3 md:p-4 pb-4 md:pb-6 border-1 border-[var(--lightgreen)] rounded-lg bg-[var(--bg)]">
+            <h3 className="text-[var(--darkergreen)] text-lg md:text-xl font-semibold">
               Treatments
             </h3>
             <ul className="mt-2">
               {billEntries.map((treatment, index) => (
                 <li
                   key={index}
-                  className="flex justify-between border-b border-[var(--darkgreen)] py-4"
+                  className="flex justify-between border-b border-[var(--darkgreen)] py-2 md:py-4 text-sm md:text-base"
                 >
                   <span>{treatment.name || "Unnamed Treatment"}</span>
                   <span>₹{treatment.price || 0}</span>
@@ -181,18 +181,18 @@ const Bills = ({ activeComplaint }) => {
             </ul>
           </div>
         ) : (
-          <p className="italic text-gray-600">No treatments selected</p>
+          <p className="italic text-gray-600 text-sm md:text-base">No treatments selected</p>
         )}
       </div>
 
-      <div className="mb-4">
+      <div className="mb-3 md:mb-4">
         {!consultationPresent && (
-          <div className="flex justify-between">
-            <span className="text-red-700 text-lg font-semibold self-center">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-2 md:space-y-0">
+            <span className="text-red-700 text-base md:text-lg font-semibold">
               Consultation charges not added yet:
             </span>
             <button
-              className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)] hover:cursor-pointer"
+              className="bg-[var(--darkgreen)] text-white px-3 md:px-4 py-1 md:py-2 rounded text-sm md:text-base hover:bg-[var(--darkergreen)] hover:cursor-pointer"
               onClick={addConsultationCharges}
             >
               Add Consultation Charges
@@ -200,28 +200,30 @@ const Bills = ({ activeComplaint }) => {
           </div>
         )}
       </div>
-      <div className="mb-4 space-x-3 space-y-2">
-        <label className="block font-semibold mb-2 text-[var(--darkergreen)]">
+      <div className="mb-3 md:mb-4 flex flex-col md:flex-row md:items-center md:space-x-3 space-y-2 md:space-y-0">
+        <label className="block font-semibold mb-1 md:mb-2 text-[var(--darkergreen)] text-sm md:text-base">
           Discount
         </label>
-        <input
-          type="number"
-          className="w-7/8 px-3 py-2 border rounded-md border-[var(--lightgreen)]"
-          value={discount}
-          onChange={(e) =>
-            setDiscount(Math.max(0, Number(e.target.value) || 0))
-          }
-          placeholder="Enter discount amount"
-        />
-        <button
-          className="w-1/9 bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)] hover:cursor-pointer"
-          onClick={saveDiscount}
-        >
-          Save
-        </button>
+        <div className="flex flex-1 space-x-2">
+          <input
+            type="number"
+            className="w-full md:w-7/8 px-2 md:px-3 py-1 md:py-2 border rounded-md border-[var(--lightgreen)] text-sm md:text-base"
+            value={discount}
+            onChange={(e) =>
+              setDiscount(Math.max(0, Number(e.target.value) || 0))
+            }
+            placeholder="Enter discount amount"
+          />
+          <button
+            className="bg-[var(--darkgreen)] text-white px-3 md:px-4 py-1 md:py-2 rounded text-sm md:text-base hover:bg-[var(--darkergreen)] hover:cursor-pointer"
+            onClick={saveDiscount}
+          >
+            Save
+          </button>
+        </div>
       </div>
 
-      <div className="pt-4 text-xl text-[var(--txt)] space-y-4">
+      <div className="pt-2 md:pt-4 text-lg md:text-xl text-[var(--txt)] space-y-2 md:space-y-4">
         <div className="font-semibold">
           Total Cost:{" "}
           <span className="text-[var(--darkergreen)] float-right">
