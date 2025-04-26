@@ -33,7 +33,12 @@ const QuickActionButton = ({
             action.type === "custom" ? (
               <button
                 key={idx}
-                onClick={action.onClick || onCustomActionClick}
+                onClick={(e) => {
+                  if (window.innerWidth <= 768) {
+                    setShowQuickActions(false);
+                  }
+                  action.onClick ? action.onClick(e) : onCustomActionClick(e);
+                }}
                 className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
               >
                 <action.icon className="h-6 w-6" />
@@ -43,6 +48,11 @@ const QuickActionButton = ({
               <Link
                 key={idx}
                 to={action.path}
+                onClick={(e) => {
+                  if (window.innerWidth <= 768) {
+                    setShowQuickActions(false);
+                  }
+                }}
                 className="flex items-center gap-2 p-3 bg-[var(--darkgreen)] text-white rounded-lg hover:bg-[var(--darkergreen)] transition-colors"
               >
                 <action.icon className="h-6 w-6" />

@@ -274,26 +274,26 @@ const Prescriptions = ({ activeComplaint }) => {
   };
 
   return Object.keys(activeComplaint).length > 0 ? (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="block text-2xl font-bold mb-4 text-[var(--txt)]">
+    <div className="p-2 md:p-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+        <h1 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-0 text-[var(--txt)]">
           {editMode ? "Edit Prescription" : "Add Prescription"}
         </h1>
         <button
           onClick={navigateToPrescriptionManagement}
-          className="bg-[var(--darkgreen)] text-white p-2 rounded hover:bg-[var(--darkergreen)] hover:cursor-pointer"
+          className="w-full sm:w-auto bg-[var(--darkgreen)] text-white p-2 rounded hover:bg-[var(--darkergreen)] hover:cursor-pointer"
         >
           Manage Prescriptions
         </button>
       </div>
 
-      <div className="mb-6 w-full flex items-center flex-wrap">
+      <div className="mb-6 w-full flex flex-col md:flex-row items-start md:items-center flex-wrap gap-4">
         {/* Medication Type Dropdown */}
-        <div className="w-1/2 flex gap-2">
-          <div className="w-1/2">
+        <div className="w-full md:w-1/2 flex flex-col sm:flex-row gap-2">
+          <div className="w-full sm:w-1/2 mb-2 sm:mb-0">
             <label
               htmlFor="medicationType"
-              className="block font-semibold mb-2 text-[var(--darkergreen)]"
+              className="block font-semibold mb-1 text-[var(--darkergreen)]"
             >
               Medicine Type:
             </label>
@@ -313,10 +313,10 @@ const Prescriptions = ({ activeComplaint }) => {
           </div>
 
           {/* Medication Dropdown */}
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2">
             <label
               htmlFor="medication"
-              className="block font-semibold mb-2 text-[var(--darkergreen)]"
+              className="block font-semibold mb-1 text-[var(--darkergreen)]"
             >
               Medicine
             </label>
@@ -338,18 +338,18 @@ const Prescriptions = ({ activeComplaint }) => {
         </div>
 
         {needsDosage() && (
-          <div className="w-1/2 flex justify-around gap-2">
+          <div className="w-full md:w-1/2 flex flex-col sm:flex-row gap-2">
             {/* Dosage Options */}
-            <div className="w-2/3">
-              <label className="block font-semibold mb-2 text-[var(--darkergreen)]">
+            <div className="w-full sm:w-2/3 mb-2 sm:mb-0">
+              <label className="block font-semibold mb-1 text-[var(--darkergreen)]">
                 Dosage:
               </label>
-              <div className="flex">
+              <div className="flex flex-wrap">
                 {dosageOptions.map((option) => (
                   <button
                     key={option}
                     onClick={() => setSelectedDosage(option)}
-                    className={`px-3 py-2 border-2 ${
+                    className={`px-2 py-1 sm:px-3 sm:py-2 text-sm sm:text-base border-2 ${
                       selectedDosage === option
                         ? "bg-[var(--darkgreen)] text-white border-[var(--darkgreen)]"
                         : "bg-gray-300 text-[var(--txt)] hover:border-[var(--lightgreen)] hover:bg-[var(--lightgreen)] border-gray-300"
@@ -362,8 +362,8 @@ const Prescriptions = ({ activeComplaint }) => {
             </div>
 
             {/* Days Input */}
-            <div className="w-1/4">
-              <label className="block font-semibold mb-2 text-[var(--darkergreen)]">
+            <div className="w-full sm:w-1/4">
+              <label className="block font-semibold mb-1 text-[var(--darkergreen)]">
                 Days:
               </label>
               <input
@@ -372,94 +372,98 @@ const Prescriptions = ({ activeComplaint }) => {
                 value={selectedDays}
                 onChange={(e) => setSelectedDays(e.target.value)}
                 className="p-2 border rounded w-full border-[var(--lightgreen)]"
-              />{" "}
+              />
             </div>
           </div>
         )}
       </div>
 
       {/* Save Button */}
-      <div className="flex w-full gap-2 justify-start">
+      <div className="flex w-full flex-col sm:flex-row gap-2 justify-start">
         <button
           onClick={() => {
             editMode ? saveEditedPrescription() : savePrescription();
           }}
-          className="w-1/5 bg-[var(--darkgreen)] text-white mt-5 p-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer"
+          className="w-full sm:w-auto md:w-1/5 bg-[var(--darkgreen)] text-white mt-3 p-2 rounded-md hover:bg-[var(--darkergreen)] hover:cursor-pointer"
         >
           {editMode ? "Update Prescription" : "Create Prescription"}
         </button>
         {editMode && (
           <button
             onClick={cancelEditMode}
-            className="w-1/5 bg-gray-500 text-white mt-5 p-2 rounded-md hover:bg-gray-600 hover:cursor-pointer"
+            className="w-full sm:w-auto md:w-1/5 bg-gray-500 text-white mt-3 p-2 rounded-md hover:bg-gray-600 hover:cursor-pointer"
           >
             Cancel
           </button>
         )}
       </div>
       {savedPrescriptions.length > 0 ? (
-        <div className="my-12">
-          <h1 className="block text-2xl font-bold mb-4 text-[var(--txt)]">
+        <div className="my-8 md:my-12 overflow-x-auto">
+          <h1 className="block text-xl sm:text-2xl font-bold mb-4 text-[var(--txt)]">
             Saved Prescriptions
           </h1>
-          <table className="w-full border-collapse border border-gray-300 py-5 my-5">
-            <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
-              <tr>
-                <th className="border border-gray-300 p-2">No.</th>
-                <th className="border border-gray-300 p-2">Medicine</th>
-                <th className="border border-gray-300 p-2">Type</th>
-                <th className="border border-gray-300 p-2">Dosage</th>
-                <th className="border border-gray-300 p-2">Days</th>
-                <th className="border border-gray-300 p-2 border-b-[var(--lightgreen)]">
-                  Edit
-                </th>
-                <th className="border border-gray-300 p-2 border-b-red-700">
-                  Delete
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {savedPrescriptions.map((prescription, index) => (
-                <tr key={index} className="even:bg-gray-100 odd:bg-white">
-                  <td className="border border-gray-300 p-2">{index + 1}</td>
-                  <td className="border border-gray-300 p-2">
-                    {prescription.prescription_name}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {prescription.prescription_type}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {prescription.dosage || "-"}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    {prescription.days || "-"}
-                  </td>
-                  <td
-                    className="w-1/12 border border-[var(--lightgreen)] border-b-gray-500 text-[var(--txt)] bg-[var(--lightgreen)] hover:border-[var(--darkergreen)] hover:bg-[var(--darkergreen)] hover:cursor-pointer hover:text-white font-bold p-2 text-center"
-                    onClick={() => editPrescription(prescription)}
-                  >
-                    <PencilRuler className="mx-auto" />
-                  </td>
-                  <td
-                    className="w-1/12 border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-2 text-center"
-                    onClick={() => deletePrescription(prescription.id)}
-                  >
-                    <OctagonX className="mx-auto" />
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-gray-300 py-3 sm:py-5 my-3 sm:my-5 min-w-full">
+              <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
+                <tr>
+                  <th className="border border-gray-300 p-1 sm:p-2">No.</th>
+                  <th className="border border-gray-300 p-1 sm:p-2">Medicine</th>
+                  <th className="border border-gray-300 p-1 sm:p-2">Type</th>
+                  <th className="border border-gray-300 p-1 sm:p-2">Dosage</th>
+                  <th className="border border-gray-300 p-1 sm:p-2">Days</th>
+                  <th className="border border-gray-300 p-1 sm:p-2 border-b-[var(--lightgreen)]">
+                    Edit
+                  </th>
+                  <th className="border border-gray-300 p-1 sm:p-2 border-b-red-700">
+                    Delete
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {savedPrescriptions.map((prescription, index) => (
+                  <tr key={index} className="even:bg-gray-100 odd:bg-white">
+                    <td className="border border-gray-300 p-1 sm:p-2 text-center">
+                      {index + 1}
+                    </td>
+                    <td className="border border-gray-300 p-1 sm:p-2">
+                      {prescription.prescription_name}
+                    </td>
+                    <td className="border border-gray-300 p-1 sm:p-2">
+                      {prescription.prescription_type}
+                    </td>
+                    <td className="border border-gray-300 p-1 sm:p-2 text-center">
+                      {prescription.dosage || "-"}
+                    </td>
+                    <td className="border border-gray-300 p-1 sm:p-2 text-center">
+                      {prescription.days || "-"}
+                    </td>
+                    <td
+                      className="border border-[var(--lightgreen)] border-b-gray-500 text-[var(--txt)] bg-[var(--lightgreen)] hover:border-[var(--darkergreen)] hover:bg-[var(--darkergreen)] hover:cursor-pointer hover:text-white font-bold p-1 sm:p-2 text-center"
+                      onClick={() => editPrescription(prescription)}
+                    >
+                      <PencilRuler className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
+                    </td>
+                    <td
+                      className="border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-1 sm:p-2 text-center"
+                      onClick={() => deletePrescription(prescription.id)}
+                    >
+                      <OctagonX className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : (
-        <div className="w-full my-6 text-center mx-auto italic text-2xl text-gray-500">
+        <div className="w-full my-6 text-center mx-auto italic text-lg sm:text-2xl text-gray-500">
           No prescription given for this sitting yet.
         </div>
       )}
     </div>
   ) : (
     <div className="p-4 flex justify-center items-center">
-      <h2 className="text-3xl text-[var(--txt)] font-semibold mb-4">
+      <h2 className="text-xl sm:text-3xl text-[var(--txt)] font-semibold mb-4 text-center">
         No Active complaint/followup
       </h2>
     </div>
