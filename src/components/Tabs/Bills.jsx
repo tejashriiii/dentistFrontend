@@ -156,9 +156,9 @@ const Bills = ({ activeComplaint }) => {
     setFinalCost(totalCost - discount);
   }, [fetchedDiscount, totalCost]);
 
-  return (
-    <div className="p-2 md:p-4">
-      <h2 className="block text-xl md:text-2xl font-bold mb-2 md:mb-4 text-[var(--txt)]">
+  return Object.keys(activeComplaint).length > 0 ? (
+    <div className="p-4">
+      <h2 className="block text-2xl font-bold mb-4 text-[var(--txt)]">
         Billing Summary
       </h2>
 
@@ -181,7 +181,9 @@ const Bills = ({ activeComplaint }) => {
             </ul>
           </div>
         ) : (
-          <p className="italic text-gray-600 text-sm md:text-base">No treatments selected</p>
+          <p className="italic text-gray-600 text-sm md:text-base">
+            No treatments selected
+          </p>
         )}
       </div>
 
@@ -237,6 +239,12 @@ const Bills = ({ activeComplaint }) => {
           </span>
         </div>
       </div>
+    </div>
+  ) : (
+    <div className="p-4 flex justify-center items-center">
+      <h2 className="text-3xl text-[var(--txt)] font-semibold mb-4">
+        No Active complaint/followup
+      </h2>
     </div>
   );
 };
