@@ -14,7 +14,6 @@ const CredentialsForm = ({ formAction }) => {
     newPhoneNumber: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentForm, setCurrentForm] = useState("main"); // 'main', 'forgot', 'changePhone'
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,21 +30,21 @@ const CredentialsForm = ({ formAction }) => {
     let endpoint = "";
     let dataToSend = {};
 
-    if (currentForm === "main") {
+    if (formAction === "signup" || formAction == "login") {
       endpoint = `auth/${formAction}/`;
       dataToSend = {
         phonenumber: formData.mobileNumber,
         password: formData.password,
         name: formData.name,
       };
-    } else if (currentForm === "forgot") {
-      endpoint = `auth/reset-password/`;
+    } else if (formAction === "resetpassword") {
+      endpoint = `auth/password/`;
       dataToSend = {
         name: formData.name,
         phonenumber: formData.mobileNumber,
       };
-    } else if (currentForm === "changePhone") {
-      endpoint = `auth/change-phone/`;
+    } else if (formAction === "changephone") {
+      endpoint = `auth/phonenumber/`;
       dataToSend = {
         name: formData.name,
         old_phonenumber: formData.mobileNumber,
@@ -61,9 +60,10 @@ const CredentialsForm = ({ formAction }) => {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
           },
           body: JSON.stringify(dataToSend),
-        }
+        },
       );
 
       const responseData = await response.json();
@@ -71,7 +71,7 @@ const CredentialsForm = ({ formAction }) => {
       if (!response.ok) {
         toast.error(responseData.error || "Something went wrong!");
       } else {
-        if (currentForm === "main") {
+        if (formAction === "signup" || formAction === "login") {
           const token = responseData.token;
           sessionStorage.setItem("jwt", token);
           window.dispatchEvent(new Event("roleChanged"));
@@ -91,11 +91,10 @@ const CredentialsForm = ({ formAction }) => {
           }, 1500);
         } else {
           toast.success(
-            currentForm === "forgot"
-              ? "Password reset link sent!"
-              : "Phone number updated!"
+            formAction === "resetpassword"
+              ? "Signup and set new password!"
+              : "Phone number updated!",
           );
-          setCurrentForm("main");
         }
 
         setFormData({
@@ -112,6 +111,15 @@ const CredentialsForm = ({ formAction }) => {
     }
   };
 
+  const handlePassAndPhone = (path) => {
+    const USER_ROLE = getUserRole();
+    if (USER_ROLE === "dentist" || USER_ROLE === "admin") navigate(path);
+    else if (path === "/resetpassword")
+      toast.info("Contact admin or doctor for resetting password");
+    else if (path === "/changephone")
+      toast.info("Contact admin or doctor for changing phonenumber");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
@@ -122,11 +130,11 @@ const CredentialsForm = ({ formAction }) => {
         </div>
 
         <h2 className="text-2xl font-bold text-[var(--txt)] mb-6 text-center">
-          {currentForm === "forgot"
+          {formAction === "resetpassword"
             ? "Forgot Password"
-            : currentForm === "changePhone"
-            ? "Change Phone Number"
-            : `Patient ${capitalizeFirstLetter(formAction)}`}
+            : formAction === "changephone"
+              ? "Change Phone Number"
+              : `${capitalizeFirstLetter(formAction)}`}
         </h2>
 
         <form onSubmit={handleSubmit}>
@@ -152,7 +160,7 @@ const CredentialsForm = ({ formAction }) => {
           {/* Old Phone Field */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-[var(--txt)]">
-              {currentForm === "changePhone"
+              {formAction === "changephone"
                 ? "Old Phone Number"
                 : "Mobile Number"}
             </label>
@@ -171,7 +179,7 @@ const CredentialsForm = ({ formAction }) => {
           </div>
 
           {/* New Phone Field (only for phone change) */}
-          {currentForm === "changePhone" && (
+          {formAction === "changephone" && (
             <div className="mb-4">
               <label className="block text-sm font-medium text-[var(--txt)]">
                 New Phone Number
@@ -192,7 +200,7 @@ const CredentialsForm = ({ formAction }) => {
           )}
 
           {/* Password (only for login) */}
-          {currentForm === "main" && (
+          {(formAction === "signup" || formAction === "login") && (
             <div className="mb-6">
               <label className="block text-sm font-medium text-[var(--txt)]">
                 Password
@@ -223,38 +231,38 @@ const CredentialsForm = ({ formAction }) => {
           >
             {isSubmitting
               ? "Submitting..."
-              : currentForm === "main"
-              ? capitalizeFirstLetter(formAction)
-              : "Submit"}
+              : formAction === "login" || formAction === "signup"
+                ? capitalizeFirstLetter(formAction)
+                : "Submit"}
           </button>
         </form>
 
         {/* Switch Form Links */}
         {formAction === "login" && (
           <div className="mt-6 text-center space-y-2">
-            {currentForm !== "main" && (
+            {formAction !== "login" && formAction !== "signup" && (
               <button
-                onClick={() => setCurrentForm("main")}
+                onClick={() => navigate("/login")}
                 className="text-sm text-[var(--txt)] hover:underline"
               >
                 Back to Login
               </button>
             )}
-            {currentForm === "main" && (
-              <>
+            {(formAction === "login" || formAction === "signup") && (
+              <div className="flex jusitfy-between">
                 <button
-                  onClick={() => setCurrentForm("forgot")}
-                  className="block w-full text-sm text-[var(--txt)] hover:underline"
+                  onClick={() => handlePassAndPhone("/resetpassword")}
+                  className="block w-full text-start text-sm text-[var(--txt)] hover:underline hover:cursor-pointer"
                 >
                   Forgot Password?
                 </button>
                 <button
-                  onClick={() => setCurrentForm("changePhone")}
-                  className="block w-full text-sm text-[var(--txt)] hover:underline"
+                  onClick={() => handlePassAndPhone("/changephone")}
+                  className="block w-full text-end text-sm text-[var(--txt)] hover:underline hover:cursor-pointer"
                 >
-                  Change Phone Number
+                  Change Phonenumber
                 </button>
-              </>
+              </div>
             )}
           </div>
         )}

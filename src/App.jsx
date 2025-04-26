@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
 // App.jsx
 // ok add this all in header and not here
 
-import React from "react"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import ReceptionDashboard from "./pages/ReceptionDashboard"
-import PatientRegisterForm from "./pages/PatientRegisterForm"
-import CredentialsForm from "./pages/CredentialsForm"
-import PatientAppointmentForm from "./pages/PatientAppointmentForm"
-import Home from "./pages/Home"
-import DailyTreatment from "./pages/DailyTreatment"
-import ProtectedRoute from "./components/ProtectedRoute"
-import Unauthorized from "./components/Unauthorized"
-import SendMessage from "./pages/SendMessage"
-import { ToastContainer } from "react-toastify"
-import TreatmentManagement from "./pages/TreatmentManagement.jsx"
-import PrescriptionManagement from "./pages/PrescriptionManagement.jsx"
-import PatientDatabase from "./pages/PatientDatabase.jsx"
-import DoctorDashboard from "./pages/DoctorDashboard.jsx"
-import "react-toastify/dist/ReactToastify.css"
-import Header from "./components/Header.jsx"
-import QuickActionButton from "./components/QuickActionButton"
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ReceptionDashboard from "./pages/ReceptionDashboard";
+import PatientRegisterForm from "./pages/PatientRegisterForm";
+import CredentialsForm from "./pages/CredentialsForm";
+import PatientAppointmentForm from "./pages/PatientAppointmentForm";
+import Home from "./pages/Home";
+import DailyTreatment from "./pages/DailyTreatment";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Unauthorized from "./components/Unauthorized";
+import SendMessage from "./pages/SendMessage";
+import { ToastContainer } from "react-toastify";
+import TreatmentManagement from "./pages/TreatmentManagement.jsx";
+import PrescriptionManagement from "./pages/PrescriptionManagement.jsx";
+import PatientDatabase from "./pages/PatientDatabase.jsx";
+import DoctorDashboard from "./pages/DoctorDashboard.jsx";
+import "react-toastify/dist/ReactToastify.css";
+import Header from "./components/Header.jsx";
+import QuickActionButton from "./components/QuickActionButton";
 import {
   CalendarPlus,
   UserPlus,
@@ -32,10 +32,12 @@ import {
   HomeIcon as House,
   UserCheck,
   LogIn,
+  Lock,
+  Phone,
   Mail,
-} from "lucide-react" // Lucide icons
-import { getUserRole } from "./utils/auth.js"
-import PatientDashboard from "./pages/PatientDashboard"
+} from "lucide-react"; // Lucide icons
+import { getUserRole } from "./utils/auth.js";
+import PatientDashboard from "./pages/PatientDashboard";
 
 const App = () => {
   const doctorActions = [
@@ -62,6 +64,18 @@ const App = () => {
       text: "Login",
       icon: LogIn,
       path: "/login",
+    },
+    {
+      type: "link",
+      text: "Change Phone",
+      icon: Phone,
+      path: "/changephone",
+    },
+    {
+      type: "link",
+      text: "Reset Password",
+      icon: Lock,
+      path: "/resetpassword",
     },
     {
       type: "link", // navigates to a route
@@ -93,7 +107,7 @@ const App = () => {
       icon: BriefcaseMedical,
       path: "/prescriptioncrud",
     },
-  ]
+  ];
 
   const adminActions = [
     {
@@ -121,6 +135,18 @@ const App = () => {
       path: "/login",
     },
     {
+      type: "link",
+      text: "Change Phone",
+      icon: Phone,
+      path: "/changephone",
+    },
+    {
+      type: "link",
+      text: "Reset Password",
+      icon: Lock,
+      path: "/resetpassword",
+    },
+    {
       type: "link", // navigates to a route
       text: "Send Reminder",
       icon: Mail,
@@ -132,7 +158,7 @@ const App = () => {
       icon: Search,
       path: "/patientdb",
     },
-  ]
+  ];
 
   const patientActions = [
     {
@@ -147,36 +173,37 @@ const App = () => {
       icon: LogIn,
       path: "/login",
     },
-  ]
+  ];
 
-  const [patients, setPatients] = React.useState([])
-  const [userRole, setUserRole] = React.useState(getUserRole())
-  const [showQuickActions, setShowQuickActions] = React.useState(false)
-  const [quickActionOptions, setQuickActionOptions] = React.useState(patientActions)
+  const [patients, setPatients] = React.useState([]);
+  const [userRole, setUserRole] = React.useState(getUserRole());
+  const [showQuickActions, setShowQuickActions] = React.useState(false);
+  const [quickActionOptions, setQuickActionOptions] =
+    React.useState(patientActions);
   const addPatient = (newPatient) => {
-    setPatients([...patients, newPatient])
-  }
+    setPatients([...patients, newPatient]);
+  };
 
   React.useEffect(() => {
     if (userRole === "admin") {
-      setQuickActionOptions(adminActions)
+      setQuickActionOptions(adminActions);
     } else if (userRole === "dentist") {
-      setQuickActionOptions(doctorActions)
+      setQuickActionOptions(doctorActions);
     } else {
-      setQuickActionOptions(patientActions)
+      setQuickActionOptions(patientActions);
     }
-  }, [userRole])
+  }, [userRole]);
 
   React.useEffect(() => {
     const handleRoleChange = () => {
-      setUserRole(getUserRole()) // this will trigger the effect that updates quickActionOptions
-    }
+      setUserRole(getUserRole()); // this will trigger the effect that updates quickActionOptions
+    };
 
-    window.addEventListener("roleChanged", handleRoleChange)
+    window.addEventListener("roleChanged", handleRoleChange);
     return () => {
-      window.removeEventListener("roleChanged", handleRoleChange)
-    }
-  }, [])
+      window.removeEventListener("roleChanged", handleRoleChange);
+    };
+  }, []);
 
   return (
     <Router>
@@ -185,26 +212,62 @@ const App = () => {
         <Header className="hidden md:flex" />
 
         <Routes>
-          <Route path="/admindashboard" element={<ReceptionDashboard patients={patients} />} />
-          <Route element={<ProtectedRoute allowedRoles={["admin", "dentist"]} />}>
-            <Route path="/register" element={<PatientRegisterForm addPatient={addPatient} />} />
+          {/* Admin only Routes*/}
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+            <Route
+              path="/admindashboard"
+              element={<ReceptionDashboard patients={patients} />}
+            />
           </Route>
-          <Route path="/login" element={<CredentialsForm formAction="login" />} />
-          <Route path="/signup" element={<CredentialsForm formAction="signup" />} />
-          <Route path="/appointment" element={<PatientAppointmentForm />} />
-          <Route path="/" element={<Home />} />
+
+          {/* Dentist only routes */}
           <Route element={<ProtectedRoute allowedRoles={["dentist"]} />}>
             <Route path="/dailytreat" element={<DailyTreatment />} />
             <Route path="/doctordashboard" element={<DoctorDashboard />} />
+            <Route path="/treatmentcrud" element={<TreatmentManagement />} />
+            <Route
+              path="/prescriptioncrud"
+              element={<PrescriptionManagement />}
+            />
           </Route>
-          <Route path="/unauthorized" element={<Unauthorized />} />
+
+          {/* Dentist+Admin common routes*/}
+          <Route
+            element={<ProtectedRoute allowedRoles={["admin", "dentist"]} />}
+          >
+            <Route path="/sendmessage" element={<SendMessage />} />
+            <Route path="/patientdb" element={<PatientDatabase />} />
+            <Route
+              path="/resetpassword"
+              element={<CredentialsForm formAction="resetpassword" />}
+            />
+            <Route
+              path="/changephone"
+              element={<CredentialsForm formAction="changephone" />}
+            />
+            <Route
+              path="/register"
+              element={<PatientRegisterForm addPatient={addPatient} />}
+            />
+          </Route>
+
+          {/* Patient only routes */}
           <Route element={<ProtectedRoute allowedRoles={["patient"]} />}>
             <Route path="/patientdashboard" element={<PatientDashboard />} />
           </Route>
-          <Route path="/sendmessage" element={<SendMessage />} />
-          <Route path="/treatmentcrud" element={<TreatmentManagement />} />
-          <Route path="/prescriptioncrud" element={<PrescriptionManagement />} />
-          <Route path="/patientdb" element={<PatientDatabase />} />
+
+          {/* Open routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route
+            path="/login"
+            element={<CredentialsForm formAction="login" />}
+          />
+          <Route
+            path="/signup"
+            element={<CredentialsForm formAction="signup" />}
+          />
+          <Route path="/appointment" element={<PatientAppointmentForm />} />
         </Routes>
       </div>
 
@@ -215,8 +278,7 @@ const App = () => {
         actions={quickActionOptions}
       />
     </Router>
-  )
-}
+  );
+};
 
-export default App
-
+export default App;
