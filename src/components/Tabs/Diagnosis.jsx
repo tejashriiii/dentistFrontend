@@ -39,6 +39,7 @@ export default function Diagnosis({ activeComplaint }) {
       const TREATMENT_OPTIONS = data.treatments.map(
         (treatment) => treatment.name,
       );
+      TREATMENT_OPTIONS.splice(TREATMENT_OPTIONS.indexOf("Consultation"), 1);
       setTreatmentOptions(TREATMENT_OPTIONS);
     } catch (err) {
       console.log(err);
@@ -59,6 +60,10 @@ export default function Diagnosis({ activeComplaint }) {
 
       const data = await response.json();
       const patientDiagnosis = data.diagnosis;
+      const consultationEntry = patientDiagnosis.find(
+        (item) => (item.name = "Consultation"),
+      );
+      patientDiagnosis.splice(patientDiagnosis.indexOf(consultationEntry, 1));
       patientDiagnosis.sort((a, b) => a.tooth_number - b.tooth_number);
       setSavedDiagnosis(patientDiagnosis);
 
@@ -150,7 +155,6 @@ export default function Diagnosis({ activeComplaint }) {
       if (!response.ok) {
         toast.error(outcome.error);
       }
-      console.log("outcome: ", outcome);
     } catch (error) {
       console.log(error);
     }
