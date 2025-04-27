@@ -238,7 +238,7 @@ export default function Diagnosis({ activeComplaint }) {
   return Object.keys(activeComplaint).length > 0 ? (
     <div className="flex flex-col space-y-4 p-4">
       <div>
-        <img src={DentalChart} alt="Dental Chart" className="w-full max-w-md mx-auto" />
+        <img src={DentalChart} alt="Dental Chart" />
       </div>
       <div className="flex flex-col sm:flex-row sm:justify-between mb-5 gap-3">
         <h1 className="text-2xl font-bold text-[var(--txt)]">Add Diagnosis</h1>
@@ -295,7 +295,7 @@ export default function Diagnosis({ activeComplaint }) {
           )}
         </div>
       </div>
-  
+
       {savedDiagnosis.length > 0 && (
         <div className="my-12 overflow-x-auto">
           <h1 className="block text-2xl font-bold mb-4 text-[var(--txt)]">
@@ -325,20 +325,20 @@ export default function Diagnosis({ activeComplaint }) {
                   <td className="border border-gray-300 p-2">
                     {diagnosis.tooth_number}
                   </td>
-                  <td className="border border-gray-300 p-2 text-center">
-                    <button
-                      onClick={() => handleEditDiagnosis(diagnosis)}
-                      className="text-blue-600 hover:underline"
-                    >
-                      <PencilRuler className="inline w-4 h-4" />
+                  <td
+                    className="border border-[var(--lightgreen)] border-b-gray-500 text-[var(--txt)] bg-[var(--lightgreen)] hover:border-[var(--darkergreen)] hover:bg-[var(--darkergreen)] hover:cursor-pointer hover:text-white font-bold p-1 sm:p-2 text-center"
+                    onClick={() => handleEditDiagnosis(diagnosis)}
+                  >
+                    <button>
+                      <PencilRuler className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
                     </button>
                   </td>
-                  <td className="border border-gray-300 p-2 text-center">
-                    <button
-                      onClick={() => handleDeleteDiagnosis(diagnosis.id)}
-                      className="text-red-600 hover:underline"
-                    >
-                      <OctagonX className="inline w-4 h-4" />
+                  <td
+                    className="border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-1 sm:p-2 text-center"
+                    onClick={() => handleDeleteDiagnosis(diagnosis.id)}
+                  >
+                    <button>
+                      <OctagonX className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
                     </button>
                   </td>
                 </tr>
@@ -348,5 +348,11 @@ export default function Diagnosis({ activeComplaint }) {
         </div>
       )}
     </div>
-  ) : null;  
+  ) : (
+    <div className="p-2 md:p-4 flex justify-center items-center">
+      <h2 className="text-xl md:text-3xl text-[var(--txt)] font-semibold mb-4">
+        No Active complaint/followup
+      </h2>
+    </div>
+  );
 }
