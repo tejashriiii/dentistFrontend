@@ -8,7 +8,6 @@ import {
 } from "lucide-react"; // Lucide icons
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PatientRegisterForm from "./PatientRegisterForm"; // Assuming this component exists
 
 const DentistDashboard = () => {
   // State variables for appointments, follow-ups, loading, errors, and UI controls
@@ -18,7 +17,6 @@ const DentistDashboard = () => {
   const [followupsLoading, setFollowupsLoading] = useState(true);
   const [appointmentsError, setAppointmentsError] = useState(null);
   const [followupsError, setFollowupsError] = useState(null);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   // Fetch data on component mount
   useEffect(() => {
@@ -84,8 +82,8 @@ const DentistDashboard = () => {
   const ActionCards = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
       {/* Register Patient */}
-      <button
-        onClick={() => setIsRegisterModalOpen(true)}
+      <Link
+        to="/register"
         className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:cursor-pointer hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
       >
         <div className="flex items-center gap-2 sm:gap-4">
@@ -96,10 +94,12 @@ const DentistDashboard = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Register Patient
             </h3>
-            <p className="text-sm sm:text-base text-gray-600">Add a new patient to the system</p>
+            <p className="text-sm sm:text-base text-gray-600">
+              Add a new patient to the system
+            </p>
           </div>
         </div>
-      </button>
+      </Link>
 
       {/* Schedule Appointment */}
       <Link
@@ -114,7 +114,9 @@ const DentistDashboard = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Schedule Appointment
             </h3>
-            <p className="text-sm sm:text-base text-gray-600">Book a new appointment</p>
+            <p className="text-sm sm:text-base text-gray-600">
+              Book a new appointment
+            </p>
           </div>
         </div>
       </Link>
@@ -132,7 +134,9 @@ const DentistDashboard = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Search Patient
             </h3>
-            <p className="text-sm sm:text-base text-gray-600">Find patient records</p>
+            <p className="text-sm sm:text-base text-gray-600">
+              Find patient records
+            </p>
           </div>
         </div>
       </Link>
@@ -150,7 +154,9 @@ const DentistDashboard = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               View Daily Treatments
             </h3>
-            <p className="text-sm sm:text-base text-gray-600">Manage today's treatments</p>
+            <p className="text-sm sm:text-base text-gray-600">
+              Manage today's treatments
+            </p>
           </div>
         </div>
       </Link>
@@ -168,7 +174,9 @@ const DentistDashboard = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Manage Treatments
             </h3>
-            <p className="text-sm sm:text-base text-gray-600">Manage treatment details</p>
+            <p className="text-sm sm:text-base text-gray-600">
+              Manage treatment details
+            </p>
           </div>
         </div>
       </Link>
@@ -186,7 +194,9 @@ const DentistDashboard = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-[var(--darkergreen)]">
               Manage Prescriptions
             </h3>
-            <p className="text-sm sm:text-base text-gray-600">Manage prescription records</p>
+            <p className="text-sm sm:text-base text-gray-600">
+              Manage prescription records
+            </p>
           </div>
         </div>
       </Link>
@@ -239,14 +249,24 @@ const DentistDashboard = () => {
                 <table className="w-full border-collapse border border-gray-300">
                   <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                     <tr>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Name</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Name
+                      </th>
                       <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                         Phone Number
                       </th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">Age</th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Complaint</th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Time</th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Actions</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
+                        Age
+                      </th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Complaint
+                      </th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Time
+                      </th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -303,14 +323,24 @@ const DentistDashboard = () => {
                 <table className="w-full border-collapse border border-gray-300">
                   <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                     <tr>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Name</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Name
+                      </th>
                       <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
                         Phone Number
                       </th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">Age</th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Follow-up</th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Time</th>
-                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">Actions</th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base hidden sm:table-cell">
+                        Age
+                      </th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Follow-up
+                      </th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Time
+                      </th>
+                      <th className="border border-gray-300 p-1 sm:p-2 text-xs sm:text-base">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -349,39 +379,6 @@ const DentistDashboard = () => {
             )}
           </div>
         </div>
-
-        {/* Patient Registration Modal */}
-        {isRegisterModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl sm:text-2xl font-bold text-[var(--txt)]">
-                  Register Patient
-                </h2>
-                <button
-                  onClick={() => setIsRegisterModalOpen(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <PatientRegisterForm />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

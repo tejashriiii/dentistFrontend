@@ -208,7 +208,7 @@ const App = () => {
   return (
     <Router>
       <ToastContainer position="top-right" autoClose={2000} />
-      <div>
+      <div className="bg-[var(--bg)] h-screen w-screen">
         <Header className="hidden md:flex" />
 
         <Routes>
