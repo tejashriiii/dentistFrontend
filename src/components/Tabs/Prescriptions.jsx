@@ -289,7 +289,7 @@ const Prescriptions = ({ activeComplaint }) => {
 
       <div className="mb-6 w-full flex flex-col md:flex-row items-start md:items-center flex-wrap gap-4">
         {/* Medication Type Dropdown */}
-        <div className="w-full md:w-1/2 flex flex-col sm:flex-row gap-2">
+        <div className="w-full flex flex-col sm:flex-row gap-2">
           <div className="w-full sm:w-1/2 mb-2 sm:mb-0">
             <label
               htmlFor="medicationType"
@@ -338,22 +338,21 @@ const Prescriptions = ({ activeComplaint }) => {
         </div>
 
         {needsDosage() && (
-          <div className="w-full md:w-1/2 flex flex-col sm:flex-row gap-2">
+          <div className="w-full flex flex-col sm:flex-row gap-2">
             {/* Dosage Options */}
-            <div className="w-full sm:w-2/3 mb-2 sm:mb-0">
+            <div className="w-full sm:w-1/2 mb-2 sm:mb-0">
               <label className="block font-semibold mb-1 text-[var(--darkergreen)]">
                 Dosage:
               </label>
-              <div className="flex flex-wrap">
+              <div className="w-full flex flex-wrap">
                 {dosageOptions.map((option) => (
                   <button
                     key={option}
                     onClick={() => setSelectedDosage(option)}
-                    className={`px-2 py-1 sm:px-3 sm:py-2 text-sm sm:text-base border-2 ${
-                      selectedDosage === option
+                    className={`md:w-1/5 px-2 py-1 sm:px-3 sm:py-2 text-sm sm:text-base border-2 ${selectedDosage === option
                         ? "bg-[var(--darkgreen)] text-white border-[var(--darkgreen)]"
                         : "bg-gray-300 text-[var(--txt)] hover:border-[var(--lightgreen)] hover:bg-[var(--lightgreen)] border-gray-300"
-                    } transition duration-200 first:rounded-l last:rounded-r hover:cursor-pointer`}
+                      } transition duration-200 first:rounded-l last:rounded-r hover:cursor-pointer`}
                   >
                     {option}
                   </button>
@@ -362,7 +361,7 @@ const Prescriptions = ({ activeComplaint }) => {
             </div>
 
             {/* Days Input */}
-            <div className="w-full sm:w-1/4">
+            <div className="w-full sm:w-1/2">
               <label className="block font-semibold mb-1 text-[var(--darkergreen)]">
                 Days:
               </label>
@@ -407,7 +406,9 @@ const Prescriptions = ({ activeComplaint }) => {
               <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                 <tr>
                   <th className="border border-gray-300 p-1 sm:p-2">No.</th>
-                  <th className="border border-gray-300 p-1 sm:p-2">Medicine</th>
+                  <th className="border border-gray-300 p-1 sm:p-2">
+                    Medicine
+                  </th>
                   <th className="border border-gray-300 p-1 sm:p-2">Type</th>
                   <th className="border border-gray-300 p-1 sm:p-2">Dosage</th>
                   <th className="border border-gray-300 p-1 sm:p-2">Days</th>

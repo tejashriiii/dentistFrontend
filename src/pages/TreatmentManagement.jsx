@@ -7,6 +7,7 @@ import {
   FaSortAmountDown,
   FaSortAmountUp,
 } from "react-icons/fa";
+import { PencilRuler, OctagonX } from "lucide-react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
@@ -203,7 +204,7 @@ const Treatments = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-[var(--bg)] p-6">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-[var(--txt)]">
@@ -217,12 +218,12 @@ const Treatments = () => {
           </Link>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md mb-6" ref={formRef}>
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-xl font-semibold mb-5 text-[var(--txt)]">
             {editingTreatment ? "Edit Treatment" : "Add Treatment"}
           </h2>
           <div className="flex flex-col gap-4 mt-2">
             <div>
-              <label className="block text-sm font-medium text-[var(--txt)]">
+              <label className="block text-sm font-medium text-[var(--txt)] mb-1">
                 Name
               </label>
               <input
@@ -234,16 +235,16 @@ const Treatments = () => {
                 onChange={(e) =>
                   editingTreatment
                     ? setEditingTreatment({
-                      ...editingTreatment,
-                      name: e.target.value,
-                    })
+                        ...editingTreatment,
+                        name: e.target.value,
+                      })
                     : setNewTreatment({ ...newTreatment, name: e.target.value })
                 }
-                className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                className="block border-[var(--lightgreen)] w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[var(--txt)]">
+              <label className="block text-sm font-medium text-[var(--txt)] mb-1">
                 Price
               </label>
               <input
@@ -255,28 +256,28 @@ const Treatments = () => {
                 onChange={(e) =>
                   editingTreatment
                     ? setEditingTreatment({
-                      ...editingTreatment,
-                      price: e.target.value,
-                    })
+                        ...editingTreatment,
+                        price: e.target.value,
+                      })
                     : setNewTreatment({
-                      ...newTreatment,
-                      price: e.target.value,
-                    })
+                        ...newTreatment,
+                        price: e.target.value,
+                      })
                 }
-                className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                className="block border-[var(--lightgreen)] w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
               />
             </div>
             <div className="flex gap-4">
               <button
                 onClick={editingTreatment ? updateTreatment : addTreatment}
-                className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)]"
+                className="bg-[var(--darkgreen)] text-white px-4 py-2 rounded hover:bg-[var(--darkergreen)] hover:cursor-pointer"
               >
                 {editingTreatment ? "Update Treatment" : "Add Treatment"}
               </button>
               {editingTreatment && (
                 <button
                   onClick={cancelEdit}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 hover:cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -285,7 +286,7 @@ const Treatments = () => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-semibold text-[var(--darkergreen)] mb-4 text-center">
+        <h2 className="text-2xl font-semibold text-[var(--txt)] my-7 text-center">
           Treatments List
         </h2>
 
@@ -302,7 +303,7 @@ const Treatments = () => {
                   placeholder="Search treatments..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                  className="pl-10 block w-full border border-[var(--lightgreen)] p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
                 />
               </div>
             </div>
@@ -315,7 +316,7 @@ const Treatments = () => {
                   onChange={(e) =>
                     setPriceRange({ ...priceRange, min: e.target.value })
                   }
-                  className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                  className="block w-full border border-[var(--lightgreen)] p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
                 />
               </div>
               <div>
@@ -326,12 +327,12 @@ const Treatments = () => {
                   onChange={(e) =>
                     setPriceRange({ ...priceRange, max: e.target.value })
                   }
-                  className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
+                  className="block w-full border border-[var(--lightgreen)] p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
                 />
               </div>
               <button
                 onClick={resetFilters}
-                className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+                className="bg-gray-500 text-gray-100 px-4 py-2 rounded hover:bg-gray-600 hover:cursor-pointer"
               >
                 Reset
               </button>
@@ -361,7 +362,7 @@ const Treatments = () => {
                 <thead className="bg-[var(--darkgreen)] text-[var(--txt)]">
                   <tr>
                     <th
-                      className="border border-gray-300 p-2 cursor-pointer"
+                      className="border border-gray-300 p-2 cursor-pointer hover:bg-[var(--darkergreen)] hover:text-[var(--bg)]"
                       onClick={() => requestSort("name")}
                     >
                       <div className="flex items-center justify-between">
@@ -375,10 +376,10 @@ const Treatments = () => {
                       </div>
                     </th>
                     <th
-                      className="border border-gray-300 p-2 cursor-pointer"
+                      className="border border-gray-300 p-2 cursor-pointer hover:bg-[var(--darkergreen)] hover:text-[var(--bg)]"
                       onClick={() => requestSort("price")}
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between text-center">
                         Price
                         {sortConfig.key === "price" &&
                           (sortConfig.direction === "ascending" ? (
@@ -388,7 +389,12 @@ const Treatments = () => {
                           ))}
                       </div>
                     </th>
-                    <th className="border border-gray-300 p-2">Actions</th>
+                    <th className="border border-gray-300 p-1 sm:p-2 border-b-[var(--lightgreen)]">
+                      Edit
+                    </th>
+                    <th className="border border-gray-300 p-1 sm:p-2 border-b-red-700">
+                      Delete
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -403,19 +409,17 @@ const Treatments = () => {
                       <td className="border border-gray-300 p-2">
                         ₹{treatment.price || "N/A"}
                       </td>
-                      <td className="border border-gray-300 p-2">
-                        <button
-                          onClick={() => handleEditClick(treatment)}
-                          className="mr-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => deleteTreatment(treatment.id)}
-                          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                        >
-                          Delete
-                        </button>
+                      <td
+                        className="border border-[var(--lightgreen)] border-b-gray-500 text-[var(--txt)] bg-[var(--lightgreen)] hover:border-[var(--darkergreen)] hover:bg-[var(--darkergreen)] hover:cursor-pointer hover:text-white font-bold p-1 sm:p-2 text-center"
+                        onClick={() => handleEditClick(treatment)}
+                      >
+                        <PencilRuler className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
+                      </td>
+                      <td
+                        className="border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-1 sm:p-2 text-center"
+                        onClick={() => deleteTreatment(treatment.id)}
+                      >
+                        <OctagonX className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
                       </td>
                     </tr>
                   ))}

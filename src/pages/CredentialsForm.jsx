@@ -121,7 +121,7 @@ const CredentialsForm = ({ formAction }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-[var(--bg)] p-6">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-[var(--txt)]">
@@ -143,7 +143,7 @@ const CredentialsForm = ({ formAction }) => {
             <label className="block text-sm font-medium text-[var(--txt)]">
               Name
             </label>
-            <div className="flex items-center border border-[var(--darkgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
+            <div className="flex items-center border border-[var(--lightgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
               <FaUser className="text-[var(--darkgreen)] ml-3 mr-2" />
               <input
                 type="text"
@@ -164,7 +164,7 @@ const CredentialsForm = ({ formAction }) => {
                 ? "Old Phone Number"
                 : "Mobile Number"}
             </label>
-            <div className="flex items-center border border-[var(--darkgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
+            <div className="flex items-center border border-[var(--lightgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
               <FaPhone className="text-[var(--darkgreen)] ml-3 mr-2" />
               <input
                 type="number"
@@ -184,7 +184,7 @@ const CredentialsForm = ({ formAction }) => {
               <label className="block text-sm font-medium text-[var(--txt)]">
                 New Phone Number
               </label>
-              <div className="flex items-center border border-[var(--darkgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
+              <div className="flex items-center border border-[var(--lightgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
                 <FaPhone className="text-[var(--darkgreen)] ml-3 mr-2" />
                 <input
                   type="number"
@@ -205,7 +205,7 @@ const CredentialsForm = ({ formAction }) => {
               <label className="block text-sm font-medium text-[var(--txt)]">
                 Password
               </label>
-              <div className="flex items-center border border-[var(--darkgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
+              <div className="flex items-center border border-[var(--lightgreen)] rounded-md mt-1 focus-within:ring-2 focus-within:ring-[var(--lightgreen)]">
                 <FaLock className="text-[var(--darkgreen)] ml-3 mr-2" />
                 <input
                   type="password"
