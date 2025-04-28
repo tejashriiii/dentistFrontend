@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { FaSpinner, FaSearch, FaFilter } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Modal from "../components/Modal";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 
@@ -16,6 +17,8 @@ const Prescriptions = () => {
     type: "Gel",
   });
   const [editingPrescription, setEditingPrescription] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [prescriptionToDelete, setPrescriptionToDelete] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("All");
   const formRef = useRef(null);
@@ -138,6 +141,11 @@ const Prescriptions = () => {
     }
   };
 
+  const handleDeletePrescription = async (nameAndId) => {
+    setPrescriptionToDelete(nameAndId);
+    setIsDeleteModalOpen(true);
+  };
+
   const deletePrescription = async (id) => {
     try {
       const response = await fetch(
@@ -146,15 +154,21 @@ const Prescriptions = () => {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+            Accept: "application/json",
           },
         },
       );
-      if (!response.ok) throw new Error("Failed to delete prescription");
-      await fetchPrescriptions();
-      toast.success("Prescription deleted successfully!");
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error);
+      } else {
+        await fetchPrescriptions();
+        toast.success("Prescription deleted successfully!");
+      }
+      setIsDeleteModalOpen(false);
     } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      setError(error.error || "Something went wrong");
+      toast.error(error.error || "Something went wrong");
     }
   };
 
@@ -209,13 +223,13 @@ const Prescriptions = () => {
                 onChange={(e) =>
                   editingPrescription
                     ? setEditingPrescription({
-                      ...editingPrescription,
-                      name: e.target.value,
-                    })
+                        ...editingPrescription,
+                        name: e.target.value,
+                      })
                     : setNewPrescription({
-                      ...newPrescription,
-                      name: e.target.value,
-                    })
+                        ...newPrescription,
+                        name: e.target.value,
+                      })
                 }
                 className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
               />
@@ -233,13 +247,13 @@ const Prescriptions = () => {
                 onChange={(e) =>
                   editingPrescription
                     ? setEditingPrescription({
-                      ...editingPrescription,
-                      type: e.target.value,
-                    })
+                        ...editingPrescription,
+                        type: e.target.value,
+                      })
                     : setNewPrescription({
-                      ...newPrescription,
-                      type: e.target.value,
-                    })
+                        ...newPrescription,
+                        type: e.target.value,
+                      })
                 }
                 className="block w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--lightgreen)]"
               >
@@ -361,7 +375,12 @@ const Prescriptions = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => deletePrescription(prescription.id)}
+                          onClick={() =>
+                            handleDeletePrescription({
+                              id: prescription.id,
+                              name: prescription.name,
+                            })
+                          }
                           className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                         >
                           Delete
@@ -375,6 +394,19 @@ const Prescriptions = () => {
           )}
         </div>
       </div>
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title={`Delete ${prescriptionToDelete.name}?`}
+      >
+        <div>Are you sure you want to delete {prescriptionToDelete.name}?</div>
+        <button
+          className="bg-red-700 text-white font-semibold p-2 rounded rounded-md mt-5 hover:cursor-pointer hover:bg-red-800"
+          onClick={() => deletePrescription(prescriptionToDelete.id)}
+        >
+          Delete
+        </button>
+      </Modal>
     </div>
   );
 };

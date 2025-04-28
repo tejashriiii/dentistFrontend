@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import Modal from "../Modal";
 import { OctagonX, PencilRuler } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DentalChart from "../../assets/dentalChart.svg";
@@ -16,9 +17,12 @@ export default function Diagnosis({ activeComplaint }) {
   const [selectedTreatment, setSelectedTreatment] = useState("");
   const [selectedTreatmentId, setSelectedTreatmentId] = useState("");
   const [selectedToothNumber, setSelectedToothNumber] = useState("");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [diagnosisToDelete, setDiagnosisToDelete] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [editDiagnosisId, setEditDiagnosisId] = useState("");
   const navigate = useNavigate();
+  const formRef = useRef(null);
   // Save state to sessionStorage whenever it changes
 
   const fetchTreatments = async () => {
@@ -148,8 +152,10 @@ export default function Diagnosis({ activeComplaint }) {
       );
 
       const outcome = await response.json();
+      setIsDeleteModalOpen(false);
       if (response.ok) {
         toast.success(outcome.success);
+        fetchDiagnosis();
         return true;
       }
       if (!response.ok) {
@@ -188,11 +194,9 @@ export default function Diagnosis({ activeComplaint }) {
     }
   };
 
-  const handleDeleteDiagnosis = async (diagnosisId) => {
-    const verdict = await deleteDiagnosis(diagnosisId);
-    if (verdict) {
-      fetchDiagnosis();
-    }
+  const handleDeleteDiagnosis = async (diagnosisIdAndName) => {
+    setIsDeleteModalOpen(true);
+    setDiagnosisToDelete(diagnosisIdAndName);
   };
   const navigateToTreatmentManagement = () => {
     navigate("/treatmentcrud");
@@ -210,6 +214,10 @@ export default function Diagnosis({ activeComplaint }) {
   };
 
   const handleEditDiagnosis = (diagnosis) => {
+    toast.info(
+      `Editing ${diagnosis.treatment_name} for tooth ${diagnosis.tooth_number}`,
+    );
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
     setEditMode(true);
     setSelectedTreatment(diagnosis.treatment_name);
     setSelectedTreatmentId(diagnosis.treatment);
@@ -249,7 +257,10 @@ export default function Diagnosis({ activeComplaint }) {
           Manage Treatments
         </button>
       </div>
-      <div className="flex flex-col sm:flex-row flex-wrap gap-5 w-full items-start sm:items-end">
+      <div
+        className="flex flex-col sm:flex-row flex-wrap gap-5 w-full items-start sm:items-end"
+        ref={formRef}
+      >
         <div className="w-full sm:w-auto">
           <label
             htmlFor="treatment-list"
@@ -335,7 +346,12 @@ export default function Diagnosis({ activeComplaint }) {
                   </td>
                   <td
                     className="border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-1 sm:p-2 text-center"
-                    onClick={() => handleDeleteDiagnosis(diagnosis.id)}
+                    onClick={() =>
+                      handleDeleteDiagnosis({
+                        id: diagnosis.id,
+                        name: diagnosis.treatment_name,
+                      })
+                    }
                   >
                     <button>
                       <OctagonX className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
@@ -347,6 +363,19 @@ export default function Diagnosis({ activeComplaint }) {
           </table>
         </div>
       )}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title={`Delete ${diagnosisToDelete.name}?`}
+      >
+        <div>Are you sure you want to delete {diagnosisToDelete.name}?</div>
+        <button
+          className="bg-red-700 text-white font-semibold p-2 rounded rounded-md mt-5 hover:cursor-pointer hover:bg-red-800"
+          onClick={() => deleteDiagnosis(diagnosisToDelete.id)}
+        >
+          Delete
+        </button>
+      </Modal>
     </div>
   ) : (
     <div className="p-2 md:p-4 flex justify-center items-center">

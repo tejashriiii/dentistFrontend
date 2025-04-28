@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Modal from "../components/Modal";
 import {
   FaSpinner,
   FaSearch,
@@ -19,7 +20,9 @@ const Treatments = () => {
   const [error, setError] = useState(null);
   const [newTreatment, setNewTreatment] = useState({ name: "", price: "" });
   const [editingTreatment, setEditingTreatment] = useState(null);
+  const [treatmentToDelete, setTreatmentToDelete] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "ascending",
@@ -166,6 +169,10 @@ const Treatments = () => {
     }
   };
 
+  const handleTreatmentDelete = async (nameAndId) => {
+    setTreatmentToDelete(nameAndId);
+    setIsDeleteModalOpen(true);
+  };
   const deleteTreatment = async (id) => {
     try {
       const response = await fetch(
@@ -174,15 +181,22 @@ const Treatments = () => {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+            Accept: "application/json",
           },
         },
       );
-      if (!response.ok) throw new Error("Failed to delete treatment");
-      await fetchTreatments();
-      toast.success("Treatment deleted successfully!");
+
+      if (!response.ok) {
+        const error = await response.json();
+        toast.error(error.error);
+      } else {
+        await fetchTreatments();
+        toast.success("Treatment deleted successfully!");
+      }
+      setIsDeleteModalOpen(false);
     } catch (err) {
-      setError(err.message);
-      toast.error(err.message);
+      setError(error.error || "Something went wrong");
+      toast.error(error.error || "Something went wrong");
     }
   };
 
@@ -417,7 +431,12 @@ const Treatments = () => {
                       </td>
                       <td
                         className="border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-1 sm:p-2 text-center"
-                        onClick={() => deleteTreatment(treatment.id)}
+                        onClick={() =>
+                          handleTreatmentDelete({
+                            id: treatment.id,
+                            name: treatment.name,
+                          })
+                        }
                       >
                         <OctagonX className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
                       </td>
@@ -429,6 +448,19 @@ const Treatments = () => {
           )}
         </div>
       </div>
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title={`Delete ${treatmentToDelete.name}?`}
+      >
+        <div>Are you sure you want to delete {treatmentToDelete.name}?</div>
+        <button
+          className="bg-red-700 text-white font-semibold p-2 rounded rounded-md mt-5 hover:cursor-pointer hover:bg-red-800"
+          onClick={() => deleteTreatment(treatmentToDelete.id)}
+        >
+          Delete
+        </button>
+      </Modal>
     </div>
   );
 };
