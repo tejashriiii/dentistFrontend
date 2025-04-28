@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Modal from "../Modal";
 import { OctagonX, PencilRuler } from "lucide-react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,8 +14,11 @@ const Prescriptions = ({ activeComplaint }) => {
   const [selectedDosage, setSelectedDosage] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [prescriptionToEditId, setPrescriptionToEditId] = useState({});
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [prescriptionToDelete, setPrescriptionToDelete] = useState({});
   const dosageOptions = ["OD", "BD", "TDS", "HALF BD", "HALF TDS"];
   const navigate = useNavigate();
+  const formRef = useRef(null);
 
   // Fetch prescription data from API
   const fetchAllPrescriptions = async () => {
@@ -146,6 +150,11 @@ const Prescriptions = ({ activeComplaint }) => {
     return false;
   };
 
+  const handleDeletePrescription = async (deletePrescriptionIdAndName) => {
+    setPrescriptionToDelete(deletePrescriptionIdAndName);
+    setIsDeleteModalOpen(true);
+  };
+
   const deletePrescription = async (prescriptionId) => {
     try {
       const DELETE_PRESCRIPTION_URL = `${import.meta.env.VITE_API_URL}/p/prescription/delete/${prescriptionId}/`;
@@ -158,6 +167,7 @@ const Prescriptions = ({ activeComplaint }) => {
         },
       });
       const message = await response.json();
+      setIsDeleteModalOpen(false);
       if (response.ok) {
         toast.success(message.success);
         fetchPatientPrescription();
@@ -222,6 +232,8 @@ const Prescriptions = ({ activeComplaint }) => {
   };
 
   const editPrescription = async (editInputPrescription) => {
+    toast.info(`Editing ${editInputPrescription.prescription_name}`);
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
     setEditMode(true);
     setSelectedType(editInputPrescription.prescription_type);
     setSelectedDosage(editInputPrescription.dosage);
@@ -287,7 +299,10 @@ const Prescriptions = ({ activeComplaint }) => {
         </button>
       </div>
 
-      <div className="mb-6 w-full flex flex-col md:flex-row items-start md:items-center flex-wrap gap-4">
+      <div
+        className="mb-6 w-full flex flex-col md:flex-row items-start md:items-center flex-wrap gap-4"
+        ref={formRef}
+      >
         {/* Medication Type Dropdown */}
         <div className="w-full flex flex-col sm:flex-row gap-2">
           <div className="w-full sm:w-1/2 mb-2 sm:mb-0">
@@ -349,10 +364,11 @@ const Prescriptions = ({ activeComplaint }) => {
                   <button
                     key={option}
                     onClick={() => setSelectedDosage(option)}
-                    className={`md:w-1/5 px-2 py-1 sm:px-3 sm:py-2 text-sm sm:text-base border-2 ${selectedDosage === option
+                    className={`md:w-1/5 px-2 py-1 sm:px-3 sm:py-2 text-sm sm:text-base border-2 ${
+                      selectedDosage === option
                         ? "bg-[var(--darkgreen)] text-white border-[var(--darkgreen)]"
                         : "bg-gray-300 text-[var(--txt)] hover:border-[var(--lightgreen)] hover:bg-[var(--lightgreen)] border-gray-300"
-                      } transition duration-200 first:rounded-l last:rounded-r hover:cursor-pointer`}
+                    } transition duration-200 first:rounded-l last:rounded-r hover:cursor-pointer`}
                   >
                     {option}
                   </button>
@@ -446,7 +462,12 @@ const Prescriptions = ({ activeComplaint }) => {
                     </td>
                     <td
                       className="border border-red-700 border-b-red-900 bg-red-700 hover:bg-red-800 hover:cursor-pointer text-white font-bold p-1 sm:p-2 text-center"
-                      onClick={() => deletePrescription(prescription.id)}
+                      onClick={() =>
+                        handleDeletePrescription({
+                          id: prescription.id,
+                          name: prescription.prescription_name,
+                        })
+                      }
                     >
                       <OctagonX className="mx-auto h-4 w-4 sm:h-5 sm:w-5" />
                     </td>
@@ -455,6 +476,21 @@ const Prescriptions = ({ activeComplaint }) => {
               </tbody>
             </table>
           </div>
+          <Modal
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            title={`Delete ${prescriptionToDelete.name}?`}
+          >
+            <div>
+              Are you sure you want to delete {prescriptionToDelete.name}?
+            </div>
+            <button
+              className="bg-red-700 text-white font-semibold p-2 rounded rounded-md mt-5 hover:cursor-pointer hover:bg-red-800"
+              onClick={() => deletePrescription(prescriptionToDelete.id)}
+            >
+              Delete
+            </button>
+          </Modal>
         </div>
       ) : (
         <div className="w-full my-6 text-center mx-auto italic text-lg sm:text-2xl text-gray-500">
