@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const PatientRegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -28,28 +29,34 @@ const PatientRegisterForm = () => {
     console.log(JSON.stringify(dataToSend));
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/ad/details/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/p/details/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+          },
+          body: JSON.stringify(dataToSend),
         },
-        body: JSON.stringify(dataToSend),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error:", errorData);
-        // Handle error responses here (e.g., show a message to the user)
+        toast.error(errorData.error || "Registration failed!");
       } else {
-        const responseData = await response.json();
-        console.log("Login successful:", responseData);
-        // Handle successful login (e.g., store token, redirect user)
+        toast.success("Patient registered successfully!");
+        setFormData({
+          name: "",
+          mobileNumber: "",
+          address: "",
+          dob: "",
+          gender: "M",
+        });
       }
     } catch (error) {
-      console.error("Network error:", error);
-      // Handle network errors here
+      toast.error("Network error! Please try again.");
     }
   };
 
